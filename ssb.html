@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cadet's Compass — SSB</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root{--accent:#6b8a4c; --text:#f6f3ee; --bg-overlay:rgba(0,0,0,0.6);}
+    *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,system-ui}
+    body{min-height:100vh;background:linear-gradient(var(--bg-overlay),var(--bg-overlay)), 
+      url('military-background.jpg') center/cover no-repeat fixed;color: var(--text);}
+    header{display:flex;justify-content:space-between;align-items:center;padding:20px 40px;
+      background:rgba(0,0,0,0.4);backdrop-filter:blur(6px);}
+    header h1{font-size:24px;font-weight:800;}
+    header a{color:white;text-decoration:none;font-weight:600;background:var(--accent);
+      padding:10px 16px;border-radius:10px;transition:0.3s;}
+    header a:hover{opacity:0.9; transform:translateY(-2px);}
+    .content{max-width:1200px;margin:40px auto;padding:0 20px;}
+    .section-card{
+      background:rgba(255,255,255,0.08);
+      backdrop-filter:blur(8px);
+      padding:25px;
+      border-radius:18px;
+      margin-bottom:20px;
+      transition:0.3s;
+      cursor:pointer;
+      text-decoration:none;
+      color:white;
+    }
+    .section-card i{font-size:40px;margin-bottom:10px;}
+    .section-card h3{font-weight:700;}
+    .section-card:hover{background:rgba(255,255,255,0.2); transform:translateY(-4px);}
+  </style>
+</head>
+<body>
+  <header>
+    <a href="dashboard.html"><i class="fas fa-arrow-left"></i> Back</a>
+    <h1>SSB Preparation</h1>
+    <a href="login.html">Logout</a>
+  </header>
+
+  <main class="content">
+    <a href="#" class="section-card">
+      <i class="fas fa-map"></i>
+      <h3>Route Maps</h3>
+    </a>
+    <a href="#" class="section-card">
+      <i class="fas fa-book"></i>
+      <h3>Study Material</h3>
+    </a>
+    <a href="#" class="section-card">
+      <i class="fas fa-pencil-alt"></i>
+      <h3>Practice Questions</h3>
+    </a>
+    <a href="#" class="section-card">
+      <i class="fas fa-file-alt"></i>
+      <h3>Previous Year Papers</h3>
+    </a>
+  </main>
+</body>
+</html>

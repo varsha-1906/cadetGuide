@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>NDA — Cadet's Compass (Complete)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --accent:#6b8a4c; 
+      --panel: rgba(255,255,255,0.06);
+      --card-bg: rgba(255,255,255,0.04);
+      --muted:#d0d0d0; 
+      --max-width:1200px;
+    }
+    *{box-sizing:border-box;}
+    body{
+      margin:0;
+      font-family:Inter,system-ui;
+      min-height:100vh;
+      background: linear-gradient(180deg, #1c2a1c, #3d5f3f);
+      color:#f6f3ee;
+      padding:24px;
+    }
+    .wrap{max-width:var(--max-width);margin:0 auto;}
+    header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
+    h1{margin:0;font-size:22px;}
+    .nav{display:flex;gap:8px;flex-wrap:wrap;}
+    .btn{background:var(--accent);border:0;padding:10px 14px;border-radius:10px;color:#fff;font-weight:700;cursor:pointer;}
+    .card{background:var(--card-bg);padding:18px;border-radius:12px;margin-bottom:14px;backdrop-filter:blur(6px);}
+    .sub-buttons{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+    .sub-btn{background:#3d5f3f;border-radius:8px;padding:8px 12px;border:0;color:#fff;cursor:pointer;font-weight:600;}
+    .hidden{display:none;}
+    .topic-body{background:rgba(255,255,255,0.03);padding:14px;border-radius:10px;margin-top:10px;color:#efeae2;}
+    .weeks-list{margin-left:18px;line-height:1.6;}
+    .month-box{margin:12px 0;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.1);}
+    .month-header{cursor:pointer;font-weight:600;margin-bottom:6px;}
+    .week-container{display:none;margin-left:12px;}
+    .week{margin:4px 0;}
+    h2{margin:0 0 8px 0;}
+    .topic-buttons button{margin:4px; padding:6px 10px; cursor:pointer; background:#6b8a4c; border:none; border-radius:6px; color:#fff; font-weight:600;}
+    .topic-content{background:rgba(255,255,255,0.03); padding:12px; margin:10px 0; border-radius:10px;}
+    .formula ul, .example ul, .topic-content ul{margin-left:20px;}
+
+    /* Paper Pattern Section Links as Buttons */
+#pattern ul li a {
+  display: inline-block;
+  margin: 8px 0;
+  padding: 10px 18px;
+  background: #004aad;       /* Blue color */
+  color: #fff;               /* White text */
+  text-decoration: none;     
+  border-radius: 8px;        /* Rounded corners */
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+#pattern ul li a:hover {
+  background: #0073ff;       /* Lighter blue on hover */
+}
+
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Cadet's Compass — NDA (Complete)</h1>
+      <div class="nav">
+        <button class="btn" data-group="main" data-open="impdates">Important Dates</button>
+        <button class="btn" data-group="main" data-open="eligibility">Eligibility</button>
+        <button class="btn" data-group="main" data-open="routemaps">Route Maps</button>
+        <a href="syllabus.html" class="btn">Syllabus</a>
+        <button class="btn" data-group="main" data-open="pattern">Paper Pattern</button>
+        <button class="btn" data-group="main" data-open="cutoff">Cut Offs</button>
+        <a href="nda-youtube.html" class="btn">YouTube Resources</a>
+
+        
+      </div>
+    </header>
+
+    <!-- IMPORTANT DATES -->
+    <section id="impdates" class="card hidden">
+      <h2>📅 Important NDA Exam Dates</h2>
+      <ul>
+        <li><strong>NDA (I) 2025</strong> — Notification: <em>18 Dec 2024</em></li>
+        <li><strong>Application Last Date (NDA I)</strong> — <em>14 Jan 2025</em></li>
+        <li><strong>NDA (I) 2025 Exam Date</strong> — <em>13 Apr 2025</em></li>
+        <li><strong>NDA (II) 2025</strong> — Notification: <em>28 May 2025</em></li>
+        <li><strong>Application Last Date (NDA II)</strong> — <em>17 Jun 2025</em></li>
+        <li><strong>NDA (II) 2025 Exam Date</strong> — <em>14 Sep 2025</em></li>
+      </ul>
+      <p style="margin-top:10px; font-size:14px; opacity:0.85;">
+        ✅ Always verify the latest dates at <a href="https://upsc.gov.in/examinations/active-exams" target="_blank" style="color:#6b8a4c;">UPSC Official Website(Active Examinations)</a>.
+      </p>
+    </section>
+
+    <!-- ELIGIBILITY -->
+    <section id="eligibility" class="card hidden">
+      <h2>Eligibility</h2>
+      <ul>
+        <li>Age: 2 Jan 2006 – 1 Jul 2009 (verify notification)</li>
+        <li>Marital Status: Unmarried</li>
+        <li>Education: 10+2 pass; Physics & Maths for Air Force/Navy</li>
+        <li>Nationality: Indian (see UPSC rules)</li>
+      </ul>
+    </section>
+
+    <!-- ROUTE MAPS -->
+<section id="routemaps" class="card hidden">
+  <h2>Route Maps — Week by Week Plan</h2>
+
+  <div class="sub-buttons">
+    <button class="sub-btn" onclick="showTopicContent('fastTrack')">Fast Track 🚀</button>
+    <button class="sub-btn" onclick="showTopicContent('normalTrack')">Normal Track ⏱️</button>
+    <button class="sub-btn" onclick="showTopicContent('slowTrack')">Slow Track 🐢</button>
+  </div>
+
+  <!-- FAST TRACK -->
+  <div id="fastTrack" class="topic-body hidden">
+    <h3>Fast Track 🚀 (3 Months)</h3>
+    <div class="month-box">
+      <div class="month-header" onclick="toggleMonth('fastMonth1')">Month 1</div>
+      <div id="fastMonth1" class="week-container">
+        <div class="week">📐 <strong>Week 1:</strong> Algebra – Linear equations & Quadratics</div>
+        <div class="week">🔢 <strong>Week 2:</strong> Polynomials & Progressions</div>
+        <div class="week">📏 <strong>Week 3:</strong> Trigonometry – Ratios & Identities</div>
+        <div class="week">✍️ <strong>Week 4:</strong> English Grammar – Tenses, Articles, Active-Passive Voice</div>
+      </div>
+    </div>
+    <div class="month-box">
+      <div class="month-header" onclick="toggleMonth('fastMonth2')">Month 2</div>
+      <div id="fastMonth2" class="week-container">
+        <div class="week">📐 <strong>Week 5:</strong> Geometry – Triangles, Circles, Quadrilaterals</div>
+        <div class="week">∫ <strong>Week 6:</strong> Calculus – Differentiation & Integration</div>
+        <div class="week">🎲 <strong>Week 7:</strong> Probability & Statistics</div>
+        <div class="week">📝 <strong>Week 8:</strong> Vocabulary – 20 words/day practice</div>
+      </div>
+    </div>
+    <div class="month-box">
+      <div class="month-header" onclick="toggleMonth('fastMonth3')">Month 3</div>
+      <div id="fastMonth3" class="week-container">
+        <div class="week">🧲 <strong>Week 9:</strong> Physics – Mechanics & Heat</div>
+        <div class="week">⚗️ <strong>Week 10:</strong> Chemistry – Atomic Structure & Organic Basics</div>
+        <div class="week">🌿🏛 <strong>Week 11:</strong> Biology & History</div>
+        <div class="week">🌍📰 <strong>Week 12:</strong> Geography + Current Affairs</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NORMAL TRACK -->
+  <div id="normalTrack" class="topic-body hidden">
+    <h3>Normal Track ⏱️ (6 Months)</h3>
+    <div class="month-box">
+      <div class="month-header" onclick="toggleMonth('normalMonth1')">Month 1</div>
+      <div id="normalMonth1" class="week-container">
+        <div class="week">📐 <strong>Week 1:</strong> Algebra</div>
+        <div class="week">🔢 <strong>Week 2:</strong> Quadratics & Polynomials</div>
+        <div class="week">📏 <strong>Week 3:</strong> Trigonometry basics</div>
+        <div class="week">✍️ <strong>Week 4:</strong> English Grammar</div>
+      </div>
+    </div>
+    <div class="month-box">
+      <div class="month-header" onclick="toggleMonth('normalMonth2')">Month 2</div>
+      <div id="normalMonth2" class="week-container">
+        <div class="week">📐 <strong>Week 5:</strong> Geometry basics</div>
+        <div class="week">∫ <strong>Week 6:</strong> Calculus basics</div>
+        <div class="week">🎲 <strong>Week 7:</strong> Statistics + Probability</div>
+        <div class="week">📝 <strong>Week 8:</strong> Vocabulary</div>
+      </div>
+    </div>
+    <div class="month-box">
+      <div class="month-header" onclick="toggleMonth('normalMonth3')">Month 3</div>
+      <div id="normalMonth3" class="week-container">
+        <div class="week">🧲 <strong>Week 9:</strong> Physics</div>
+        <div class="week">⚗️ <strong>Week 10:</strong> Chemistry</div>
+        <div class="week">🌿 <strong>Week 11:</strong> Biology</div>
+        <div class="week">🏛 <strong>Week 12:</strong> History</div>
+      </div>
+    </div>
+    <div class="month-box">
+      <div class="month-header" onclick="toggleMonth('normalMonth4')">Month 4</div>
+      <div id="normalMonth4" class="week-container">
+        <div class="week">🌍 <strong>Week 13:</strong> Geography – Physical</div>
+        <div class="week">🌍 <strong>Week 14:</strong> Geography – Human</div>
+        <div class="week">📰 <strong>Week 15:</strong> Current Affairs – National</div>
+        <div class="week">📰 <strong>Week 16:</strong> Current Affairs – International</div>
+      </div>
+    </div>
+    <div class="month-box">
+      <div class="month-header" onclick="toggleMonth('normalMonth5')">Month 5</div>
+      <div id="normalMonth5" class="week-container">
+        <div class="week">🧲 <strong>Week 17:</strong> Physics – Heat & Optics</div>
+        <div class="week">⚗️ <strong>Week 18:</strong> Chemistry – Organic basics</div>
+        <div class="week">🔄 <strong>Week 19:</strong> Revision – Mathematics</div>
+        <div class="week">✍️📝 <strong>Week 20:</strong> English Grammar & Vocabulary</div>
+      </div>
+    </div>
+    <div class="month-box">
+      <div class="month-header" onclick="toggleMonth('normalMonth6')">Month 6</div>
+      <div id="normalMonth6" class="week-container">
+        <div class="week">🌿 <strong>Week 21:</strong> Biology – Plant + Ecology</div>
+        <div class="week">🏛 <strong>Week 22:</strong> History – Modern India</div>
+        <div class="week">🔄 <strong>Week 23:</strong> Full Revision</div>
+        <div class="week">🎯 <strong>Week 24:</strong> Mock Tests</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLOW TRACK -->
+  <div id="slowTrack" class="topic-body hidden">
+    <h3>Slow Track 🐢 (9–10 Months)</h3>
+    <div class="month-box">
+      <div class="month-header" onclick="toggleMonth('slowMonth1')">Months 1–2</div>
+      <div id="slowMonth1" class="week-container">
+        <div class="week">📐 <strong>Week 1–2:</strong> Algebra</div>
+        <div class="week">🔢 <strong>Week 3–4:</strong> Quadratics & Polynomials</div>
+      </div>
+    </div>
+    <div class="month-box">
+      <div class="month-header" onclick="toggleMonth('slowMonth2')">Months 3–4</div>
+      <div id="slowMonth2" class="week-container">
+        <div class="week">📏 <strong>Week 5–6:</strong> Trigonometry basics</div>
+        <div class="week">📐 <strong>Week 7–8:</strong> Geometry & Mensuration</div>
+      </div>
+    </div>
+    <div class="month-box">
+      <div class="month-header" onclick="toggleMonth('slowMonth3')">Months 5–6</div>
+      <div id="slowMonth3" class="week-container">
+        <div class="week">∫🎲 <strong>Week 9–10:</strong> Calculus + Probability</div>
+        <div class="week">🎲✍️ <strong>Week 11–12:</strong> Statistics + English Grammar</div>
+      </div>
+    </div>
+    <div class="month-box">
+      <div class="month-header" onclick="toggleMonth('slowMonth4')">Months 7–8</div>
+      <div id="slowMonth4" class="week-container">
+        <div class="week">🧲⚗️ <strong>Week 13–14:</strong> Physics & Chemistry</div>
+        <div class="week">🌿🏛 <strong>Week 15–16:</strong> Biology + History</div>
+      </div>
+    </div>
+    <div class="month-box">
+      <div class="month-header" onclick="toggleMonth('slowMonth5')">Months 9–10</div>
+      <div id="slowMonth5" class="week-container">
+        <div class="week">🌍📰 <strong>Week 17–18:</strong> Geography + Current Affairs</div>
+        <div class="week">🔄🎯 <strong>Week 19–20:</strong> Full Revision + Mock Tests</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+    <!-- SYLLABUS, PAPER PATTERN, CUT OFFS, YOUTUBE -->
+    <section id="syllabus" class="card hidden">
+      <h2>Syllabus</h2>
+      <div class="topic-buttons">
+        <button onclick="toggleContent('maths')">Mathematics</button>
+        <button onclick="toggleContent('gat')">GAT</button>
+      </div>
+      <div id="maths" class="topic-content hidden">
+        <h3>Mathematics</h3>
+        <ul>
+          <li>Algebra: Linear equations, Quadratics</li>
+          <li>Trigonometry: Ratios, Identities</li>
+          <li>Geometry: Triangles, Circles, Quadrilaterals</li>
+          <li>Calculus, Probability, Statistics</li>
+        </ul>
+        <div class="formula">
+          <h4>Formulas</h4>
+          <ul>
+            <li>Quadratic Formula: x = [-b ± √(b²-4ac)] / 2a</li>
+            <li>Area of Triangle: ½ * base * height</li>
+          </ul>
+        </div>
+        <div class="example">
+          <h4>Example</h4>
+          <ul>
+            <li>Solve x² - 5x + 6 = 0 → x = 2,3</li>
+          </ul>
+        </div>
+      </div>
+      <div id="gat" class="topic-content hidden">
+        <h3>General Ability Test</h3>
+        <ul>
+          <li>English: Grammar, Vocabulary, Comprehension</li>
+          <li>Physics, Chemistry, Biology, History, Geography</li>
+        </ul>
+      </div>
+    </section>
+
+   <section id="pattern" class="card hidden">
+  <h2>📘 NDA Paper Pattern</h2>
+
+  <!-- Written Paper Pattern -->
+  <ul>
+    <li><b>Mathematics:</b> 120 Questions, 300 Marks, Duration: 2 hours</li>
+    <li><b>General Ability Test (GAT):</b> 150 Questions, 600 Marks, Duration: 2 hours 30 minutes</li>
+    <li><b>Total Marks:</b> 900 | <b>Exam Duration:</b> 4 hours 30 minutes</li>
+  </ul>
+
+  <!-- Link to Previous Year Question Papers -->
+  <h3>🔗 Previous Year Question Papers (PYQs):</h3>
+  <ul>
+    <li><a href="https://www.upsc.gov.in/sites/default/files/QP-NDA-NA-I-Exam-2024-Maths.pdf" target="_blank">📄 NDA 2024 Paper I (Maths)</a></li>
+    <li><a href="https://www.upsc.gov.in/sites/default/files/QP-NDA-NA-I-Exam-2024-GAT.pdf" target="_blank">📝 NDA 2024 Paper II (GAT)</a></li>
+    <li><a href="https://www.upsc.gov.in/examinations/previous-question-papers" target="_blank">🔎 Browse All PYQ Papers (UPSC Official)</a></li>
+  </ul>
+</section>
+
+
+    <section id="cutoff" class="card hidden">
+      <h2>Cut Offs</h2>
+      <ul>
+        <li>NDA 1 2023: Male – 342/900, Female – 315/900</li>
+        <li>NDA 2 2023: Male – 338/900, Female – 312/900</li>
+      </ul>
+    </section>
+
+  </div>
+
+  <script>
+    // Main section toggle
+    document.querySelectorAll('.btn').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        document.querySelectorAll('.card').forEach(c=>c.classList.add('hidden'));
+        document.getElementById(btn.dataset.open).classList.remove('hidden');
+      });
+    });
+
+    // Sub-topic toggle
+    function showTopicContent(id){
+      document.querySelectorAll('.topic-body').forEach(t=>t.classList.add('hidden'));
+      document.getElementById(id).classList.remove('hidden');
+    }
+
+    // Month toggle
+    function toggleMonth(id){
+      const elem = document.getElementById(id);
+      elem.style.display = (elem.style.display === 'block') ? 'none' : 'block';
+    }
+
+    // Syllabus topics toggle
+    function toggleContent(id){
+      const elem = document.getElementById(id);
+      elem.classList.toggle('hidden');
+    }
+  </script>
+</body>
+</html>

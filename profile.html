@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cadet's Compass — Profile</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  body{
+    margin:0;
+    font-family:Inter,system-ui;
+    min-height:100vh;
+    background: linear-gradient(180deg, #1c2a1c, #3d5f3f);
+    color:#f6f3ee;
+    padding:24px;
+    display:flex;
+    justify-content:center;
+  }
+  .profile-container{
+    width:100%;
+    max-width:600px;
+    background: rgba(255,255,255,0.06);
+    padding:24px;
+    border-radius:16px;
+    backdrop-filter:blur(6px);
+  }
+  .profile-pic{
+    width:120px;
+    height:120px;
+    border-radius:50%;
+    margin:0 auto;
+    position:relative;
+    cursor:pointer;
+    overflow:hidden;
+    border:2px solid #6b8a4c;
+  }
+  .profile-pic img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+  /* Small human icon overlay */
+  .edit-icon{
+    position:absolute;
+    bottom:0;
+    right:0;
+    background:#6b8a4c;
+    width:28px;
+    height:28px;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:16px;
+    cursor:pointer;
+    border:1px solid #fff;
+  }
+  h2{
+    text-align:center;
+    margin-top:12px;
+    margin-bottom:24px;
+    font-weight:700;
+  }
+  .details{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    margin-bottom:24px;
+  }
+  .details label{
+    font-weight:600;
+    font-size:14px;
+  }
+  .details input, .details select{
+    width:100%;
+    padding:8px 10px;
+    border:none;
+    border-bottom:1px solid #6b8a4c;
+    background:transparent;
+    color:#f6f3ee;
+    font-size:14px;
+  }
+  .eligible-jobs{
+    margin-top:16px;
+    padding-top:16px;
+    border-top:1px solid rgba(255,255,255,0.2);
+  }
+  .eligible-jobs ul{
+    list-style:none;
+    padding-left:0;
+  }
+  .eligible-jobs li{
+    margin-bottom:8px;
+    display:flex;
+    align-items:center;
+  }
+  .eligible-jobs li span{
+    margin-right:10px;
+  }
+</style>
+</head>
+<body>
+<div class="profile-container">
+  <!-- Profile Picture -->
+  <div class="profile-pic" onclick="document.getElementById('uploadPic').click()">
+    <img src="https://via.placeholder.com/120" id="profileImage" alt="Profile Picture">
+    <div class="edit-icon">👤</div>
+  </div>
+  <input type="file" id="uploadPic" style="display:none" accept="image/*" onchange="previewPic(event)">
+  
+  <!-- Name -->
+  <h2 id="profileName">Your Name</h2>
+  
+  <!-- Details -->
+  <div class="details">
+    <label>Name:</label>
+    <input type="text" id="name" placeholder="Enter your name" oninput="updateProfile()">
+    
+    <label>Age:</label>
+    <input type="number" id="age" placeholder="Enter your age" oninput="updateEligibility()">
+    
+    <label>Gender:</label>
+    <select id="gender" onchange="updateEligibility()">
+      <option value="">Select gender</option>
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+    </select>
+    
+    <label>Qualification:</label>
+    <select id="qualification" onchange="updateEligibility()">
+      <option value="">Select qualification</option>
+      <option value="12th">12th Pass</option>
+      <option value="graduate">Graduate</option>
+      <option value="postgraduate">Postgraduate</option>
+    </select>
+    
+    <label>Height (cm):</label>
+    <input type="number" id="height" placeholder="Enter your height" oninput="updateEligibility()">
+  </div>
+  
+  <!-- Eligible Jobs -->
+  <div class="eligible-jobs" id="eligibleJobs">
+    Eligible jobs will appear here...
+  </div>
+</div>
+
+<script>
+function previewPic(event){
+  const reader = new FileReader();
+  reader.onload = function(){
+    document.getElementById('profileImage').src = reader.result;
+  }
+  reader.readAsDataURL(event.target.files[0]);
+}
+
+function updateProfile(){
+  const name = document.getElementById('name').value;
+  document.getElementById('profileName').innerText = name || "Your Name";
+  updateEligibility();
+}
+
+function updateEligibility(){
+  const age = parseInt(document.getElementById('age').value);
+  const height = parseInt(document.getElementById('height').value);
+  const qualification = document.getElementById('qualification').value;
+  const gender = document.getElementById('gender').value;
+
+  let jobs = [];
+
+  if(qualification === "12th" && age >= 16 && age <= 19){
+    jobs.push({name:"NDA (Army, Navy, Air Force)", icon:"⚔"});
+  }
+  if(qualification === "graduate" && age >= 19 && age <= 25){
+    jobs.push({name:"CDS (Indian Military Academy, OTA)", icon:"🛡"});
+    jobs.push({name:"AFCAT", icon:"✈"});
+    jobs.push({name:"Technical Officer Posts", icon:"🖥"});
+  }
+  if(qualification === "postgraduate" && age >= 20 && age <= 28){
+    jobs.push({name:"AFCAT Advanced Posts", icon:"✈"});
+    jobs.push({name:"Research & Defence Analyst Positions", icon:"📊"});
+  }
+  if(height >= 157){
+    jobs.push({name:"Territorial Army", icon:"⚓"});
+    jobs.push({name:"Police Force/Paramilitary", icon:"🚓"});
+  }
+  if(jobs.length === 0){
+    jobs.push({name:"No eligible jobs found. Adjust your details.", icon:"❌"});
+  }
+
+  // Create HTML list
+  let html = "<strong>Eligible Jobs:</strong><ul>";
+  jobs.forEach(job => {
+    html += `<li><span>${job.icon}</span>${job.name}</li>`;
+  });
+  html += "</ul>";
+
+  document.getElementById('eligibleJobs').innerHTML = html;
+}
+</script>
+</body>
+</html>

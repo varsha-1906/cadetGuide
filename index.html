@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cadet's Compass — Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{ 
+      --accent:#6b8a4c;
+      --secondary:#2f6e8d;
+      --text:#f6f3ee;
+      --bg-overlay:rgba(0,0,0,0.6);
+    }
+    *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,system-ui}
+    body{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:linear-gradient(var(--bg-overlay),var(--bg-overlay)), 
+                 url('military-background.jpg') center/cover no-repeat fixed;
+    }
+    .login-card{
+      width:360px;
+      background:rgba(255,255,255,0.08);
+      backdrop-filter:blur(8px);
+      padding:32px;
+      border-radius:18px;
+      box-shadow:0 8px 24px rgba(0,0,0,0.5);
+      text-align:center;
+      color:white;
+    }
+    .login-card h1{font-size:28px;font-weight:800;margin-bottom:8px;}
+    .login-card p{font-size:14px;opacity:0.85;margin-bottom:20px;}
+    input{width:100%;padding:14px;margin:10px 0;border:none;border-radius:10px;font-size:15px;}
+    .btn{width:100%;padding:14px;margin-top:14px;border:none;border-radius:10px;font-size:16px;font-weight:700;cursor:pointer;}
+    .btn.signin{background:var(--accent);color:white;}
+    .btn.signup{background:var(--secondary);color:white;}
+    .btn:hover{opacity:0.9}
+    .forgot{margin-top:8px;font-size:13px;}
+    .forgot a{color:#eee;text-decoration:none;}
+    .forgot a:hover{text-decoration:underline;color:#fff;}
+  </style>
+</head>
+<body>
+  <div class="login-card">
+    <h1>Cadet's Compass</h1>
+    <p>Your hub for NDA, CDS, AFCAT & SSB prep — Learn, practice, succeed.</p>
+    <form onsubmit="event.preventDefault(); window.location.href='dashboard.html';">
+      <input type="email" placeholder="Email ID" required>
+      <input type="password" placeholder="Password" required>
+      <div class="forgot"><a href="#">Forgot Password?</a></div>
+      <button type="submit" class="btn signin">Sign In</button>
+      <button type="button" class="btn signup" onclick="alert('Signup feature coming soon!')">Sign Up</button>
+    </form>
+  </div>
+</body>
+
+</html>
