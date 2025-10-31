@@ -274,19 +274,63 @@
         }
       }
       const idToken = localStorage.getItem('cc_idToken');
+      
+      // Function to update user display
+      function updateUserDisplay(name, email) {
+        const displayName = name || (email ? email.split('@')[0] : null) || 'User';
+        const initials = displayName.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+        
+        const avatar = document.querySelector('.avatar');
+        if (avatar) avatar.textContent = initials;
+        
+        const brandName = document.querySelector('.brand h3');
+        if (brandName) brandName.textContent = displayName;
+      }
+      
+      // Listen for auth state changes to always keep user info updated
+      auth.onAuthStateChanged((user) => {
+        if (user) {
+          // Try API first, but use Firebase as fallback
+          const idToken = localStorage.getItem('cc_idToken');
+          if (idToken) {
+            fetch(`${API_BASE}/api/auth/me`, { headers: { Authorization: `Bearer ${idToken}` } })
+              .then(res => res.ok ? res.json() : null)
+              .then(me => {
+                if (me && me.name) {
+                  updateUserDisplay(me.name, me.email);
+                } else {
+                  updateUserDisplay(user.displayName, user.email);
+                }
+              })
+              .catch(() => {
+                updateUserDisplay(user.displayName, user.email);
+              });
+          } else {
+            updateUserDisplay(user.displayName, user.email);
+          }
+        }
+      });
+      
+      // Initial update attempt
       try {
         const meRes = await fetch(`${API_BASE}/api/auth/me`, { headers: { Authorization: `Bearer ${idToken}` } });
         if (meRes.ok) {
           const me = await meRes.json();
-          // Update avatar initials if possible
-          const initials = (me.name || me.email || 'CE').split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
-          const avatar = document.querySelector('.avatar');
-          if (avatar) avatar.textContent = initials;
-          const brandName = document.querySelector('.brand h3');
-          if (brandName && me.name) brandName.textContent = me.name;
+          updateUserDisplay(me.name, me.email);
+        } else {
+          // If API fails, try Firebase auth as fallback
+          const user = auth.currentUser;
+          if (user) {
+            updateUserDisplay(user.displayName, user.email);
+          }
         }
       } catch(e) {
-        console.warn('Could not verify session with backend');
+        console.warn('Could not verify session with backend, using Firebase auth');
+        // Fallback to Firebase auth
+        const user = auth.currentUser;
+        if (user) {
+          updateUserDisplay(user.displayName, user.email);
+        }
       }
 
       // Fetch mock tests (protected)

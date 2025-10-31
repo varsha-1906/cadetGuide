@@ -4,42 +4,311 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Cadet's Compass — NDA Complete Syllabus (Expanded)</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-  body{font-family:Inter,sans-serif;background:#0b0b0b;color:#f6f3ee;padding:20px;line-height:1.5;}
-  h1,h2,h3,h4,h5{margin:10px 0;}
-  .topic-buttons button{padding:10px 16px;margin:5px;border:none;border-radius:8px;background:#6b8a4c;color:white;cursor:pointer;font-weight:600;}
-  .topic-content{display:none;padding:18px;margin-top:10px;border-radius:12px;background:rgba(255,255,255,0.04);box-shadow:0 6px 18px rgba(0,0,0,0.6);}
-  ul,ol{margin-left:20px;}
-  pre{background:rgba(255,255,255,0.02);padding:10px;border-radius:8px;overflow:auto;}
-  .formula{background:rgba(255,255,255,0.03);padding:8px;border-radius:8px;margin:8px 0;}
-  .note{background:#153f1b;padding:8px;border-radius:8px;margin-top:12px;}
-  .example{background:#102230;padding:8px;border-radius:8px;margin-top:12px;}
-  .small{font-size:0.95rem;color:#cfd3c7;}
+  :root{
+    --primary: #2f6e8d;
+    --secondary: #6b8a4c;
+    --accent: #d4af37;
+    --text: #f6f3ee;
+    --dark: #1a2639;
+    --card-bg: rgba(255,255,255,0.08);
+    --card-border: rgba(255,255,255,0.12);
+    --muted: rgba(255,255,255,0.6);
+    --max-width:1400px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    background: linear-gradient(180deg, rgba(10,12,14,0.85), rgba(0,0,0,0.65)),
+                url('background.jpg') center/cover no-repeat fixed;
+    color:var(--text);
+    padding:0;
+    line-height:1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  .wrap{
+    max-width:var(--max-width);
+    margin:0 auto;
+    padding:32px 24px;
+  }
+  .header{
+    background: linear-gradient(135deg, rgba(47,110,141,0.9), rgba(107,138,76,0.9));
+    backdrop-filter: blur(12px);
+    padding:32px;
+    border-radius:16px;
+    margin-bottom:32px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    text-align:center;
+  }
+  .header h1{
+    font-size:32px;
+    font-weight:800;
+    color:white;
+    margin:0 0 12px 0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+  }
+  .header h1::before{
+    content:'📚';
+    font-size:36px;
+  }
+  .header p{
+    color:rgba(255,255,255,0.9);
+    font-size:16px;
+    margin:0;
+  }
+  .section{
+    margin-bottom:48px;
+  }
+  .section-title{
+    font-size:26px;
+    font-weight:800;
+    color:white;
+    margin:0 0 24px 0;
+    padding-bottom:12px;
+    border-bottom:2px solid rgba(255,255,255,0.2);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .topic-buttons{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-bottom:24px;
+  }
+  .topic-buttons button{
+    padding:14px 24px;
+    border:none;
+    border-radius:12px;
+    background:linear-gradient(135deg, rgba(107,138,76,0.9), rgba(47,110,141,0.9));
+    border:1px solid rgba(255,255,255,0.2);
+    color:white;
+    cursor:pointer;
+    font-weight:600;
+    font-size:15px;
+    transition:all 0.3s ease;
+    backdrop-filter:blur(4px);
+    box-shadow:0 4px 12px rgba(0,0,0,0.2);
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .topic-buttons button:hover{
+    transform:translateY(-2px);
+    box-shadow:0 6px 16px rgba(0,0,0,0.3);
+    background:linear-gradient(135deg, rgba(107,138,76,1), rgba(47,110,141,1));
+  }
+  .topic-buttons button.active{
+    background:var(--accent);
+    border-color:var(--accent);
+    color:var(--dark);
+    font-weight:700;
+  }
+  .topic-content{
+    display:none;
+    background:var(--card-bg);
+    border:1px solid var(--card-border);
+    padding:32px;
+    border-radius:16px;
+    margin-top:20px;
+    backdrop-filter:blur(10px);
+    box-shadow:0 8px 32px rgba(0,0,0,0.2);
+    animation:fadeIn 0.5s ease;
+  }
+  .topic-content.show{
+    display:block;
+  }
+  @keyframes fadeIn{
+    from{opacity:0;transform:translateY(10px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+  .topic-content h3{
+    font-size:24px;
+    font-weight:800;
+    color:white;
+    margin:0 0 20px 0;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .topic-content > p{
+    background:rgba(212,175,55,0.15);
+    padding:12px 16px;
+    border-radius:10px;
+    border-left:3px solid var(--accent);
+    margin:0 0 24px 0;
+    font-weight:600;
+  }
+  .topic-content h4{
+    font-size:18px;
+    font-weight:700;
+    color:white;
+    margin:24px 0 12px 0;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .topic-content h4:first-of-type{
+    margin-top:0;
+  }
+  .topic-content ul,.topic-content ol{
+    margin:12px 0 12px 24px;
+    padding:0;
+  }
+  .topic-content li{
+    margin:8px 0;
+    line-height:1.8;
+    color:var(--text);
+  }
+  .topic-content li strong{
+    color:white;
+    font-weight:700;
+  }
+  .formula,.example,.note{
+    background:rgba(47,110,141,0.15);
+    padding:20px;
+    border-radius:12px;
+    margin:16px 0;
+    border-left:4px solid var(--primary);
+    box-shadow:0 4px 12px rgba(0,0,0,0.1);
+  }
+  .example{
+    background:rgba(107,138,76,0.15);
+    border-left-color:var(--secondary);
+  }
+  .note{
+    background:rgba(212,175,55,0.15);
+    border-left-color:var(--accent);
+  }
+  .formula ul,.example ul,.note ul{
+    margin:8px 0;
+    list-style:none;
+  }
+  .formula li,.example li,.note li{
+    padding:8px 0;
+    position:relative;
+    padding-left:20px;
+  }
+  .formula li::before,.example li::before{
+    content:'→';
+    position:absolute;
+    left:0;
+    color:var(--accent);
+    font-weight:700;
+  }
+  .formula code,.example code{
+    background:rgba(0,0,0,0.3);
+    padding:4px 8px;
+    border-radius:6px;
+    font-family:'Courier New',monospace;
+    font-size:14px;
+  }
+  pre{
+    background:rgba(0,0,0,0.3);
+    padding:16px;
+    border-radius:10px;
+    overflow:auto;
+    border:1px solid rgba(255,255,255,0.1);
+  }
+  @media (max-width:768px){
+    .wrap{
+      padding:16px;
+    }
+    .header{
+      padding:24px;
+    }
+    .header h1{
+      font-size:24px;
+      flex-direction:column;
+    }
+    .topic-buttons{
+      gap:8px;
+    }
+    .topic-buttons button{
+      flex:1;
+      min-width:140px;
+      padding:12px 16px;
+      font-size:14px;
+    }
+    .topic-content{
+      padding:20px;
+    }
+  }
 </style>
 <script>
-function showTopicContent(id){
+function showTopicContent(id, btnElement){
   const contents=document.querySelectorAll('.topic-content');
-  contents.forEach(c=>c.style.display='none'); // hide all
-  document.getElementById(id).style.display='block'; // show clicked
-  // scroll into view
-  document.getElementById(id).scrollIntoView({behavior:'smooth',block:'start'});
+  const buttons=document.querySelectorAll('.topic-buttons button');
+  
+  // Remove active from all buttons
+  buttons.forEach(btn=>btn.classList.remove('active'));
+  
+  // Hide all contents
+  contents.forEach(c=>{
+    c.classList.remove('show');
+    c.style.display='none';
+  });
+  
+  // Show selected content
+  const target=document.getElementById(id);
+  if(target){
+    target.style.display='block';
+    setTimeout(()=>{
+      target.classList.add('show');
+      target.scrollIntoView({behavior:'smooth',block:'start'});
+    },10);
+    
+    // Add active to clicked button
+    if(btnElement){
+      btnElement.classList.add('active');
+    } else if(event && event.target){
+      event.target.classList.add('active');
+    }
+  }
 }
+
+// Update onclick handlers to pass button element
+document.addEventListener('DOMContentLoaded', function(){
+  document.querySelectorAll('.topic-buttons button').forEach(btn => {
+    const onclick = btn.getAttribute('onclick');
+    if(onclick){
+      const match = onclick.match(/showTopicContent\('([^']+)'\)/);
+      if(match){
+        const id = match[1];
+        btn.removeAttribute('onclick');
+        btn.addEventListener('click', function(){
+          showTopicContent(id, this);
+        });
+      }
+    }
+  });
+});
 </script>
 </head>
 <body>
+  <div id="navbar"></div>
+  <div class="wrap">
+    <div class="header">
+      <h1>NDA Full Syllabus — Cadet's Compass (Expanded)</h1>
+      <p>Click a button to open a topic. Each topic contains subtopics, formulas, worked examples, practice questions and exam tips.</p>
+    </div>
 
-<h1>📚 NDA Full Syllabus — Cadet's Compass (Expanded)</h1>
-<p class="small">Click a button to open a topic. Each topic contains subtopics, formulas, worked examples, practice questions and exam tips.</p>
-
-<!-- =================== MATHEMATICS =================== -->
-<h2>Mathematics</h2>
-<div class="topic-buttons">
-  <button onclick="showTopicContent('algebra')">Algebra ⚡</button>
-  <button onclick="showTopicContent('trigonometry')">Trigonometry 📐</button>
-  <button onclick="showTopicContent('geometry')">Geometry & Mensuration 📏</button>
-  <button onclick="showTopicContent('calculus')">Calculus ∫</button>
-  <button onclick="showTopicContent('probability')">Probability & Statistics 🎲</button>
-</div>
+    <!-- =================== MATHEMATICS =================== -->
+    <div class="section">
+      <h2 class="section-title">Mathematics</h2>
+      <div class="topic-buttons">
+        <button onclick="showTopicContent('algebra')">⚡ Algebra</button>
+        <button onclick="showTopicContent('trigonometry')">📐 Trigonometry</button>
+        <button onclick="showTopicContent('geometry')">📏 Geometry & Mensuration</button>
+        <button onclick="showTopicContent('calculus')">∫ Calculus</button>
+        <button onclick="showTopicContent('probability')">🎲 Probability & Statistics</button>
+      </div>
 
 <!-- Algebra -->
 <div id="algebra" class="topic-content">
@@ -273,19 +542,20 @@ function showTopicContent(id){
   </ul>
 </div>
 
-<!-- =================== GENERAL ABILITY TEST =================== -->
-<h2>General Ability Test (GAT)</h2>
-<div class="topic-buttons">
-  <button onclick="showTopicContent('englishGrammar')">English Grammar ✍️</button>
-  <button onclick="showTopicContent('englishComprehension')">English Comprehension 📖</button>
-  <button onclick="showTopicContent('englishVocabulary')">Vocabulary 📝</button>
-  <button onclick="showTopicContent('physics')">Physics 🧲</button>
-  <button onclick="showTopicContent('chemistry')">Chemistry ⚗️</button>
-  <button onclick="showTopicContent('biology')">Biology / Gen. Science 🌿</button>
-  <button onclick="showTopicContent('history')">History 🏛</button>
-  <button onclick="showTopicContent('geography')">Geography 🌍</button>
-  <button onclick="showTopicContent('currentAffairs')">Current Affairs 📰</button>
-</div>
+    <!-- =================== GENERAL ABILITY TEST =================== -->
+    <div class="section">
+      <h2 class="section-title">General Ability Test (GAT)</h2>
+      <div class="topic-buttons">
+        <button onclick="showTopicContent('englishGrammar')">✍️ English Grammar</button>
+        <button onclick="showTopicContent('englishComprehension')">📖 English Comprehension</button>
+        <button onclick="showTopicContent('englishVocabulary')">📝 Vocabulary</button>
+        <button onclick="showTopicContent('physics')">🧲 Physics</button>
+        <button onclick="showTopicContent('chemistry')">⚗️ Chemistry</button>
+        <button onclick="showTopicContent('biology')">🌿 Biology / Gen. Science</button>
+        <button onclick="showTopicContent('history')">🏛 History</button>
+        <button onclick="showTopicContent('geography')">🌍 Geography</button>
+        <button onclick="showTopicContent('currentAffairs')">📰 Current Affairs</button>
+      </div>
 
 <!-- English Grammar -->
 <div id="englishGrammar" class="topic-content">
@@ -605,6 +875,10 @@ function showTopicContent(id){
     <li>For NDA, focus on defence & national events plus a few big international stories; avoid trivial items unless asked.</li>
   </ul>
 </div>
+    </div>
 
+  </div>
+  <link rel="stylesheet" href="../public/css/navbar.css">
+  <script src="../public/js/navbar.js"></script>
 </body>
 </html>

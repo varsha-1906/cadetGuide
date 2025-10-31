@@ -134,7 +134,7 @@
 
 /* Logout Button */
 .logout-btn {
-  background-color: #ed635c !important;
+  background-color: #d9534f !important;
   color: #fff !important;
 }
 
@@ -236,3 +236,4 @@ body {
     gap: 12px;
   }
 }
+

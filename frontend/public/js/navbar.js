@@ -128,7 +128,7 @@
       }
 
       // Optionally add profile button
-      let profileBtn = navLinks.querySelector('.profile-btn');
+      let profileBtn = navLinks.querySelector('.profile-btn-nav');
       if (!profileBtn && user) {
         profileBtn = document.createElement('a');
         profileBtn.href = 'profile.html';
@@ -296,3 +296,4 @@
     loadNavbar();
   }
 })();
+
