@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mock Tests — Cadet's Compass</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body{
+      margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;color:#f6f3ee;
+      background: linear-gradient(180deg, rgba(8,12,10,0.6), rgba(0,0,0,0.45)), url('background.jpg') center/cover no-repeat fixed;
+      padding:24px;
+    }
+    h1{font-size:28px;margin-bottom:20px;font-weight:800;text-align:center;}
+    .grid{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;}
+    .card{width:180px;background:rgba(255,255,255,0.1);padding:24px;border-radius:16px;text-align:center;cursor:pointer;transition:0.2s;box-shadow:0 8px 24px rgba(0,0,0,0.35);}
+    .card:hover{background:rgba(255,255,255,0.2);}
+    .emoji{font-size:36px;margin-bottom:12px;}
+    .card h4{margin:0;font-size:16px;font-weight:700;}
+    .card small{display:block;margin-top:4px;font-weight:400;opacity:0.8;}
+  </style>
+</head>
+<body>
+  <div id="navbar"></div>
+  <h1>Mock Tests</h1>
+  <div class="grid">
+    <div class="card" onclick="window.location.href='nda_mock.html'">
+      <div class="emoji">⚔</div>
+      <h4>NDA Mock Test</h4>
+      <small>National Defence Academy</small>
+    </div>
+    <div class="card" onclick="window.location.href='cds_mock.html'">
+      <div class="emoji">🛡</div>
+      <h4>CDS Mock Test</h4>
+      <small>Combined Defence Services</small>
+    </div>
+    <div class="card" onclick="window.location.href='afcat_mock.html'">
+      <div class="emoji">🦅</div>
+      <h4>AFCAT Mock Test</h4>
+      <small>Air Force Common Admission</small>
+    </div>
+    <div class="card" onclick="window.location.href='agniveer_mock.html'">
+      <div class="emoji">⚓</div>
+      <h4>Agniveer Mock Test</h4>
+      <small>Short-term Defence Service</small>
+    </div>
+    <div class="card" onclick="window.location.href='ssb_mock.html'">
+      <div class="emoji">🧠</div>
+      <h4>SSB Psychological Test</h4>
+      <small>Personality & Aptitude</small>
+    </div>
+  </div>
+</body>
+</html>
+  <link rel="stylesheet" href="../public/css/navbar.css">
+</body>
+<script src="../public/js/navbar.js"></script>
+</html>

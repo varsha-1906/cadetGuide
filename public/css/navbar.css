@@ -1,0 +1,51 @@
+/* Global navbar styles */
+:root {
+  --nav-bg-start: #0b1630;
+  --nav-bg-end: #102a52;
+  --nav-text: #f1f5f9;
+  --nav-muted: #cbd5e1;
+  --nav-accent: #ffc107; /* gold accent */
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(180deg, var(--nav-bg-start), var(--nav-bg-end));
+  box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+  z-index: 1000;
+}
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px;
+}
+.logo {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--nav-text);
+  text-decoration: none;
+  letter-spacing: 0.2px;
+}
+.nav-links { display:flex; gap:22px; align-items:center; }
+.nav-links a {
+  color: var(--nav-muted);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color .2s ease, transform .2s ease;
+}
+.nav-links a:hover { color: var(--nav-text); transform: translateY(-1px); }
+.nav-links a.active { color: var(--nav-accent); border-bottom: 2px solid var(--nav-accent); padding-bottom: 2px; }
+.login-btn {
+  background-color: var(--nav-accent);
+  color: #172032 !important;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-weight: 700 !important;
+}
+/* Avoid content under fixed navbar */
+body { padding-top: 64px; }

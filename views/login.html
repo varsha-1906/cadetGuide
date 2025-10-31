@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cadet's Compass — Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore-compat.js"></script>
+  <style>
+    :root{ 
+      --accent:#6b8a4c;
+      --secondary:#2f6e8d;
+      --text:#f6f3ee;
+      --bg-overlay:rgba(0,0,0,0.6);
+    }
+    *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,system-ui}
+    body{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:linear-gradient(var(--bg-overlay),var(--bg-overlay)), 
+                 url('military-background.jpg') center/cover no-repeat fixed;
+    }
+    .login-card{
+      width:360px;
+      background:rgba(255,255,255,0.08);
+      backdrop-filter:blur(8px);
+      padding:32px;
+      border-radius:18px;
+      box-shadow:0 8px 24px rgba(0,0,0,0.5);
+      text-align:center;
+      color:white;
+    }
+    .login-card h1{font-size:28px;font-weight:800;margin-bottom:8px;}
+    .login-card p{font-size:14px;opacity:0.85;margin-bottom:20px;}
+    input{width:100%;padding:14px;margin:10px 0;border:none;border-radius:10px;font-size:15px;}
+    .btn{width:100%;padding:14px;margin-top:14px;border:none;border-radius:10px;font-size:16px;font-weight:700;cursor:pointer;}
+    .btn.signin{background:var(--accent);color:white;}
+    .btn.signup{background:var(--secondary);color:white;}
+    .btn:hover{opacity:0.9}
+    .or{margin:18px 0;color:#eee;opacity:0.85;font-size:13px;position:relative}
+    .or:before,.or:after{content:"";position:absolute;top:50%;width:40%;height:1px;background:rgba(255,255,255,0.25)}
+    .or:before{left:0}
+    .or:after{right:0}
+    .btn.google{background:#fff;color:#222;display:flex;align-items:center;justify-content:center;gap:10px}
+    .btn.google img{width:18px;height:18px}
+    .forgot{margin-top:8px;font-size:13px;}
+    .forgot a{color:#eee;text-decoration:none;}
+    .forgot a:hover{text-decoration:underline;color:#fff;}
+  </style>
+</head>
+<body>
+  <div class="login-card">
+    <h1>Cadet's Compass</h1>
+    <p>Your hub for NDA, CDS, AFCAT & SSB prep — Learn, practice, succeed.</p>
+    <form onsubmit="event.preventDefault(); window.location.href='dashboard.html';">
+      <input type="email" placeholder="Email ID" required>
+      <input type="password" placeholder="Password" required>
+      <div class="forgot"><a href="#">Forgot Password?</a></div>
+      <button type="submit" class="btn signin">Sign In</button>
+      <div class="or">or</div>
+      <button type="button" class="btn google" onclick="signInWithGoogle()">
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="">
+        Sign in with Google
+      </button>
+      <button type="button" class="btn signup" onclick="signInWithGoogle()">Sign Up with Google</button>
+    </form>
+  </div>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyBZKbxJNlMZHEAeRoK7eAIkeV7Nr4U5AMk",
+      authDomain: "cadetcompass-4fdfb.firebaseapp.com",
+      projectId: "cadetcompass-4fdfb",
+      storageBucket: "cadetcompass-4fdfb.firebasestorage.app",
+      messagingSenderId: "402156270617",
+      appId: "1:402156270617:web:61528de7fd28966869a688",
+      measurementId: "G-MVS8V0DXFH"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const provider = new firebase.auth.GoogleAuthProvider();
+    const db = firebase.firestore();
+
+    async function saveUserProfile(user){
+      try{
+        const ref = db.collection('users').doc(user.uid);
+        await ref.set({
+          name: user.displayName || null,
+          email: user.email || null,
+          photoURL: user.photoURL || null,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        }, { merge: true });
+      }catch(e){
+        console.warn('Failed to save user profile', e);
+      }
+    }
+    async function signInWithGoogle(){
+      try{
+        await auth.signInWithPopup(provider);
+        const idToken = await auth.currentUser.getIdToken();
+        await saveUserProfile(auth.currentUser);
+        try {
+          await fetch('http://127.0.0.1:4000/api/auth/session', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${idToken}` }
+          });
+        } catch (e) {
+          console.warn('Backend not reachable yet, proceeding client-only');
+        }
+        localStorage.setItem('cc_idToken', idToken);
+        window.location.href = 'dashboard.html';
+      }catch(err){
+        console.error(err);
+        const code = err && err.code ? String(err.code) : '';
+        if (code === 'auth/operation-not-allowed') {
+          alert('Enable Google provider in Firebase Authentication > Sign-in method.');
+        } else if (code === 'auth/unauthorized-domain') {
+          alert('Add 127.0.0.1 and localhost in Firebase Authentication > Settings > Authorized domains.');
+        } else if (code === 'auth/popup-blocked' || code === 'auth/popup-closed-by-user') {
+          try {
+            await auth.signInWithRedirect(provider);
+          } catch (e) {
+            alert('Popup blocked. Tried redirect sign-in and it also failed.');
+          }
+        } else if (code === 'auth/invalid-api-key') {
+          alert('Invalid Firebase API key. Paste your Firebase config in login.html.');
+        } else {
+          alert('Google sign-in failed. Check console for details.');
+        }
+      }
+    }
+  </script>
+</body>
+
+</html>

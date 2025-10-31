@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadet's Compass - Your Military Exam Preparation Guide</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2f6e8d;
+      --secondary: #6b8a4c;
+      --accent: #d4af37;
+      --text: #f6f3ee;
+      --dark: #1a2639;
+      --bg-overlay: rgba(0, 0, 0, 0.7);
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+    
+    body {
+      color: var(--text);
+      background-color: var(--dark);
+    }
+    
+    /* Hero Section */
+    .hero {
+      height: 100vh;
+      background: linear-gradient(var(--bg-overlay), var(--bg-overlay)), 
+                 url('../public/images/background.jpg') center/cover no-repeat fixed;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 0 20px;
+    }
+    
+    .hero-content {
+      max-width: 900px;
+    }
+    
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin-bottom: 20px;
+      color: white;
+    }
+    
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+    
+    .cta-buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .btn {
+      display: inline-block;
+      padding: 15px 30px;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      font-size: 1rem;
+    }
+    
+    .btn-primary {
+      background-color: var(--primary);
+      color: white;
+    }
+    
+    .btn-secondary {
+      background-color: var(--secondary);
+      color: white;
+    }
+    
+    .btn-accent {
+      background-color: var(--accent);
+      color: var(--dark);
+    }
+    
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* Features Section */
+    .features {
+      padding: 80px 20px;
+      background-color: #f8f9fa;
+      color: #333;
+    }
+    
+    .section-title {
+      text-align: center;
+      margin-bottom: 60px;
+      color: var(--primary);
+      font-size: 2.5rem;
+      font-weight: 700;
+    }
+    
+    .features-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .feature-card {
+      flex: 1 1 300px;
+      max-width: 350px;
+      padding: 30px;
+      border-radius: 12px;
+      background-color: white;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-10px);
+    }
+    
+    .feature-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: var(--primary);
+    }
+    
+    .feature-card p {
+      color: #555;
+      line-height: 1.6;
+    }
+    
+    /* Exams Section */
+    .exams {
+      padding: 80px 20px;
+      background-color: var(--dark);
+    }
+    
+    .exams .section-title {
+      color: var(--text);
+    }
+    
+    .exams-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .exam-card {
+      flex: 1 1 250px;
+      max-width: 280px;
+      padding: 25px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--primary), #1d4e6f);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+    
+    .exam-card:hover {
+      transform: scale(1.05);
+    }
+    
+    .exam-card h3 {
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+      color: white;
+    }
+    
+    .exam-card p {
+      margin-bottom: 20px;
+      color: rgba(255, 255, 255, 0.8);
+    }
+    
+    /* CTA Section */
+    .cta-section {
+      padding: 100px 20px;
+      text-align: center;
+      background: linear-gradient(var(--bg-overlay), var(--bg-overlay)), 
+                 url('../public/images/background.jpg') center/cover no-repeat fixed;
+    }
+    
+    .cta-section h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: white;
+    }
+    
+    .cta-section p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    /* Footer */
+    footer {
+      background-color: #111;
+      color: #999;
+      padding: 40px 20px;
+      text-align: center;
+    }
+    
+    footer p {
+      margin-bottom: 10px;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+      
+      .hero p {
+        font-size: 1rem;
+      }
+      
+      .section-title {
+        font-size: 2rem;
+      }
+      
+      .cta-section h2 {
+        font-size: 2rem;
+      }
+    }
+    
+    /* Navigation */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background-color: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+    }
+    
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: white;
+      text-decoration: none;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+    
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+    
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+    
+    .login-btn {
+      background-color: var(--accent);
+      color: var(--dark) !important;
+      padding: 8px 20px;
+      border-radius: 6px;
+      font-weight: 600 !important;
+    }
+    
+    /* About Section */
+    .about {
+      padding: 100px 20px;
+      background: radial-gradient(1000px 600px at 10% 10%, rgba(212, 175, 55, 0.12), transparent 60%),
+                  radial-gradient(800px 500px at 90% 20%, rgba(47, 110, 141, 0.18), transparent 60%),
+                  #0f1a2a;
+    }
+    .about-title {
+      color: white;
+      margin-bottom: 18px;
+    }
+    .about-lead {
+      max-width: 820px;
+      margin: 0 auto 36px auto;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.7;
+      font-size: 1.1rem;
+      text-align: center;
+    }
+    .about-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 40px;
+      align-items: center;
+    }
+    .about-content {
+      padding: 10px;
+    }
+    .about-highlights {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin: 18px 0 26px 0;
+    }
+    .highlight {
+      display: flex;
+      gap: 12px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 16px;
+      border-radius: 12px;
+      backdrop-filter: blur(6px);
+    }
+    .highlight h3 {
+      color: white;
+      font-size: 1rem;
+      margin-bottom: 6px;
+    }
+    .highlight p {
+      color: rgba(255,255,255,0.75);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+    .highlight-icon {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, rgba(47,110,141,0.35), rgba(212,175,55,0.35));
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 10px;
+      font-size: 20px;
+    }
+    .about-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .stat {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+    }
+    .stat-value {
+      font-size: 1.6rem;
+      color: var(--accent);
+      font-weight: 800;
+    }
+    .stat-label {
+      color: rgba(255,255,255,0.75);
+      font-size: 0.9rem;
+      margin-top: 4px;
+    }
+    .about-cta {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .about-visual {
+      display: grid;
+      place-items: center;
+    }
+    .about-card {
+      width: 100%;
+      max-width: 460px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 16px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+      padding: 20px;
+      backdrop-filter: blur(10px);
+    }
+    .about-card-header {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .badge {
+      font-size: 0.75rem;
+      color: white;
+      background: rgba(47,110,141,0.5);
+      border: 1px solid rgba(255,255,255,0.18);
+      padding: 6px 10px;
+      border-radius: 999px;
+      letter-spacing: 0.2px;
+    }
+    .badge-accent {
+      background: rgba(212,175,55,0.45);
+    }
+    .about-steps {
+      list-style: none;
+      margin: 0 0 16px 0;
+      padding: 0;
+      display: grid;
+      gap: 10px;
+      color: rgba(255,255,255,0.9);
+    }
+    .about-steps li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .step-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px rgba(212,175,55,0.15);
+      display: inline-block;
+    }
+    .about-progress {
+      margin-top: 6px;
+    }
+    .about-progress-bar {
+      width: 100%;
+      height: 10px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .about-progress-bar span {
+      display: block;
+      height: 100%;
+      background: linear-gradient(90deg, var(--secondary), var(--accent));
+    }
+    .about-progress-meta {
+      color: rgba(255,255,255,0.75);
+      font-size: 0.85rem;
+      margin-top: 8px;
+      text-align: right;
+    }
+    
+    @media (max-width: 992px) {
+      .about-container {
+        grid-template-columns: 1fr;
+      }
+      .about-highlights {
+        grid-template-columns: 1fr;
+      }
+      .about-stats {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .about-lead {
+        text-align: left;
+      }
+    }
+    @media (max-width: 600px) {
+      .about-stats {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <a href="#" class="logo">Cadet's Compass</a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#exams">Exams</a>
+      <a href="#about">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="/views/login.html" class="login-btn">Login</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Your Path to Military Excellence</h1>
+      <p>Cadet's Compass is your comprehensive preparation platform for NDA, CDS, AFCAT, and SSB exams. Access study materials, mock tests, and personalized guidance to achieve your dream of joining the armed forces.</p>
+      <div class="cta-buttons">
+        <a href="index.html" class="btn btn-primary">Get Started</a>
+        <a href="#exams" class="btn btn-secondary">Explore Exams</a>
+        <a href="/views/login.html" class="btn btn-accent">Take Mock Tests</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="about" id="about">
+    <div class="about-container">
+      <div class="about-content">
+        <h2 class="section-title about-title">About Cadet's Compass</h2>
+        <p class="about-lead">Your structured, no‑nonsense companion for NDA, CDS, AFCAT, and SSB prep. We combine clear roadmaps, focused material, and realistic practice so you can study smarter and stay mission‑ready.</p>
+        <div class="about-highlights">
+          <div class="highlight">
+            <div class="highlight-icon">🎯</div>
+            <div>
+              <h3>Goal‑Oriented Plans</h3>
+              <p>Step‑by‑step routes from basics to mastery, tuned to exam patterns.</p>
+            </div>
+          </div>
+          <div class="highlight">
+            <div class="highlight-icon">📝</div>
+            <div>
+              <h3>Compact Notes</h3>
+              <p>High‑yield summaries and practice that cut through the noise.</p>
+            </div>
+          </div>
+          <div class="highlight">
+            <div class="highlight-icon">📊</div>
+            <div>
+              <h3>Progress Tracking</h3>
+              <p>See where you stand, fix weak spots, and keep momentum.</p>
+            </div>
+          </div>
+        </div>
+        <div class="about-stats">
+          <div class="stat">
+            <div class="stat-value">10k+</div>
+            <div class="stat-label">Active learners</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">95%</div>
+            <div class="stat-label">Report score gains</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">4</div>
+            <div class="stat-label">Exams covered</div>
+          </div>
+        </div>
+        <div class="about-cta">
+          <a href="#exams" class="btn btn-secondary">Explore Exams</a>
+          <a href="index.html" class="btn btn-primary">Start Preparing</a>
+        </div>
+      </div>
+      <div class="about-visual">
+        <div class="about-card">
+          <div class="about-card-header">
+            <span class="badge">Roadmap</span>
+            <span class="badge badge-accent">Mock Test</span>
+          </div>
+          <ul class="about-steps">
+            <li><span class="step-dot"></span> Foundation → Concepts</li>
+            <li><span class="step-dot"></span> Chapter‑wise Practice</li>
+            <li><span class="step-dot"></span> Full‑length Mocks</li>
+            <li><span class="step-dot"></span> SSB Readiness</li>
+          </ul>
+          <div class="about-progress">
+            <div class="about-progress-bar"><span style="width: 72%"></span></div>
+            <div class="about-progress-meta">Overall readiness 72%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features" id="features">
+    <h2 class="section-title">Why Choose Cadet's Compass</h2>
+    <div class="features-container">
+      <div class="feature-card">
+        <h3>Comprehensive Study Material</h3>
+        <p>Access detailed notes, concept explanations, and reference materials curated by defense experts and successful candidates.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Realistic Mock Tests</h3>
+        <p>Practice with exam-like questions and simulations to build confidence and improve your performance under timed conditions.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Personalized Learning</h3>
+        <p>Get customized study plans and recommendations based on your strengths and areas that need improvement.</p>
+      </div>
+      <div class="feature-card">
+        <h3>SSB Interview Preparation</h3>
+        <p>Prepare for the Service Selection Board with mock interviews, psychological test practice, and group task simulations.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Expert Guidance</h3>
+        <p>Learn from defense professionals and successful candidates who share insights, strategies, and tips for exam success.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Progress Tracking</h3>
+        <p>Monitor your improvement with detailed analytics and performance metrics to focus your study efforts effectively.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Exams Section -->
+  <section class="exams" id="exams">
+    <h2 class="section-title">Prepare for These Exams</h2>
+    <div class="exams-container">
+      <div class="exam-card">
+        <h3>NDA</h3>
+        <p>National Defence Academy entrance exam for joining the Army, Navy, and Air Force after 12th standard.</p>
+        <a href="nda.html" class="btn btn-accent">Learn More</a>
+      </div>
+      <div class="exam-card">
+        <h3>CDS</h3>
+        <p>Combined Defence Services exam for graduates to join as officers in the Army, Navy, and Air Force.</p>
+        <a href="cds.html" class="btn btn-accent">Learn More</a>
+      </div>
+      <div class="exam-card">
+        <h3>AFCAT</h3>
+        <p>Air Force Common Admission Test for graduates to join as officers in the Indian Air Force.</p>
+        <a href="afcat_mock.html" class="btn btn-accent">Learn More</a>
+      </div>
+      <div class="exam-card">
+        <h3>SSB</h3>
+        <p>Service Selection Board interview process for final selection into the armed forces.</p>
+        <a href="ssb.html" class="btn btn-accent">Learn More</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <h2>Begin Your Journey Today</h2>
+    <p>Join thousands of successful candidates who have achieved their dream of serving in the Indian Armed Forces with the help of Cadet's Compass.</p>
+    <a href="index.html" class="btn btn-primary">Sign Up Now</a>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Cadet's Compass. All rights reserved.</p>
+    <p>Your trusted partner for military exam preparation.</p>
+  </footer>
+</body>
+</html>
+  

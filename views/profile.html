@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cadet's Compass — Profile</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore-compat.js"></script>
+  <style>
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;background:#0f1a2a;color:#f6f3ee;display:flex;align-items:center;justify-content:center;padding:24px}
+    .card{width:100%;max-width:760px;background:linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));border:1px solid rgba(255,255,255,0.15);border-radius:16px;box-shadow:0 20px 50px rgba(0,0,0,0.35);padding:24px 24px 20px 24px;backdrop-filter:blur(10px)}
+    h1{margin:0 0 6px 0;font-size:22px;font-weight:800}
+    p.sub{margin:0 0 18px 0;opacity:0.85}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    label{font-size:13px;font-weight:700;opacity:0.9;margin-bottom:6px;display:block}
+    input,select,textarea{width:100%;padding:12px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.08);color:#fff}
+    textarea{min-height:84px;resize:vertical}
+    .row{margin-bottom:12px}
+    .actions{display:flex;gap:12px;justify-content:flex-end;margin-top:10px}
+    .btn{padding:12px 16px;border:0;border-radius:10px;font-weight:800;cursor:pointer}
+    .btn.save{background:#2f6e8d;color:#fff}
+    .btn.logout{background:#d9534f;color:#fff}
+    .notice{font-size:13px;opacity:0.85;margin-bottom:8px}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Your Profile</h1>
+    <p class="sub" id="firstNote">Update once — we will auto‑fill it every time you sign in with the same account.</p>
+
+    <div class="notice" id="status"></div>
+
+    <div class="grid">
+      <div class="row">
+        <label for="fullName">Full name</label>
+        <input id="fullName" placeholder="Your name" />
+      </div>
+      <div class="row">
+        <label for="phone">Phone</label>
+        <input id="phone" placeholder="10‑digit number" />
+      </div>
+      <div class="row">
+        <label for="city">City</label>
+        <input id="city" placeholder="City" />
+      </div>
+      <div class="row">
+        <label for="branch">Branch / Stream</label>
+        <input id="branch" placeholder="e.g., B.Tech CSE" />
+      </div>
+    </div>
+
+    <div class="row">
+      <label for="goal">Goal</label>
+      <select id="goal">
+        <option value="NDA">NDA</option>
+        <option value="CDS">CDS</option>
+        <option value="AFCAT">AFCAT</option>
+        <option value="SSB">SSB</option>
+      </select>
+    </div>
+
+    <div class="row">
+      <label for="notes">Notes</label>
+      <textarea id="notes" placeholder="Anything you'd like us to remember"></textarea>
+    </div>
+
+    <div class="actions">
+      <button class="btn logout" onclick="doLogout()">Logout</button>
+      <button class="btn save" onclick="saveProfile()">Save</button>
+    </div>
+  </div>
+
+  <script>
+    // Firebase config (same as other pages)
+    const firebaseConfig = {
+      apiKey: "AIzaSyBZKbxJNlMZHEAeRoK7eAIkeV7Nr4U5AMk",
+      authDomain: "cadetcompass-4fdfb.firebaseapp.com",
+      projectId: "cadetcompass-4fdfb",
+      storageBucket: "cadetcompass-4fdfb.firebasestorage.app",
+      messagingSenderId: "402156270617",
+      appId: "1:402156270617:web:61528de7fd28966869a688",
+      measurementId: "G-MVS8V0DXFH"
+    };
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+    }
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    const $ = (id) => document.getElementById(id);
+    const statusEl = $('status');
+
+    function setStatus(msg){ statusEl.textContent = msg || ''; }
+
+    async function requireUser(){
+      return new Promise((resolve) => {
+        const unsub = auth.onAuthStateChanged(async (user) => {
+          unsub();
+          if(!user){ window.location.href = 'login.html'; return; }
+          resolve(user);
+        });
+      });
+    }
+
+    async function loadProfile(){
+      const user = await requireUser();
+      setStatus('Loading profile…');
+      const ref = db.collection('users').doc(user.uid);
+      const snap = await ref.get();
+      const data = snap.exists ? snap.data() : {};
+      $('fullName').value = data.name || user.displayName || '';
+      $('phone').value = data.phone || '';
+      $('city').value = data.city || '';
+      $('branch').value = data.branch || '';
+      $('goal').value = data.goal || 'NDA';
+      $('notes').value = data.notes || '';
+      // Show the first-time note only if the profile doc doesn't exist yet
+      const note = document.getElementById('firstNote');
+      if (note) note.style.display = snap.exists ? 'none' : 'block';
+      setStatus('');
+    }
+
+    async function saveProfile(){
+      const user = auth.currentUser || await requireUser();
+      setStatus('Saving…');
+      const ref = db.collection('users').doc(user.uid);
+      await ref.set({
+        name: $('fullName').value.trim() || null,
+        phone: $('phone').value.trim() || null,
+        city: $('city').value.trim() || null,
+        branch: $('branch').value.trim() || null,
+        goal: $('goal').value,
+        notes: $('notes').value.trim() || null,
+        email: user.email || null,
+        photoURL: user.photoURL || null,
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+        createdAt: firebase.firestore.FieldValue.serverTimestamp()
+      }, { merge: true });
+      setStatus('Saved ✓ Redirecting…');
+      setTimeout(() => {
+        window.location.href = 'dashboard.html';
+      }, 800);
+    }
+
+    async function doLogout(){
+      await auth.signOut();
+      localStorage.removeItem('cc_idToken');
+      window.location.href = 'login.html';
+    }
+
+    loadProfile();
+  </script>
+</body>
+</html>

@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cadet's Compass — AI Interview Partner</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:#0f1c1b;
+      --accent:#d4af37;
+      --glass:rgba(255,255,255,0.05);
+      --text:#f7f5f0;
+      --muted:#a3a3a3;
+      --rounded:20px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{
+      background:linear-gradient(180deg,rgba(5,10,10,0.85),rgba(0,0,0,0.9)),url('background.jpg') center/cover no-repeat fixed;
+      font-family:'Inter',sans-serif;color:var(--text);display:flex;flex-direction:column;min-height:100vh;
+    }
+    header{
+      padding:18px 32px;
+      display:flex;align-items:center;justify-content:space-between;
+      background:rgba(255,255,255,0.05);backdrop-filter:blur(5px);
+    }
+    header h1{font-size:20px;color:var(--accent);}
+    .back-btn{padding:8px 14px;border-radius:10px;background:var(--glass);cursor:pointer;font-weight:600;}
+    .back-btn:hover{background:rgba(255,255,255,0.12);}
+    
+    main{flex:1;display:flex;flex-direction:column;gap:20px;padding:20px;}
+    .interview{
+      background:var(--glass);
+      border-radius:var(--rounded);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:flex-start;
+      position:relative;
+      padding:30px;
+      box-shadow:0 4px 20px rgba(0,0,0,0.5);
+    }
+    .avatar{
+      width:350px;height:350px;
+      background:url('officer-avatar.png') center/cover no-repeat;
+      border-radius:0;
+      margin-bottom:20px;
+      box-shadow:0 0 30px rgba(212,175,55,0.4);
+    }
+    #question{font-size:18px;margin-bottom:18px;text-align:center;min-height:48px;}
+    #transcript{background:rgba(255,255,255,0.06);padding:12px 16px;border-radius:12px;width:80%;min-height:60px;
+      margin-bottom:18px;font-size:15px;color:var(--accent);}
+    video{
+      position:absolute;bottom:20px;right:20px;width:180px;height:130px;
+      border-radius:12px;border:2px solid var(--accent);background:black;object-fit:cover;
+    }
+    .controls{display:flex;gap:16px;margin-top:10px;}
+    button{
+      background:var(--accent);border:none;padding:12px 20px;border-radius:10px;font-weight:700;cursor:pointer;color:#111;
+      transition:all 0.25s;
+    }
+    button:hover{transform:scale(1.05);}
+    button.end{background:#c33;color:#fff;}
+    button.end:hover{background:#e55;}
+
+    .feedback, .past-interviews {
+      background:var(--glass);
+      border-radius:var(--rounded);
+      padding:20px;
+      overflow-y:auto;
+      box-shadow:0 4px 20px rgba(0,0,0,0.4);
+      margin-top:20px;
+    }
+    .feedback h2, .past-interviews h2{color:var(--accent);margin-bottom:10px;}
+    .feedback-message{margin-bottom:12px;padding:12px;border-left:4px solid var(--accent);
+      background:rgba(255,255,255,0.05);border-radius:10px;}
+    .confidence{height:10px;width:100%;background:rgba(255,255,255,0.08);border-radius:10px;overflow:hidden;margin-top:10px;}
+    .confidence-fill{height:100%;background:var(--accent);width:0%;transition:width 0.6s;}
+    .past-interviews{max-height:300px;}
+    .session-header{cursor:pointer;padding:10px;margin-bottom:6px;background:rgba(212,175,55,0.1);border-radius:10px;}
+    .session-questions{display:none;padding:10px 10px 10px 20px;border-left:3px solid var(--accent);margin-bottom:10px;}
+    .session-questions div{margin-bottom:8px;}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🎖 AI Interview Partner</h1>
+    <div class="back-btn" onclick="window.location.href='dashboard.html'">← Back to Dashboard</div>
+  </header>
+  <main>
+    <div class="interview">
+      <div class="avatar"></div>
+      <div id="question">Press Start to begin your mock interview, Cadet.</div>
+      <div id="transcript">Your spoken answer will appear here...</div>
+      <div class="controls">
+        <button id="startBtn">🎙 Start</button>
+        <button id="answerBtn" disabled>🗣 Speak Answer</button>
+        <button id="endBtn" class="end" disabled>⏹ End</button>
+      </div>
+      <video id="userVideo" autoplay muted playsinline></video>
+    </div>
+
+    <div class="feedback" id="feedbackPanel">
+      <h2>Feedback Panel</h2>
+      <div class="feedback-message">Awaiting your first response...</div>
+      <div class="confidence"><div class="confidence-fill" id="confBar"></div></div>
+    </div>
+
+    <div class="past-interviews" id="pastInterviewsPanel">
+      <h2>Past Interviews</h2>
+    </div>
+  </main>
+
+  <script>
+    const questions = [
+      "Why do you want to join the Indian Armed Forces?",
+      "Describe a time you showed leadership or teamwork.",
+      "What are your strengths and weaknesses as a cadet?",
+      "How do you prepare mentally for challenges?",
+      "Where do you see yourself in 5 years in service?"
+    ];
+    let qIndex = 0;
+    const qEl = document.getElementById('question');
+    const transcriptEl = document.getElementById('transcript');
+    const confBar = document.getElementById('confBar');
+    const feedbackPanel = document.getElementById('feedbackPanel');
+    const pastPanel = document.getElementById('pastInterviewsPanel');
+
+    const startBtn = document.getElementById('startBtn');
+    const answerBtn = document.getElementById('answerBtn');
+    const endBtn = document.getElementById('endBtn');
+    const video = document.getElementById('userVideo');
+
+    let recognition, listening = false, stream=null;
+    let sessionHistory=[], allPastInterviews=[];
+
+    async function setupCamera(){
+      try{ stream = await navigator.mediaDevices.getUserMedia({video:true}); video.srcObject = stream; }
+      catch(e){console.warn("Camera denied:", e);}
+    }
+
+    window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if('SpeechRecognition' in window){
+      recognition = new SpeechRecognition();
+      recognition.lang = 'en-IN';
+      recognition.continuous = false;
+      recognition.interimResults = false;
+
+      recognition.onresult = (event)=>{
+        const answer = event.results[0][0].transcript;
+        transcriptEl.textContent = "🎤 You: " + answer;
+        giveFeedback(answer);
+      };
+      recognition.onerror = ()=>{ transcriptEl.textContent = "❗Could not understand your answer."; };
+    } else { alert("Speech Recognition not supported in this browser."); }
+
+    function speak(text){
+      const utter = new SpeechSynthesisUtterance(text);
+      const voices = speechSynthesis.getVoices().filter(v=>v.lang.includes('en'));
+      utter.voice = voices.find(v=>v.name.includes("Male")) || voices[0];
+      utter.rate=1; utter.pitch=1.1;
+      speechSynthesis.speak(utter);
+    }
+
+    function nextQuestion(){
+      if(qIndex < questions.length){
+        const questionText = questions[qIndex];
+        qEl.textContent = "Officer: " + questionText;
+        speak(questionText);
+        answerBtn.disabled=false;
+        setTimeout(()=>{ 
+          if(transcriptEl.textContent.includes("Listening...")){
+            transcriptEl.textContent="🎤 You: (No answer)";
+            giveFeedback("No answer"); 
+          }
+        },30000);
+        qIndex++;
+      } else {
+        qEl.textContent = "Interview complete. Excellent discipline, Cadet!";
+        speak("Interview complete. Excellent discipline, Cadet!");
+        answerBtn.disabled=true;
+        endBtn.disabled=false;
+      }
+    }
+
+    function giveFeedback(answer){
+      let feedbackMsg="";
+      let conf=Math.floor(Math.random()*40)+60;
+      const len = answer.split(" ").length;
+      if(len < 5){feedbackMsg="Too short — try elaborating more.";}
+      else if(/team|leader|discipline|honesty|courage/i.test(answer)){feedbackMsg="Excellent — strong values and leadership keywords detected.";}
+      else if(/don't know|not sure/i.test(answer)){feedbackMsg="Be confident, speak assertively even if unsure.";}
+      else {feedbackMsg="Good response. Keep your tone clear and concise."; conf+=10;}
+
+      const div=document.createElement('div');
+      div.className='feedback-message';
+      div.textContent="Feedback: " + feedbackMsg;
+      feedbackPanel.appendChild(div);
+      feedbackPanel.scrollTop = feedbackPanel.scrollHeight;
+      confBar.style.width=conf+"%";
+
+      sessionHistory.push({
+        question: questions[qIndex-1],
+        answer: answer,
+        feedback: feedbackMsg
+      });
+    }
+
+    function savePastInterview(){
+      if(sessionHistory.length===0) return;
+      const timestamp = new Date().toLocaleString();
+      allPastInterviews.push({timestamp, session:[...sessionHistory]});
+      sessionHistory=[];
+      renderPastInterviews();
+    }
+
+    function renderPastInterviews(){
+      pastPanel.innerHTML="<h2>Past Interviews</h2>";
+      allPastInterviews.forEach((session,i)=>{
+        const header = document.createElement('div');
+        header.className='session-header';
+        header.textContent = `${i+1}. Interview on ${session.timestamp}`;
+        header.onclick=()=>{ sessionDiv.style.display = sessionDiv.style.display==='none'?'block':'none'; };
+        const sessionDiv = document.createElement('div');
+        sessionDiv.className='session-questions';
+        sessionDiv.style.display='none';
+        session.session.forEach((qa,j)=>{
+          const qDiv=document.createElement('div');
+          qDiv.innerHTML=`<strong>Q${j+1}:</strong> ${qa.question}<br><strong>Your Answer:</strong> ${qa.answer}<br><strong>Feedback:</strong> ${qa.feedback}<br>`;
+          sessionDiv.appendChild(qDiv);
+        });
+        pastPanel.appendChild(header);
+        pastPanel.appendChild(sessionDiv);
+      });
+    }
+
+    startBtn.onclick = ()=>{
+      qIndex=0;
+      setupCamera();
+      startBtn.disabled=true;
+      endBtn.disabled=false;
+      transcriptEl.textContent="🎧 Waiting for your answer...";
+      nextQuestion();
+    }
+
+    answerBtn.onclick = ()=>{
+      if(recognition && !listening){
+        listening=true;
+        recognition.start();
+        transcriptEl.textContent="🎧 Listening...";
+        recognition.onend=()=>{listening=false; nextQuestion();}
+      }
+    }
+
+    endBtn.onclick = ()=>{
+      qEl.textContent="Session Ended. Review your feedback and continue practicing.";
+      speak("Session Ended. Review your feedback and continue practicing.");
+      if(stream){stream.getTracks().forEach(t=>t.stop()); stream=null;}
+      if(recognition && listening){recognition.stop(); listening=false;}
+      if(speechSynthesis.speaking){speechSynthesis.cancel();}
+      savePastInterview();
+      answerBtn.disabled=true; endBtn.disabled=true; startBtn.disabled=false;
+    }
+  </script>
+</body>
+</html>
