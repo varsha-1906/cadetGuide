@@ -495,7 +495,7 @@
         <button class="btn" data-group="main" data-open="impdates">Important Dates</button>
         <button class="btn" data-group="main" data-open="eligibility">Eligibility</button>
         <button class="btn" data-group="main" data-open="routemaps">Route Maps</button>
-        <a href="syllabus.html" class="btn">Syllabus</a>
+        <button class="btn" data-group="main" data-open="syllabus">Syllabus</button>
         <button class="btn" data-group="main" data-open="pattern">Paper Pattern</button>
         <button class="btn" data-group="main" data-open="cutoff">Cut Offs</button>
         <button class="btn" data-group="main" data-open="images">Images</button>
@@ -676,36 +676,56 @@
       <h2>Syllabus</h2>
       <div class="topic-buttons">
         <button onclick="toggleContent('maths')">Mathematics</button>
-        <button onclick="toggleContent('gat')">GAT</button>
+        <button onclick="toggleContent('gat')">General Knowledge</button>
+        <button onclick="toggleContent('gs')">General Science</button>
+        <button onclick="toggleContent('reasoning')">Reasoning</button>
+        <button onclick="toggleContent('eng')">English</button>
       </div>
       <div id="maths" class="topic-content hidden">
         <h3>Mathematics</h3>
         <ul>
-          <li>Algebra: Linear equations, Quadratics</li>
-          <li>Trigonometry: Ratios, Identities</li>
-          <li>Geometry: Triangles, Circles, Quadrilaterals</li>
-          <li>Calculus, Probability, Statistics</li>
+          <li>Arithmetic: Number system, HCF, LCM, profit and loss, percentage, ratio, and average</li>
+          <li>Algebra: Basic operations and quadratic equations</li>
+          <li>Geometry: Lines, angles, triangles, and circles</li>
+          <li>Mensuration: Area, perimeter, and volume</li>
+          <li>Trigonometry: Basics (especially for technical roles) </li>
         </ul>
-        <div class="formula">
-          <h4>Formulas</h4>
-          <ul>
-            <li>Quadratic Formula: x = [-b ± √(b²-4ac)] / 2a</li>
-            <li>Area of Triangle: ½ * base * height</li>
-          </ul>
-        </div>
-        <div class="example">
-          <h4>Example</h4>
-          <ul>
-            <li>Solve x² - 5x + 6 = 0 → x = 2,3</li>
-          </ul>
-        </div>
       </div>
       <div id="gat" class="topic-content hidden">
-        <h3>General Ability Test</h3>
+        <h3>General Knowledge</h3>
         <ul>
-          <li>English: Grammar, Vocabulary, Comprehension</li>
-          <li>Physics, Chemistry, Biology, History, Geography</li>
+          <li>Indian Constitution and history: Including the Indian freedom struggle</li>
+          <li>Geography: Physical and political geography, including solar system, rivers, and countries and capitals</li>
+          <li>Current events: Important national and international events, awards, and sports</li>
+          <li>Defense and general facts: Including abbreviations, major institutions, and significant days </li>
         </ul>
+      </div>
+      <div id="gat" class="topic-content hidden">
+        <h3>General Science</h3>
+        <ul>
+          <li>Physics: Nature of matter, laws of motion, work, energy, power, and electricity</li>
+          <li>Chemistry: Basic reactions, the periodic table, acids, bases, salts, and carbon and its compounds</li>
+          <li>Biology: Human body basics, diseases, plants, animals, cells, and tissues </li>
+          <!-- <li>Defense and general facts: Including abbreviations, major institutions, and significant days </li> -->
+        </ul>
+      </div>
+      <div id="reasoning" class="topic-content hidden">
+        <h3>Reasoning</h3>
+        <ul>
+          <li>Series completion and coding-decoding</li>
+          <li>Puzzles, blood relations, and direction sense</li>
+          <li>Analogies and logical Venn diagrams</li>
+          <li>Alphabet and number-based sequences </li>
+          </ul>
+      </div>
+      <div id="eng" class="topic-content hidden">
+        <h3>Reasoning</h3>
+        <ul>
+          <li>Grammar: Including prepositions and sentence structure</li>
+          <li>Vocabulary</li>
+          <li>Comprehension</li>
+          <li>Sentence completion </li>
+          </ul>
       </div>
     </section>
 
