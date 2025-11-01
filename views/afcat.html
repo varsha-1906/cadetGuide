@@ -673,36 +673,53 @@
     <section id="syllabus" class="card hidden">
       <h2>Syllabus</h2>
       <div class="topic-buttons">
-        <button onclick="toggleContent('maths')">Mathematics</button>
-        <button onclick="toggleContent('gat')">GAT</button>
+        <button onclick="toggleContent('maths')">General Awareness</button>
+        <button onclick="toggleContent('gat')">Verbal Ability in English</button>
+        <button onclick="toggleContent('numeric')">Numerical Ability</button>
+        <button onclick="toggleContent('reasoning')">Reasoning and Military Aptitude</button>
       </div>
       <div id="maths" class="topic-content hidden">
-        <h3>Mathematics</h3>
+        <h3>General Awareness</h3>
         <ul>
-          <li>Algebra: Linear equations, Quadratics</li>
-          <li>Trigonometry: Ratios, Identities</li>
-          <li>Geometry: Triangles, Circles, Quadrilaterals</li>
-          <li>Calculus, Probability, Statistics</li>
+          <li>Current Affairs: National and international news, with a focus on defense-related events. </li>
+          <li>History: Indian and world history, particularly modern history. </li>
+          <li>Geography: Indian geography, borders, and related topics. </li>
+          <li>Indian Polity and Economy: Indian government structure and major economic principles. </li>
+          <li>Science: Basic science facts (Physics, Chemistry, Biology) and technology</li>
+          <li>Other Topics: Sports, national and international organizations, art and culture, and environmental issues. </li>
         </ul>
-        <div class="formula">
-          <h4>Formulas</h4>
-          <ul>
-            <li>Quadratic Formula: x = [-b ± √(b²-4ac)] / 2a</li>
-            <li>Area of Triangle: ½ * base * height</li>
-          </ul>
-        </div>
-        <div class="example">
-          <h4>Example</h4>
-          <ul>
-            <li>Solve x² - 5x + 6 = 0 → x = 2,3</li>
-          </ul>
-        </div>
       </div>
       <div id="gat" class="topic-content hidden">
-        <h3>General Ability Test</h3>
+        <h3>Verbal Ability in English</h3>
         <ul>
-          <li>English: Grammar, Vocabulary, Comprehension</li>
-          <li>Physics, Chemistry, Biology, History, Geography</li>
+          <li>Reading Comprehension: Understanding and interpreting a passage</li>
+          <li>Grammar: Error detection and sentence completion.</li>
+          <li>Vocabulary: Synonyms, antonyms, and cloze tests.</li>
+          <li>Idioms and Phrases: Knowledge and usage of idioms and phrases.</li>
+          <li>Sentence Rearranging and Substitution: Arranging jumbled sentences and replacing words or phrases. </li>
+        </ul>
+      </div>
+      <div id="numeric" class="topic-content hidden">
+        <h3>Numerical Ability</h3>
+        <ul>
+          <li>Number System: Basic number concepts and series.</li>
+          <li>Arithmetic: Profit and loss, percentage, ratio and proportion, simple and compound interest, and averages.</li>
+          <li>Mensuration: Area and perimeter.</li>
+          <li>Time and Work: Calculations related to time, work, distance, and speed.</li>
+          <li>Algebra: Quadratic equations. </li>
+          <li>Data Interpretation: Reading and interpreting data from charts and graphs. </li>
+          <li>Probability and Mixtures: Probability, mixtures, and allegations. </li>
+        </ul>
+      </div>
+      <div id="reasoning" class="topic-content hidden">
+        <h3>Reasoning and Military Aptitude</h3>
+        <ul>
+          <li>Verbal Reasoning: Analogy, classification, and series completion.</li>
+          <!-- <li>Arithmetic: Profit and loss, percentage, ratio and proportion, simple and compound interest, and averages.</li> -->
+          <li>Non-Verbal Reasoning: Pattern recognition, shapes, and visual reasoning.</li>
+          <li>Spatial Ability: Spatial visualization and visualization of shapes.</li>
+          <li>Logical Sequence: Arranging words, numbers, or shapes in a logical order. </li>
+          <li>Data Interpretation: Reading and interpreting data from charts and graphs. </li>
         </ul>
       </div>
     </section>
@@ -802,7 +819,15 @@
     // Month toggle with animation
     function toggleMonth(id){
       const elem = document.getElementById(id);
+      if(!elem) {
+        console.warn('Element with id "' + id + '" not found');
+        return;
+      }
       const monthBox = elem.closest('.month-box');
+      if(!monthBox) {
+        console.warn('No .month-box parent found for element with id "' + id + '"');
+        return;
+      }
       const isVisible = elem.style.display === 'block';
       
       if(isVisible){
@@ -817,6 +842,10 @@
     // Syllabus topics toggle
     function toggleContent(id){
       const elem = document.getElementById(id);
+      if(!elem) {
+        console.warn('Element with id "' + id + '" not found');
+        return;
+      }
       elem.classList.toggle('hidden');
       // Smooth scroll to content
       if(!elem.classList.contains('hidden')){
