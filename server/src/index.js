@@ -7,6 +7,7 @@ import admin from 'firebase-admin';
 
 import authRoutes from './routes/auth.js';
 import mocktestsRoutes from './routes/mocktests.js';
+import routemapsRoutes from './routes/routemaps.js';
 
 // Environment
 const PORT = process.env.PORT || 4000;
@@ -29,8 +30,27 @@ if (!admin.apps.length) {
 }
 
 const app = express();
-app.use(helmet());
-app.use(cors({ origin: WEB_ORIGIN, credentials: true }));
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: "cross-origin" }
+}));
+app.use(cors({ 
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps, curl, or Postman)
+    // or if origin matches allowed origins
+    if (!origin || 
+        origin.includes('127.0.0.1') || 
+        origin.includes('localhost') || 
+        origin === WEB_ORIGIN ||
+        origin.startsWith('file://')) {
+      callback(null, true);
+    } else {
+      callback(null, true); // Allow all origins in development
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(express.json());
 app.use(morgan('dev'));
 
@@ -40,6 +60,7 @@ app.get('/api/health', (_req, res) => {
 
 app.use('/api/auth', authRoutes);
 app.use('/api/mocktests', mocktestsRoutes);
+app.use('/api/routemaps', routemapsRoutes);
 
 app.use((req, res) => {
   res.status(404).json({ error: 'Not Found' });

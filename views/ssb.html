@@ -3,66 +3,526 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Cadet's Compass — SSB</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <title>SSB Interview Prep — Cadet's Compass</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
-    :root{--accent:#6b8a4c; --text:#f6f3ee; --bg-overlay:rgba(0,0,0,0.6);}
-    *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,system-ui}
-    body{min-height:100vh;background:linear-gradient(var(--bg-overlay),var(--bg-overlay)), 
-      url('military-background.jpg') center/cover no-repeat fixed;color: var(--text);}
-    header{display:flex;justify-content:space-between;align-items:center;padding:20px 40px;
-      background:rgba(0,0,0,0.4);backdrop-filter:blur(6px);}
-    header h1{font-size:24px;font-weight:800;}
-    header a{color:white;text-decoration:none;font-weight:600;background:var(--accent);
-      padding:10px 16px;border-radius:10px;transition:0.3s;}
-    header a:hover{opacity:0.9; transform:translateY(-2px);}
-    .content{max-width:1200px;margin:40px auto;padding:0 20px;}
-    .section-card{
-      background:rgba(255,255,255,0.08);
-      backdrop-filter:blur(8px);
-      padding:25px;
-      border-radius:18px;
-      margin-bottom:20px;
-      transition:0.3s;
+    :root{
+      --primary: #2f6e8d;
+      --secondary: #6b8a4c;
+      --accent: #d4af37;
+      --text: #f6f3ee;
+      --dark: #1a2639;
+      --bg-overlay: rgba(0, 0, 0, 0.6);
+      --card-bg: rgba(255,255,255,0.08);
+      --card-border: rgba(255,255,255,0.12);
+      --muted: rgba(255,255,255,0.6);
+      --max-width:1400px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{
+      margin:0;
+      font-family:'Inter',system-ui,-apple-system,sans-serif;
+      min-height:100vh;
+      background: linear-gradient(180deg, rgba(10,12,14,0.85), rgba(0,0,0,0.65)),
+                  url('background.jpg') center/cover no-repeat fixed;
+      color:var(--text);
+      padding:0;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    .wrap{
+      max-width:var(--max-width);
+      margin:0 auto;
+      padding:32px 24px;
+    }
+    header{
+      background: linear-gradient(135deg, rgba(47,110,141,0.9), rgba(107,138,76,0.9));
+      backdrop-filter: blur(12px);
+      padding:24px 32px;
+      border-radius:16px;
+      margin-bottom:32px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:16px;
+    }
+    header h1{
+      margin:0;
+      font-size:28px;
+      font-weight:800;
+      color:white;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    header h1::before{
+      content:'🎖';
+      font-size:32px;
+    }
+    .nav{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .btn{
+      background:rgba(255,255,255,0.15);
+      border:1px solid rgba(255,255,255,0.2);
+      padding:12px 20px;
+      border-radius:10px;
+      color:#fff;
+      font-weight:600;
       cursor:pointer;
+      transition:all 0.3s ease;
+      font-size:14px;
+      backdrop-filter:blur(4px);
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
       text-decoration:none;
+    }
+    .btn:hover{
+      background:rgba(255,255,255,0.25);
+      transform:translateY(-2px);
+      box-shadow:0 4px 12px rgba(0,0,0,0.2);
+    }
+    .btn.active{
+      background:var(--accent);
+      border-color:var(--accent);
+      color:var(--dark);
+      font-weight:700;
+    }
+    .card{
+      background:var(--card-bg);
+      border:1px solid var(--card-border);
+      padding:32px;
+      border-radius:16px;
+      margin-bottom:24px;
+      backdrop-filter:blur(10px);
+      box-shadow:0 8px 32px rgba(0,0,0,0.2);
+      transition:all 0.3s ease;
+      animation:fadeIn 0.5s ease;
+    }
+    .card:hover{
+      transform:translateY(-4px);
+      box-shadow:0 12px 40px rgba(0,0,0,0.3);
+      border-color:rgba(255,255,255,0.2);
+    }
+    @keyframes fadeIn{
+      from{opacity:0;transform:translateY(10px);}
+      to{opacity:1;transform:translateY(0);}
+    }
+    .card h2{
+      margin:0 0 20px 0;
+      font-size:24px;
+      font-weight:800;
+      color:white;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .card ul{
+      list-style:none;
+      padding:0;
+      margin:0;
+    }
+    .card li{
+      padding:14px 0;
+      border-bottom:1px solid rgba(255,255,255,0.1);
+      line-height:1.6;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    .card li:last-child{
+      border-bottom:none;
+    }
+    .card li::before{
+      content:'✓';
+      color:var(--secondary);
+      font-weight:700;
+      font-size:18px;
+    }
+    .sub-buttons{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin:20px 0;
+    }
+    .sub-btn{
+      background:linear-gradient(135deg, rgba(107,138,76,0.8), rgba(47,110,141,0.8));
+      border:1px solid rgba(255,255,255,0.15);
+      border-radius:10px;
+      padding:12px 20px;
+      color:#fff;
+      cursor:pointer;
+      font-weight:600;
+      transition:all 0.3s ease;
+      font-size:14px;
+    }
+    .sub-btn:hover{
+      background:linear-gradient(135deg, rgba(107,138,76,1), rgba(47,110,141,1));
+      transform:translateY(-2px);
+      box-shadow:0 4px 12px rgba(0,0,0,0.2);
+    }
+    .sub-btn.active{
+      background:var(--accent);
+      border-color:var(--accent);
+      color:var(--dark);
+    }
+    .hidden{display:none;}
+    .topic-body{
+      background:rgba(255,255,255,0.05);
+      padding:24px;
+      border-radius:12px;
+      margin-top:20px;
+      border:1px solid rgba(255,255,255,0.1);
+    }
+    .topic-body h3{
+      margin:0 0 20px 0;
+      font-size:20px;
+      font-weight:700;
       color:white;
     }
-    .section-card i{font-size:40px;margin-bottom:10px;}
-    .section-card h3{font-weight:700;}
-    .section-card:hover{background:rgba(255,255,255,0.2); transform:translateY(-4px);}
+    .month-box{
+      margin:16px 0;
+      padding:16px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.1);
+      background:rgba(255,255,255,0.03);
+      transition:all 0.3s ease;
+    }
+    .month-box:hover{
+      background:rgba(255,255,255,0.05);
+      border-color:rgba(255,255,255,0.15);
+    }
+    .month-header{
+      cursor:pointer;
+      font-weight:700;
+      margin-bottom:8px;
+      font-size:16px;
+      color:white;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:8px 0;
+    }
+    .month-header::after{
+      content:'▼';
+      font-size:12px;
+      transition:transform 0.3s ease;
+      color:var(--accent);
+    }
+    .month-box.active .month-header::after{
+      transform:rotate(180deg);
+    }
+    .week-container{
+      display:none;
+      margin-left:16px;
+      margin-top:12px;
+      padding-top:12px;
+      border-top:1px solid rgba(166, 211, 234, 0.1);
+    }
+    .week{
+      margin:8px 0;
+      padding:8px 12px;
+      background:rgba(255,255,255,0.03);
+      border-radius:8px;
+      color:var(--text);
+      line-height:1.6;
+    }
+    .topic-content{
+      background:rgba(255,255,255,0.05);
+      padding:20px;
+      margin:16px 0;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.1);
+    }
+    .topic-content h3{
+      margin:0 0 12px 0;
+      font-size:18px;
+      font-weight:700;
+      color:white;
+    }
+    .topic-content ul{
+      list-style:none;
+      padding:0;
+      margin:12px 0;
+    }
+    .topic-content li{
+      padding:10px 0 10px 24px;
+      position:relative;
+    }
+    .topic-content li::before{
+      content:'•';
+      position:absolute;
+      left:8px;
+      color:var(--accent);
+      font-size:20px;
+      font-weight:700;
+    }
+    @media (max-width:768px){
+      header{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+      .nav{
+        width:100%;
+      }
+      .btn{
+        flex:1;
+        justify-content:center;
+        min-width:120px;
+      }
+      .wrap{
+        padding:16px;
+      }
+      .card{
+        padding:20px;
+      }
+      header h1{
+        font-size:22px;
+      }
+    }
   </style>
 </head>
 <body>
   <div id="navbar"></div>
-  <header>
-    <a href="dashboard.html"><i class="fas fa-arrow-left"></i> Back</a>
-    <h1>SSB Preparation</h1>
-    <a href="login.html">Logout</a>
-  </header>
+  <div class="wrap">
+    <header>
+      <h1>Cadet's Compass — SSB Interview Prep</h1>
+      <div class="nav">
+        <button class="btn" data-group="main" data-open="impdates">Important Dates</button>
+        <button class="btn" data-group="main" data-open="eligibility">Eligibility</button>
+        <button class="btn" data-group="main" data-open="routemaps">Route Maps</button>
+        <button class="btn" data-group="main" data-open="syllabus">Syllabus</button>
+        <button class="btn" data-group="main" data-open="pattern">Paper Pattern</button>
+      </div>
+    </header>
 
-  <main class="content">
-    <a href="#" class="section-card">
-      <i class="fas fa-map"></i>
-      <h3>Route Maps</h3>
-    </a>
-    <a href="#" class="section-card">
-      <i class="fas fa-book"></i>
-      <h3>Study Material</h3>
-    </a>
-    <a href="#" class="section-card">
-      <i class="fas fa-pencil-alt"></i>
-      <h3>Practice Questions</h3>
-    </a>
-    <a href="#" class="section-card">
-      <i class="fas fa-file-alt"></i>
-      <h3>Previous Year Papers</h3>
-    </a>
-  </main>
-</body>
-</html>
+    <!-- IMPORTANT DATES -->
+    <section id="impdates" class="card hidden">
+      <h2>📅 SSB Interview Important Dates</h2>
+      <ul>
+        <li><strong>SSB Interview Schedule</strong> — Typically 2-3 weeks after written exam results</li>
+        <li><strong>NDA SSB Interviews</strong> — Conducted at SSB Centres (Allahabad, Bhopal, Bangalore, Dehradun, Mysore)</li>
+        <li><strong>CDS SSB Interviews</strong> — Multiple batches throughout the year</li>
+        <li><strong>AFCAT SSB Interviews</strong> — Usually 6-8 weeks after AFCAT exam</li>
+        <li><strong>SSB Interview Duration</strong> — 5 days (Day 1: Screening, Day 2-5: Testing)</li>
+      </ul>
+      <p style="margin-top:10px; font-size:14px; opacity:0.85;">
+        ✅ SSB interviews are scheduled by respective selection boards after clearing written exams. Check your call letter for exact dates.
+      </p>
+    </section>
+
+    <!-- ELIGIBILITY -->
+    <section id="eligibility" class="card hidden">
+      <h2>SSB Interview Eligibility</h2>
+      <ul>
+        <li>Must have cleared the written examination (NDA/CDS/AFCAT/etc.)</li>
+        <li>Must meet medical standards as per respective service requirements</li>
+        <li>Age: As per the written exam eligibility (typically 16.5-24 years)</li>
+        <li>No specific academic requirements for SSB, but must meet entry exam criteria</li>
+        <li>Physical fitness: Good overall health, no disqualifying medical conditions</li>
+        <li>Must carry all original documents and call letter on interview day</li>
+      </ul>
+    </section>
+
+    <!-- ROUTE MAPS -->
+    <section id="routemaps" class="card hidden">
+      <h2>SSB Preparation Route Maps — Week by Week Plan</h2>
+
+      <div class="sub-buttons">
+        <button class="sub-btn" onclick="showTopicContent('fastTrack'); this.classList.add('active');">Fast Track 🚀</button>
+        <button class="sub-btn" onclick="showTopicContent('normalTrack'); this.classList.add('active');">Normal Track ⏱</button>
+        <button class="sub-btn" onclick="showTopicContent('slowTrack'); this.classList.add('active');">Slow Track 🐢</button>
+      </div>
+
+      <!-- FAST TRACK -->
+      <div id="fastTrack" class="topic-body hidden">
+        <h3>Fast Track 🚀 (4 Weeks)</h3>
+        <div class="month-box">
+          <div class="month-header" onclick="toggleMonth('fastWeek1')">Week 1: Psychology Tests</div>
+          <div id="fastWeek1" class="week-container">
+            <div class="week">📝 <strong>Day 1-2:</strong> TAT (Thematic Apperception Test) - Practice writing stories</div>
+            <div class="week">✏️ <strong>Day 3-4:</strong> WAT (Word Association Test) - 60 words, 15 seconds each</div>
+            <div class="week">📄 <strong>Day 5-6:</strong> SRT (Situation Reaction Test) - 60 situations, 30 minutes</div>
+            <div class="week">✍️ <strong>Day 7:</strong> SD (Self Description) - Write about yourself</div>
+          </div>
+        </div>
+        <div class="month-box">
+          <div class="month-header" onclick="toggleMonth('fastWeek2')">Week 2: GTO Tasks</div>
+          <div id="fastWeek2" class="week-container">
+            <div class="week">🏃 <strong>Day 8-9:</strong> GD (Group Discussion) - Practice on current affairs</div>
+            <div class="week">💬 <strong>Day 10-11:</strong> GPE (Group Planning Exercise) - Learn problem-solving</div>
+            <div class="week">⚙️ <strong>Day 12-13:</strong> PGT (Progressive Group Task) - Teamwork exercises</div>
+            <div class="week">🎯 <strong>Day 14:</strong> Lecturette preparation - 3-minute speech practice</div>
+          </div>
+        </div>
+        <div class="month-box">
+          <div class="month-header" onclick="toggleMonth('fastWeek3')">Week 3: Personal Interview</div>
+          <div id="fastWeek3" class="week-container">
+            <div class="week">📚 <strong>Day 15-16:</strong> Know your background - Family, education, hobbies</div>
+            <div class="week">🌍 <strong>Day 17-18:</strong> Current Affairs - National & International</div>
+            <div class="week">🏛️ <strong>Day 19-20:</strong> Defence knowledge - Indian Armed Forces structure</div>
+            <div class="week">💭 <strong>Day 21:</strong> Mock interview practice</div>
+          </div>
+        </div>
+        <div class="month-box">
+          <div class="month-header" onclick="toggleMonth('fastWeek4')">Week 4: Physical & Final Prep</div>
+          <div id="fastWeek4" class="week-container">
+            <div class="week">🏃 <strong>Day 22-23:</strong> Physical fitness - Running, push-ups, sit-ups</div>
+            <div class="week">🧠 <strong>Day 24-25:</strong> Revision of all psychology tests</div>
+            <div class="week">🎤 <strong>Day 26-27:</strong> Final mock tests & interview practice</div>
+            <div class="week">✅ <strong>Day 28:</strong> Document preparation & final checklist</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- NORMAL TRACK -->
+      <div id="normalTrack" class="topic-body hidden">
+        <h3>Normal Track ⏱ (8 Weeks)</h3>
+        <div class="month-box">
+          <div class="month-header" onclick="toggleMonth('normalWeek1')">Week 1-2: Psychology Tests Foundation</div>
+          <div id="normalWeek1" class="week-container">
+            <div class="week">📝 <strong>Week 1:</strong> TAT - Learn story writing techniques, practice 12 TAT cards daily</div>
+            <div class="week">✏️ <strong>Week 2:</strong> WAT - Practice 60 words daily, build vocabulary</div>
+          </div>
+        </div>
+        <div class="month-box">
+          <div class="month-header" onclick="toggleMonth('normalWeek2')">Week 3-4: Advanced Psychology</div>
+          <div id="normalWeek2" class="week-container">
+            <div class="week">📄 <strong>Week 3:</strong> SRT - Practice 60 situations, improve decision-making</div>
+            <div class="week">✍️ <strong>Week 4:</strong> SD - Write detailed self-description, review and improve</div>
+          </div>
+        </div>
+        <div class="month-box">
+          <div class="month-header" onclick="toggleMonth('normalWeek3')">Week 5-6: GTO Tasks</div>
+          <div id="normalWeek3" class="week-container">
+            <div class="week">💬 <strong>Week 5:</strong> GD & GPE - Practice group discussions, current affairs</div>
+            <div class="week">⚙️ <strong>Week 6:</strong> PGT & Lecturette - Team tasks, public speaking</div>
+          </div>
+        </div>
+        <div class="month-box">
+          <div class="month-header" onclick="toggleMonth('normalWeek4')">Week 7-8: Interview & Final Prep</div>
+          <div id="normalWeek4" class="week-container">
+            <div class="week">🎯 <strong>Week 7:</strong> Personal Interview - Mock interviews, knowledge preparation</div>
+            <div class="week">✅ <strong>Week 8:</strong> Physical fitness, revision, final mock tests</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLOW TRACK -->
+      <div id="slowTrack" class="topic-body hidden">
+        <h3>Slow Track 🐢 (12 Weeks)</h3>
+        <div class="month-box">
+          <div class="month-header" onclick="toggleMonth('slowWeek1')">Month 1: Foundation Building</div>
+          <div id="slowWeek1" class="week-container">
+            <div class="week">📝 <strong>Week 1-2:</strong> TAT fundamentals - Story writing basics, practice</div>
+            <div class="week">✏️ <strong>Week 3-4:</strong> WAT basics - Vocabulary building, word association</div>
+          </div>
+        </div>
+        <div class="month-box">
+          <div class="month-header" onclick="toggleMonth('slowWeek2')">Month 2: Psychology Mastery</div>
+          <div id="slowWeek2" class="week-container">
+            <div class="week">📄 <strong>Week 5-6:</strong> SRT practice - Situation analysis, decision making</div>
+            <div class="week">✍️ <strong>Week 7-8:</strong> SD refinement - Self-analysis, personality development</div>
+          </div>
+        </div>
+        <div class="month-box">
+          <div class="month-header" onclick="toggleMonth('slowWeek3')">Month 3: GTO & Interview</div>
+          <div id="slowWeek3" class="week-container">
+            <div class="week">💬 <strong>Week 9-10:</strong> GTO tasks - Group activities, leadership skills</div>
+            <div class="week">🎯 <strong>Week 11-12:</strong> Personal interview prep - Knowledge, mock interviews</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SYLLABUS -->
+    <section id="syllabus" class="card hidden">
+      <h2>SSB Interview Syllabus</h2>
+      <div class="topic-content">
+        <h3>Stage I: Screening Test (Day 1)</h3>
+        <ul>
+          <li>Intelligence Test (Verbal & Non-Verbal Reasoning)</li>
+          <li>Picture Perception & Discussion Test (PPDT)</li>
+          <li>Only qualified candidates proceed to Stage II</li>
+        </ul>
+      </div>
+      <div class="topic-content">
+        <h3>Stage II: Testing (Day 2-5)</h3>
+        <ul>
+          <li><strong>Psychology Tests:</strong> TAT, WAT, SRT, SD</li>
+          <li><strong>GTO Tasks:</strong> GD, GPE, PGT, HGT, IOR, CT, FGT, Lecturette, Command Task</li>
+          <li><strong>Personal Interview:</strong> Detailed interview by IO</li>
+          <li><strong>Conference:</strong> Final board conference</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- PAPER PATTERN -->
+    <section id="pattern" class="card hidden">
+      <h2>📘 SSB Interview Pattern</h2>
+      <ul>
+        <li><b>Day 1 (Screening):</b> Intelligence Test + PPDT - Duration: ~2 hours</li>
+        <li><b>Day 2 (Psychology):</b> TAT (12 pictures), WAT (60 words), SRT (60 situations), SD (4 topics) - Duration: ~4-5 hours</li>
+        <li><b>Day 3-4 (GTO):</b> Group tasks, Individual tasks, Command Task - Duration: Full day</li>
+        <li><b>Day 5 (Interview & Conference):</b> Personal Interview (45-60 min), Final Conference - Duration: Full day</li>
+        <li><b>Total Duration:</b> 5 days</li>
+        <li><b>Result:</b> Announced on Day 5 evening</li>
+      </ul>
+      <p style="margin-top:16px; padding:16px; background:rgba(107,138,76,0.15); border-radius:10px; border-left:3px solid var(--secondary); font-size:14px; line-height:1.6;">
+        ✅ <strong>Note:</strong> SSB interview assesses Officer Like Qualities (OLQs): Planning & Organizing, Social Adjustment, Sense of Responsibility, Initiative, Self-Confidence, Speed of Decision, Ability to Influence, Liveliness, Determination, Courage, Stamina, and Group Effectiveness.
+      </p>
+    </section>
+
+  </div>
+
+  <script>
+    // Main section toggle
+    document.querySelectorAll('.btn[data-open]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        document.querySelectorAll('.btn').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        document.querySelectorAll('.card').forEach(c=>c.classList.add('hidden'));
+        const targetId = btn.dataset.open;
+        const targetCard = document.getElementById(targetId);
+        if(targetCard){
+          targetCard.classList.remove('hidden');
+          targetCard.scrollIntoView({behavior:'smooth',block:'start'});
+        }
+      });
+    });
+
+    // Sub-topic toggle for route maps
+    function showTopicContent(id){
+      document.querySelectorAll('.sub-btn').forEach(btn=>btn.classList.remove('active'));
+      document.querySelectorAll('.topic-body').forEach(t=>t.classList.add('hidden'));
+      const target = document.getElementById(id);
+      if(target){
+        target.classList.remove('hidden');
+      }
+    }
+
+    // Month toggle with animation
+    function toggleMonth(id){
+      const elem = document.getElementById(id);
+      const monthBox = elem.closest('.month-box');
+      const isVisible = elem.style.display === 'block';
+      
+      if(isVisible){
+        elem.style.display = 'none';
+        monthBox.classList.remove('active');
+      } else {
+        elem.style.display = 'block';
+        monthBox.classList.add('active');
+      }
+    }
+  </script>
   <link rel="stylesheet" href="../public/css/navbar.css">
+  <script src="../public/js/navbar.js"></script>
 </body>
-<script src="../public/js/navbar.js"></script>
 </html>

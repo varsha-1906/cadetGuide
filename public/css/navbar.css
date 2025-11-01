@@ -1,6 +1,7 @@
 /* ========================================
-   NAVBAR STYLES - Cadet's Compass
-   ======================================== */
+  NAVBAR STYLES - Cadet's Compass
+  ======================================== */
+@import url('site.css');
 
 :root {
   --nav-bg-start: #0b1630;
@@ -18,6 +19,8 @@
   top: 0;
   left: 0;
   width: 100%;
+  /* ensure navbar occupies its declared height so we can offset page content */
+  min-height: var(--nav-height);
   background: linear-gradient(180deg, var(--nav-bg-start), var(--nav-bg-end));
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
   z-index: 1000;
@@ -185,7 +188,19 @@
 
 /* Body Padding to Account for Fixed Navbar */
 body {
+  /* keep a safe default, but many pages set shorthand padding which may override this; */
   padding-top: var(--nav-height);
+}
+
+/* Ensure content that follows the fixed navbar is pushed down even if body padding is overridden
+   This targets the immediate sibling after the navbar element (we inject <div id="navbar"></div>) */
+.navbar + * {
+  margin-top: calc(var(--nav-height) + 12px);
+}
+
+/* smaller offset on small screens */
+@media (max-width: 768px) {
+  .navbar + * { margin-top: calc(var(--nav-height) + 8px); }
 }
 
 /* Responsive Design */

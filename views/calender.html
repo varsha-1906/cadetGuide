@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <title>Connect Google Calendar</title>
+  <link rel="stylesheet" href="../public/css/navbar.css">
   <style>
     body{font-family:Inter,system-ui;background:linear-gradient(180deg,#1c2a1c,#3d5f3f);color:#fff;padding:24px}
     .card{background:rgba(255,255,255,0.06);padding:18px;border-radius:10px;max-width:720px}
@@ -12,6 +13,7 @@
   </style>
 </head>
 <body>
+  <div id="navbar"></div>
   <div class="card">
     <h2>Google Calendar — Connect & Create</h2>
     <p><a href="/auth"><button>Connect to Google Calendar</button></a></p>
@@ -91,5 +93,7 @@ document.getElementById('createBtn').addEventListener('click', async () => {
   }
 });
 </script>
+</script>
+  <script src="../public/js/navbar.js"></script>
 </body>
 </html>

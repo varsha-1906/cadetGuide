@@ -24,6 +24,13 @@
     .btn.save{background:#2f6e8d;color:#fff}
     .btn.logout{background:#d9534f;color:#fff}
     .notice{font-size:13px;opacity:0.85;margin-bottom:8px}
+    .job-suggestions{margin-top:24px;padding:20px;background:rgba(107,138,76,0.15);border-radius:12px;border:1px solid rgba(107,138,76,0.3);display:none}
+    .job-suggestions h3{margin:0 0 16px 0;font-size:18px;font-weight:700;color:#6b8a4c}
+    .job-item{margin:12px 0;padding:12px;background:rgba(255,255,255,0.05);border-radius:8px;border-left:3px solid #6b8a4c}
+    .job-item h4{margin:0 0 8px 0;font-size:15px;font-weight:700}
+    .job-item p{margin:4px 0;font-size:13px;opacity:0.85}
+    .job-item a{display:inline-block;margin-top:8px;padding:8px 16px;background:#2f6e8d;color:#fff;text-decoration:none;border-radius:6px;font-weight:600;font-size:13px;transition:background 0.3s}
+    .job-item a:hover{background:#3a7fa0}
   </style>
 </head>
 <body>
@@ -50,6 +57,33 @@
         <label for="branch">Branch / Stream</label>
         <input id="branch" placeholder="e.g., B.Tech CSE" />
       </div>
+      <div class="row">
+        <label for="height">Height (cm)</label>
+        <input id="height" type="number" placeholder="e.g., 165" />
+      </div>
+      <div class="row">
+        <label for="weight">Weight (kg)</label>
+        <input id="weight" type="number" placeholder="e.g., 65" />
+      </div>
+      <div class="row">
+        <label for="gender">Gender</label>
+        <select id="gender">
+          <option value="">Select Gender</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="row">
+        <label for="qualifications">Qualifications</label>
+        <select id="qualifications">
+          <option value="">Select Qualification</option>
+          <option value="10th">10th Pass</option>
+          <option value="12th">12th Pass</option>
+          <option value="Graduate">Graduate</option>
+          <option value="Post Graduate">Post Graduate</option>
+        </select>
+      </div>
     </div>
 
     <div class="row">
@@ -65,6 +99,11 @@
     <div class="row">
       <label for="notes">Notes</label>
       <textarea id="notes" placeholder="Anything you'd like us to remember"></textarea>
+    </div>
+
+    <div id="jobSuggestions" class="job-suggestions">
+      <h3>🎯 Suggested Jobs Based on Your Profile</h3>
+      <div id="jobList"></div>
     </div>
 
     <div class="actions">
@@ -117,10 +156,18 @@
       $('branch').value = data.branch || '';
       $('goal').value = data.goal || 'NDA';
       $('notes').value = data.notes || '';
+      $('height').value = data.height || '';
+      $('weight').value = data.weight || '';
+      $('gender').value = data.gender || '';
+      $('qualifications').value = data.qualifications || '';
       // Show the first-time note only if the profile doc doesn't exist yet
       const note = document.getElementById('firstNote');
       if (note) note.style.display = snap.exists ? 'none' : 'block';
       setStatus('');
+      // Generate job suggestions if data is available
+      if(data.height || data.weight || data.gender || data.qualifications){
+        generateJobSuggestions();
+      }
     }
 
     async function saveProfile(){
@@ -134,16 +181,120 @@
         branch: $('branch').value.trim() || null,
         goal: $('goal').value,
         notes: $('notes').value.trim() || null,
+        height: $('height').value.trim() || null,
+        weight: $('weight').value.trim() || null,
+        gender: $('gender').value || null,
+        qualifications: $('qualifications').value || null,
         email: user.email || null,
         photoURL: user.photoURL || null,
         updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
       }, { merge: true });
-      setStatus('Saved ✓ Redirecting…');
-      setTimeout(() => {
-        window.location.href = 'dashboard.html';
-      }, 800);
+      generateJobSuggestions();
+      setStatus('Saved ✓ Job suggestions updated!');
     }
+
+    function generateJobSuggestions(){
+      const height = parseFloat($('height').value) || 0;
+      const weight = parseFloat($('weight').value) || 0;
+      const gender = $('gender').value;
+      const qualifications = $('qualifications').value;
+      const goal = $('goal').value;
+
+      const suggestions = [];
+      const jobListEl = $('jobList');
+      const suggestionsEl = $('jobSuggestions');
+
+      // NDA eligibility: Age 16.5-19.5, Height: Male 157cm+, Female 152cm+, Weight proportional
+      if(height >= 157 && (gender === 'Male' || gender === '')){
+        if(qualifications === '12th' || qualifications === ''){
+          suggestions.push({
+            name: 'NDA (National Defence Academy)',
+            description: 'Male candidates: Height 157cm+, Age 16.5-19.5 years, 12th pass',
+            link: 'nda.html'
+          });
+        }
+      }
+      if(height >= 152 && gender === 'Female'){
+        if(qualifications === '12th' || qualifications === ''){
+          suggestions.push({
+            name: 'NDA (National Defence Academy)',
+            description: 'Female candidates: Height 152cm+, Age 16.5-19.5 years, 12th pass',
+            link: 'nda.html'
+          });
+        }
+      }
+
+      // CDS eligibility: Graduate, Age 19-24
+      if((qualifications === 'Graduate' || qualifications === 'Post Graduate') && height >= 157){
+        suggestions.push({
+          name: 'CDS (Combined Defence Services)',
+          description: 'Graduates: Height 157cm+ (Male) or 152cm+ (Female), Age 19-24 years',
+          link: 'cds.html'
+        });
+      }
+
+      // AFCAT eligibility: Graduate, Age 20-24
+      if((qualifications === 'Graduate' || qualifications === 'Post Graduate') && height >= 162){
+        suggestions.push({
+          name: 'AFCAT (Air Force Common Admission Test)',
+          description: 'Graduates: Height 162cm+ (Male) or 152cm+ (Female), Age 20-24 years',
+          link: 'afcat.html'
+        });
+      }
+
+      // Agniveer eligibility: 10th/12th pass, Age 17.5-21
+      if((qualifications === '10th' || qualifications === '12th') && height >= 152){
+        suggestions.push({
+          name: 'Agniveer',
+          description: '10th/12th pass: Height 152cm+, Age 17.5-21 years, Weight proportional to height',
+          link: 'agniveer.html'
+        });
+      }
+
+      // Territorial Army eligibility: Graduate, Age 18-42
+      if((qualifications === 'Graduate' || qualifications === 'Post Graduate')){
+        suggestions.push({
+          name: 'Territorial Army (Officer Entry)',
+          description: 'Graduates: Age 18-42 years, Employed or self-employed',
+          link: 'ta.html'
+        });
+      }
+
+      // SSB is part of selection process, add if user has goal set
+      if(goal === 'SSB' || goal === 'NDA' || goal === 'CDS' || goal === 'AFCAT'){
+        suggestions.push({
+          name: 'SSB Interview Preparation',
+          description: 'Prepare for SSB Interview - Required for all defence entries',
+          link: 'ssb.html'
+        });
+      }
+
+      // Display suggestions
+      if(suggestions.length > 0){
+        jobListEl.innerHTML = suggestions.map(job => `
+          <div class="job-item">
+            <h4>${job.name}</h4>
+            <p>${job.description}</p>
+            <a href="${job.link}" target="_self">Explore →</a>
+          </div>
+        `).join('');
+        suggestionsEl.style.display = 'block';
+      } else {
+        suggestionsEl.style.display = 'none';
+      }
+    }
+
+    // Add event listeners to generate suggestions on field changes
+    document.addEventListener('DOMContentLoaded', function(){
+      ['height', 'weight', 'gender', 'qualifications', 'goal'].forEach(fieldId => {
+        const field = $(fieldId);
+        if(field){
+          field.addEventListener('change', generateJobSuggestions);
+          field.addEventListener('input', generateJobSuggestions);
+        }
+      });
+    });
 
     async function doLogout(){
       await auth.signOut();

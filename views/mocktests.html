@@ -6,54 +6,301 @@
   <title>Mock Tests — Cadet's Compass</title>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../public/css/navbar.css">
   <style>
-    body{
-      margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;color:#f6f3ee;
-      background: linear-gradient(180deg, rgba(8,12,10,0.6), rgba(0,0,0,0.45)), url('background.jpg') center/cover no-repeat fixed;
-      padding:24px;
-    }
-    h1{font-size:28px;margin-bottom:20px;font-weight:800;text-align:center;}
-    .grid{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;}
-    .card{width:180px;background:rgba(255,255,255,0.1);padding:24px;border-radius:16px;text-align:center;cursor:pointer;transition:0.2s;box-shadow:0 8px 24px rgba(0,0,0,0.35);}
-    .card:hover{background:rgba(255,255,255,0.2);}
-    .emoji{font-size:36px;margin-bottom:12px;}
-    .card h4{margin:0;font-size:16px;font-weight:700;}
-    .card small{display:block;margin-top:4px;font-weight:400;opacity:0.8;}
+    :root{--card-bg: rgba(255,255,255,0.04);--muted:#bcbcbc;--accent:#6b8a4c}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;color:var(--text, #f6f3ee);background: linear-gradient(180deg, rgba(8,12,10,0.6), rgba(0,0,0,0.45)), url('background.jpg') center/cover no-repeat fixed;padding:0}
+    .wrap{max-width:1100px;margin:0 auto;padding:calc(var(--nav-height,64px) + 24px) 20px 60px}
+    h1{font-size:24px;margin:6px 0 18px;font-weight:800}
+
+    .tabs{display:flex;gap:8px;margin-bottom:18px}
+    .tab{padding:10px 14px;border-radius:10px;background:var(--card-bg);cursor:pointer;border:1px solid rgba(255,255,255,0.04)}
+    .tab.active{background:var(--accent);color:white;border-color:transparent}
+
+    .panel{background:rgba(0,0,0,0.35);padding:18px;border-radius:12px}
+    .settings{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+    .settings label{font-weight:600}
+    .btn{background:var(--accent);color:#fff;padding:10px 14px;border-radius:10px;border:0;cursor:pointer;font-weight:700}
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.08)}
+
+    .test-area{margin-top:18px}
+    .question{margin-bottom:14px;padding:16px;background:rgba(255,255,255,0.03);border-radius:10px}
+    .choices{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+    .choice{padding:12px;border-radius:8px;background:rgba(255,255,255,0.02);cursor:pointer;border:1px solid rgba(255,255,255,0.04)}
+    .choice.selected{outline:2px solid #ffd36b}
+
+    .footer-bar{display:flex;justify-content:space-between;align-items:center;margin-top:18px}
+    .timer{font-weight:800}
+
+    .scorecard{background:rgba(0,0,0,0.5);padding:18px;border-radius:12px;margin-top:18px}
+    .hidden{display:none}
+
+    /* Modal */
+    .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;z-index:9999}
+    .modal{background:#fff;color:#111;padding:18px;border-radius:12px;width:920px;max-width:94%}
+    .modal h3{margin-top:0}
+
+    @media (max-width:760px){.settings{flex-direction:column;align-items:flex-start}}
   </style>
 </head>
 <body>
   <div id="navbar"></div>
-  <h1>Mock Tests</h1>
-  <div class="grid">
-    <div class="card" onclick="window.location.href='nda_mock.html'">
-      <div class="emoji">⚔</div>
-      <h4>NDA Mock Test</h4>
-      <small>National Defence Academy</small>
+  <div class="wrap">
+    <h1>Mock Tests — Professional Mode</h1>
+
+    <div class="tabs" role="tablist" id="testTabs">
+      <div class="tab active" data-test="nda">NDA</div>
+      <div class="tab" data-test="cds">CDS</div>
+      <div class="tab" data-test="afcat">AFCAT</div>
+      <div class="tab" data-test="agniveer">Agniveer</div>
+      <div class="tab" data-test="ssb">SSB</div>
     </div>
-    <div class="card" onclick="window.location.href='cds_mock.html'">
-      <div class="emoji">🛡</div>
-      <h4>CDS Mock Test</h4>
-      <small>Combined Defence Services</small>
-    </div>
-    <div class="card" onclick="window.location.href='afcat_mock.html'">
-      <div class="emoji">🦅</div>
-      <h4>AFCAT Mock Test</h4>
-      <small>Air Force Common Admission</small>
-    </div>
-    <div class="card" onclick="window.location.href='agniveer_mock.html'">
-      <div class="emoji">⚓</div>
-      <h4>Agniveer Mock Test</h4>
-      <small>Short-term Defence Service</small>
-    </div>
-    <div class="card" onclick="window.location.href='ssb_mock.html'">
-      <div class="emoji">🧠</div>
-      <h4>SSB Psychological Test</h4>
-      <small>Personality & Aptitude</small>
+
+    <div class="panel">
+      <div class="settings">
+        <label>Questions:
+          <select id="qCount"><option value="10">10</option><option value="20" selected>20</option><option value="30">30</option></select>
+        </label>
+        <label>Duration (mins):
+          <select id="duration"><option value="10">10</option><option value="20" selected>20</option><option value="30">30</option></select>
+        </label>
+        <button class="btn ghost" id="previewBtn">Preview 1 question</button>
+        <div style="margin-left:auto;display:flex;gap:8px">
+          <button class="btn" id="startBtn">Start Test</button>
+        </div>
+      </div>
+
+      <div id="testArea" class="test-area hidden" aria-live="polite"></div>
+
+      <div class="footer-bar">
+        <div class="timer" id="timer">00:00</div>
+        <div>
+          <button class="btn ghost" id="submitBtn">Submit</button>
+        </div>
+      </div>
+
+      <div id="scoreCard" class="scorecard hidden"></div>
     </div>
   </div>
+
+  <!-- Terms & Privacy Modal (must accept) -->
+  <div id="termsModal" class="modal-backdrop hidden">
+    <div class="modal" role="dialog" aria-modal="true">
+      <h3>Terms & Conditions</h3>
+      <p>Please read and accept our Terms and Privacy policy before starting the mock test. Fullscreen is required for an official exam-like environment.</p>
+      <div style="max-height:260px;overflow:auto;background:#f7f7f7;padding:12px;border-radius:8px;margin:12px 0">
+        <h4>Privacy</h4>
+        <p>We collect minimal information for generating a scorecard stored locally. No answers are transmitted to servers in this mode.</p>
+        <h4>Rules</h4>
+        <ul>
+          <li>Do not navigate away from the test window. Exiting fullscreen will pause the timer.</li>
+          <li>Copying or taking screenshots is discouraged.</li>
+        </ul>
+      </div>
+      <label style="display:block;margin-bottom:8px"><input type="checkbox" id="acceptTerms"> I accept the Terms & Privacy Policy</label>
+      <div style="display:flex;justify-content:flex-end;gap:8px">
+        <button class="btn ghost" id="cancelTerms">Cancel</button>
+        <button class="btn" id="agreeTerms">Accept & Go Fullscreen</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    // Enhanced mock test flow: per-question navigation, progress, fullscreen enforcement, autosave, history
+    const API_URL = 'https://opentdb.com/api.php';
+    const tabs = document.querySelectorAll('.tab');
+    const testArea = document.getElementById('testArea');
+    const qCountSel = document.getElementById('qCount');
+    const durationSel = document.getElementById('duration');
+    const startBtn = document.getElementById('startBtn');
+    const previewBtn = document.getElementById('previewBtn');
+    const timerEl = document.getElementById('timer');
+    const submitBtn = document.getElementById('submitBtn');
+    const scoreCard = document.getElementById('scoreCard');
+    const termsModal = document.getElementById('termsModal');
+    const acceptTerms = document.getElementById('acceptTerms');
+    const agreeTerms = document.getElementById('agreeTerms');
+    const cancelTerms = document.getElementById('cancelTerms');
+
+    // UI additions
+    let progressBar = document.getElementById('progressBar');
+    if(!progressBar){ progressBar = document.createElement('div'); progressBar.id='progressBar'; progressBar.style.height='10px'; progressBar.style.background='rgba(255,255,255,0.06)'; progressBar.style.borderRadius='6px'; progressBar.style.marginTop='12px'; progressBar.innerHTML='<div id="progressFill" style="height:100%;width:0%;background:linear-gradient(90deg,#6b8a4c,#88b067);border-radius:6px"></div>'; document.querySelector('.panel').insertBefore(progressBar, document.getElementById('testArea')) }
+
+    let state = { testId: 'nda', questions: [], answers: {}, currentIndex: 0, timer: null, timeLeft: 0, started:false, uid: null };
+
+    const localFallback = {
+      nda: [ {question:'What is the full form of NDA?', correct:'National Defence Academy', choices:['National Defence Academy','National Department of Affairs','National Development Agency','Naval Defence Association'], category:'General', difficulty:'easy'} ],
+      cds: [ {question:'CDS stands for?', correct:'Combined Defence Services', choices:['Combined Defence Services','Central Defence School','Combined Department of Service','Corps Defence Service'], category:'General', difficulty:'easy'} ],
+      afcat: [ {question:'Which force conducts AFCAT?', correct:'Indian Air Force', choices:['Indian Army','Indian Navy','Indian Air Force','Indian Coast Guard'], category:'General', difficulty:'easy'} ],
+      agniveer: [ {question:'Agniveer is a scheme for which service?', correct:'Indian Armed Forces', choices:['Police','Indian Armed Forces','Paramilitary','Civil Services'], category:'General', difficulty:'easy'} ],
+      ssb: [ {question:'SSB primarily evaluates?', correct:'Personality & Aptitude', choices:['Physical fitness','Personality & Aptitude','Technical skills','General knowledge'], category:'Psych', difficulty:'easy'} ]
+    };
+
+    function shuffle(arr){ for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];} return arr }
+
+    // Tab switching
+    tabs.forEach(t=>t.addEventListener('click', ()=>{ tabs.forEach(x=>x.classList.remove('active')); t.classList.add('active'); state.testId = t.dataset.test; resetUI(); }))
+
+    function resetUI(){ stopTimer(); testArea.classList.add('hidden'); scoreCard.classList.add('hidden'); state.questions=[]; state.answers={}; state.currentIndex=0; state.started=false; state.uid=null; updateProgress(); }
+
+    function updateProgress(){ const total = state.questions.length || 1; const idx = state.currentIndex || 0; const p = Math.round((idx/total)*100); document.getElementById('progressFill').style.width = p+'%'; }
+
+    // Create per-question UI but only show currentIndex
+    function renderQuestions(){ testArea.innerHTML=''; const container=document.createElement('div'); container.id='qContainer';
+      state.questions.forEach((q,idx)=>{
+        const qWrap = document.createElement('div'); qWrap.className='question'; qWrap.dataset.index=idx; qWrap.style.display = idx===state.currentIndex ? 'block' : 'none';
+        const qText = document.createElement('div'); qText.innerHTML = `<strong>Q${idx+1}.</strong> ${q.question}`;
+        qWrap.appendChild(qText);
+        const choices = document.createElement('div'); choices.className='choices';
+        q._shuffledChoices.forEach((c,choiceIdx) => {
+          const btn = document.createElement('button'); btn.className='choice'; btn.type='button'; btn.textContent = c; btn.dataset.choiceIndex = choiceIdx;
+          btn.addEventListener('click', ()=>{
+            state.answers[idx] = c; // only store chosen text in memory
+            Array.from(choices.children).forEach(ch=>ch.classList.remove('selected'));
+            btn.classList.add('selected');
+            autosave();
+          });
+          choices.appendChild(btn);
+        });
+        qWrap.appendChild(choices);
+        // navigation
+        const nav = document.createElement('div'); nav.style.display='flex'; nav.style.justifyContent='space-between'; nav.style.marginTop='12px';
+        const prev = document.createElement('button'); prev.className='btn ghost'; prev.textContent='Previous'; prev.addEventListener('click', ()=>{ showQuestion(Math.max(0, state.currentIndex-1)) });
+        const next = document.createElement('button'); next.className='btn'; next.textContent = idx===state.questions.length-1 ? 'Finish' : 'Next'; next.addEventListener('click', ()=>{ if(idx===state.questions.length-1){ if(confirm('Submit your test?')) submitTest(); } else showQuestion(state.currentIndex+1) });
+        nav.appendChild(prev); nav.appendChild(next); qWrap.appendChild(nav);
+        container.appendChild(qWrap);
+      });
+      testArea.appendChild(container); testArea.classList.remove('hidden'); updateProgress(); restoreSelections();
+    }
+
+    function showQuestion(i){ const v = document.querySelectorAll('#qContainer .question'); if(!v[i]) return; v.forEach((el,idx)=>el.style.display = idx===i ? 'block' : 'none'); state.currentIndex=i; updateProgress(); autosave(); window.scrollTo({top:0,behavior:'smooth'}); }
+
+    function restoreSelections(){ Object.keys(state.answers).forEach(k=>{ const idx=parseInt(k,10); const qEl = document.querySelector(`#qContainer .question[data-index='${idx}']`); if(qEl){ Array.from(qEl.querySelectorAll('.choice')).forEach(ch=>{ if(ch.textContent === state.answers[idx]) ch.classList.add('selected'); else ch.classList.remove('selected'); }) } }); }
+
+    // Timer
+    function startTimer(minutes){ state.timeLeft = minutes*60; timerEl.textContent = formatTime(state.timeLeft); state.timer = setInterval(()=>{ state.timeLeft--; if(state.timeLeft<=0){ clearInterval(state.timer); timerEl.textContent='00:00'; autoSubmit(); } else timerEl.textContent=formatTime(state.timeLeft); },1000); }
+    function stopTimer(){ if(state.timer) clearInterval(state.timer); state.timer=null }
+    function formatTime(sec){ const m=Math.floor(sec/60).toString().padStart(2,'0'); const s=(sec%60).toString().padStart(2,'0'); return `${m}:${s}` }
+
+    async function fetchQuestions(testId, amount){ const params = new URLSearchParams({ amount: amount.toString(), type:'multiple' });
+      try{ const res = await fetch(API_URL+'?'+params.toString()); const json = await res.json(); if(json && json.response_code===0){ return json.results.map(r=>({ question: decodeHtml(r.question), correct: decodeHtml(r.correct_answer), choices: shuffle([ ...r.incorrect_answers.map(decodeHtml), decodeHtml(r.correct_answer) ]), category: r.category, difficulty: r.difficulty })); } }catch(e){ console.warn('API fetch failed', e) }
+      return (localFallback[testId]||[]).map(x=>({ question:x.question, correct:x.correct, choices:x.choices, category:x.category })) }
+
+    function decodeHtml(s){ const txt = document.createElement('textarea'); txt.innerHTML = s; return txt.value }
+
+    function securePrepare(questions){ return questions.map(q=>{ const shuffled = shuffle([...q.choices]); return {...q, _shuffledChoices:shuffled}; }); }
+
+    // Autosave to localStorage per session
+    function autosave(){ try{ const saveKey = `mc_save_${state.uid||'temp'}`; const payload = { testId: state.testId, answers: state.answers, currentIndex: state.currentIndex, timeLeft: state.timeLeft, questionsCount: state.questions.length }; localStorage.setItem(saveKey, JSON.stringify(payload)); }catch(e){ console.warn('Autosave failed', e) } }
+
+    function loadSave(){ try{ const saveKey = `mc_save_${state.uid||'temp'}`; const raw = localStorage.getItem(saveKey); if(raw){ const p = JSON.parse(raw); state.answers = p.answers||{}; state.currentIndex = p.currentIndex||0; state.timeLeft = p.timeLeft||state.timeLeft; } }catch(e){} }
+
+    // Submission
+    function submitTest(){ stopTimer(); state.started=false; const total = state.questions.length; let correct=0; const missed=[];
+      state.questions.forEach((q,idx)=>{ const given = state.answers[idx]; if(given && given===q.correct) correct++; else missed.push({index:idx+1, question:q.question, correct:q.correct, given:given||null, category:q.category}); });
+      const perf = Math.round((correct/total)*100)/10; const uid = state.uid || generateUID(); state.uid = uid;
+
+      const improveMap = {}; missed.forEach(m=>{ const c=m.category||'General'; improveMap[c]=(improveMap[c]||0)+1 });
+      const suggestions = Object.entries(improveMap).sort((a,b)=>b[1]-a[1]).slice(0,3).map(x=>`Focus on ${x[0]} (${x[1]} incorrect)`);
+
+      scoreCard.innerHTML = `<h3>Score Card</h3>
+        <div><strong>Unique Tag:</strong> ${uid}</div>
+        <div><strong>Score:</strong> ${correct} / ${total}</div>
+        <div><strong>Performance (out of 10):</strong> ${perf.toFixed(1)}</div>
+        <div><strong>Suggestions:</strong><ul>${(suggestions.length?suggestions:['Good job!']).map(s=>`<li>${s}</li>`).join('')}</ul></div>
+        <div style="margin-top:12px"><button class='btn' id='downloadScore'>Download Scorecard</button> <button class='btn ghost' id='retryBtn'>Retry</button></div>
+        <details style="margin-top:12px"><summary style="cursor:pointer">Review Incorrect Questions (${missed.length})</summary>
+          <div style="margin-top:8px">${missed.map(m=>`<div style="padding:8px;border-bottom:1px solid rgba(0,0,0,0.06)"><strong>Q${m.index}:</strong> ${m.question}<br><em>Correct:</em> ${m.correct}<br><em>Your answer:</em> ${m.given||'<em>Not answered</em>'}</div>`).join('')}</div>
+        </details>`;
+      scoreCard.classList.remove('hidden');
+
+      document.getElementById('downloadScore').addEventListener('click', ()=>{ const payload = { uid, score: `${correct}/${total}`, perf, suggestions, missed, date: new Date().toISOString() }; const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'}); const url = URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=`score_${uid}.json`; a.click(); URL.revokeObjectURL(url); saveHistory(payload); });
+      document.getElementById('retryBtn').addEventListener('click', ()=>{ resetUI(); });
+      try{ localStorage.removeItem(`mc_save_${state.uid||'temp'}`); }catch(e){}
+    }
+
+    function saveHistory(payload){ try{ const key='mc_history'; const raw = localStorage.getItem(key); const arr = raw?JSON.parse(raw):[]; arr.unshift(payload); localStorage.setItem(key, JSON.stringify(arr.slice(0,30))); }catch(e){} }
+
+    function autoSubmit(){ if(state.started){ alert('Time is up — submitting your test'); submitTest(); }}
+
+    function generateUID(){ return 'MC-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8).toUpperCase(); }
+
+    // Preview
+    previewBtn.addEventListener('click', async ()=>{ const qid = state.testId || 'nda'; const q = await fetchQuestions(qid,1); if(q.length){ state.questions = securePrepare(q); state.currentIndex=0; renderQuestions(); } });
+
+    // Full start flow and fullscreen enforcement
+    startBtn.addEventListener('click', ()=>{ acceptTerms.checked=false; termsModal.classList.remove('hidden'); });
+    cancelTerms.addEventListener('click', ()=>{ termsModal.classList.add('hidden'); });
+    agreeTerms.addEventListener('click', ()=>{
+      if(!acceptTerms.checked){ alert('You must accept Terms & Privacy to proceed'); return; }
+
+      // helper to start the test after modal is dismissed / fullscreen accepted
+      const startFlow = async () => {
+        const count = parseInt(qCountSel.value,10);
+        const minutes = parseInt(durationSel.value,10);
+        state.questions = securePrepare(await fetchQuestions(state.testId, count));
+        if(state.questions.length===0){ alert('No questions available for this test. Try preview or choose another test.'); return; }
+        termsModal.classList.add('hidden');
+        state.started=true; state.uid = generateUID(); renderQuestions(); startTimer(minutes); scoreCard.classList.add('hidden'); autosave();
+        document.addEventListener('visibilitychange', onVisibilityChange);
+        document.addEventListener('fullscreenchange', onFullscreenChange);
+      };
+
+      // Try to enter fullscreen and wait for it. If it succeeds, start immediately and hide modal.
+      // If it fails (or user denies), ask whether to continue without fullscreen.
+      const docEl = document.documentElement;
+      if (docEl.requestFullscreen) {
+        docEl.requestFullscreen()
+          .then(() => {
+            // fullscreen entered — hide modal and start
+            startFlow();
+          })
+          .catch(async (err) => {
+            console.warn('Fullscreen request failed', err);
+            const cont = confirm('Could not enter fullscreen. Continue the test without fullscreen?');
+            if (cont) await startFlow();
+            // otherwise leave the modal open so the user can retry
+          });
+      } else {
+        // No fullscreen API — proceed after confirmation
+        if(confirm('Your browser does not support fullscreen API. Continue?')) startFlow();
+      }
+    });
+
+    // Pause / flag if visibility lost
+    let violationCount=0;
+    function onVisibilityChange(){ if(document.hidden && state.started){ violationCount++; stopTimer(); alert('You left the tab/window. The test is paused. Continued violations may be recorded.'); } else if(!document.hidden && state.started){ if(state.timeLeft>0) startTimer(Math.ceil(state.timeLeft/60)); } }
+    function onFullscreenChange(){ if(state.started && !document.fullscreenElement){ stopTimer(); alert('Fullscreen exited. Test paused. Return to fullscreen to resume.'); } else if(document.fullscreenElement && state.started){ if(state.timeLeft>0) startTimer(Math.ceil(state.timeLeft/60)); } }
+
+    // Submit button
+    submitBtn.addEventListener('click', ()=>{ if(!state.started){ alert('Start a test first'); return; } if(!confirm('Submit your test now?')) return; submitTest(); });
+
+    // Keyboard shortcuts: 1-4 for choices, left/right for nav
+    document.addEventListener('keydown',(e)=>{
+      if(!state.started) return;
+      if(e.key>='1' && e.key<='4'){ const idx = state.currentIndex; const qEl = document.querySelector(`#qContainer .question[data-index='${idx}']`); if(qEl){ const ch = qEl.querySelectorAll('.choice')[parseInt(e.key,10)-1]; if(ch) ch.click(); } }
+      if(e.key==='ArrowRight') showQuestion(Math.min(state.questions.length-1, state.currentIndex+1));
+      if(e.key==='ArrowLeft') showQuestion(Math.max(0, state.currentIndex-1));
+    });
+
+    // Autosave before unload
+    window.addEventListener('beforeunload', (e)=>{ if(state.started){ e.preventDefault(); e.returnValue='Test in progress. Are you sure?'; } });
+
+    // Security/UX protections
+    document.addEventListener('contextmenu', e=>{ if(state.started) e.preventDefault(); });
+    document.addEventListener('keydown', e=>{ if(state.started && (e.ctrlKey||e.metaKey) && (['u','s','p'].includes(e.key.toLowerCase()))){ e.preventDefault(); } });
+
+    // initial
+    resetUI();
+    // expose minimal debug
+    window.__mc_debug = ()=>({started:state.started,uid:state.uid,qCount:state.questions.length});
+
+    // Note: Open Trivia DB used as free source. For production replace with server microservice delivering short-lived tokens.
+  })();
+  </script>
+
+  <script src="../public/js/navbar.js"></script>
 </body>
-</html>
-  <link rel="stylesheet" href="../public/css/navbar.css">
-</body>
-<script src="../public/js/navbar.js"></script>
 </html>

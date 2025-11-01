@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>NDA — Important Dates</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../public/css/navbar.css">
   <style>
     body {
       margin:0;
@@ -13,6 +14,18 @@
       color:#f6f3ee;
       padding:24px;
     }
+    .dates-header{display:flex;align-items:center;gap:16px;max-width:1000px;margin:0 auto 18px;padding:12px 0}
+    .dates-header .left{flex:0 0 auto}
+    .dates-header .center{flex:1 1 60%;text-align:center}
+    .dates-header .right{flex:0 0 auto;display:flex;gap:12px;align-items:center}
+    .dates-header .subtitle{margin:4px 0 0;font-size:13px;color:rgba(255,255,255,0.8)}
+    .btn-primary{background:#ffc107;color:#172032;border:0;padding:10px 14px;border-radius:8px;font-weight:700;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,0.25)}
+    .btn-primary:hover{transform:translateY(-2px)}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.12);color:#fff;padding:8px 12px;border-radius:8px;cursor:pointer}
+    .btn-ghost:hover{background:rgba(255,255,255,0.03)}
+    .year-buttons{display:flex;gap:8px}
+    .year-btn{background:transparent;border:1px solid rgba(255,255,255,0.08);padding:8px 12px;border-radius:8px;color:#fff;cursor:pointer;font-weight:700}
+    .year-btn.active{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.14)}
     .wrap{max-width:1000px;margin:0 auto;}
     h1{margin-bottom:20px;}
     .btn-back{
@@ -47,17 +60,38 @@
       text-align:left;
     }
     th{background:#6b8a4c;}
+  /* Modal for GCal event list */
+  .gcal-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.5);z-index:1200}
+  .gcal-modal .panel{background:linear-gradient(180deg,#0b1630,#102a52);color:#fff;padding:18px;border-radius:12px;max-width:720px;width:95%;box-shadow:0 20px 60px rgba(0,0,0,0.6)}
+  .gcal-list{max-height:360px;overflow:auto;margin-top:12px;display:grid;gap:8px}
+  .gcal-item{display:flex;justify-content:space-between;align-items:center;padding:10px;border-radius:8px;background:rgba(255,255,255,0.03)}
+  .gcal-actions{display:flex;gap:8px}
+  .gcal-panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
   </style>
 </head>
 <body>
+  <div id="navbar"></div>
   <div class="wrap">
-    <a href="index.html" class="btn-back">⬅ Back to Dashboard</a>
-    <h1>Important Dates — NDA</h1>
+    <header class="dates-header">
+      <div class="left">
+        <a href="index.html" class="btn-back">⬅ Back</a>
+      </div>
+      <div class="center">
+        <h1>Important Dates — NDA</h1>
+        <p class="subtitle">Application windows, exam dates and planned study milestones. Export to calendar or add directly to Google Calendar.</p>
+      </div>
+      <div class="right">
+        <div class="year-buttons" role="tablist" aria-label="Select year">
+          <button class="year-btn" data-target="nda2025" onclick="showDates('nda2025')">NDA 2025</button>
+          <button class="year-btn" data-target="nda2026" onclick="showDates('nda2026')">NDA 2026</button>
+        </div>
 
-    <div class="year-buttons">
-      <button onclick="showDates('nda2025')">NDA 2025</button>
-      <button onclick="showDates('nda2026')">NDA 2026</button>
-    </div>
+        <div class="actions">
+          <button id="exportIcs" class="btn-primary">Download .ics</button>
+          <button id="openGCal" class="btn-ghost">Add to Google Calendar</button>
+        </div>
+      </div>
+    </header>
 
     <!-- NDA 2025 Table -->
     <div id="nda2025" style="display:none;">
@@ -73,7 +107,7 @@
         <tr><td>NDA II 2025 Application End</td><td>17 June 2025</td></tr>
         <tr><td>NDA II 2025 Exam Date</td><td>14 September 2025</td></tr>
       </table>
-    </div>
+  </div>
 
     <!-- NDA 2026 Table -->
     <div id="nda2026" style="display:none;">
@@ -92,12 +126,225 @@
     </div>
   </div>
 
+  <!-- Google Calendar modal -->
+  <div id="gcalModal" class="gcal-modal" role="dialog" aria-hidden="true">
+    <div class="panel" role="document">
+      <div class="gcal-panel-head">
+        <div>
+          <h3 style="margin:0">Add events to Google Calendar</h3>
+          <p style="margin:6px 0 0;color:rgba(255,255,255,0.8);font-size:13px">Choose individual events or add all — each will open in Google Calendar in a new tab for confirmation.</p>
+        </div>
+        <div>
+          <button id="gcalClose" class="btn-ghost">Close</button>
+        </div>
+      </div>
+      <div id="gcalList" class="gcal-list" aria-live="polite"></div>
+      <div style="margin-top:12px;display:flex;gap:8px;justify-content:flex-end">
+        <button id="gcalAddAll" class="btn-primary">Add All to Google Calendar</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     function showDates(year){
-      document.getElementById("nda2025").style.display = "none";
-      document.getElementById("nda2026").style.display = "none";
-      document.getElementById(year).style.display = "block";
+      // toggle visibility and active state
+      ['nda2025','nda2026'].forEach(id => {
+        const el = document.getElementById(id);
+        if(!el) return;
+        el.style.display = (id === year) ? 'block' : 'none';
+      });
+      // set active year button
+      document.querySelectorAll('.year-btn').forEach(b=> b.classList.toggle('active', b.dataset.target === year));
+      // populate modal list when visible changes
+      populateGCalList();
     }
+
+    // Helper: format date to YYYYMMDD
+    function formatDateAsYYYYMMDD(d){
+      const y = d.getUTCFullYear();
+      const m = String(d.getUTCMonth()+1).padStart(2,'0');
+      const dd = String(d.getUTCDate()).padStart(2,'0');
+      return `${y}${m}${dd}`;
+    }
+
+    // Build Google Calendar event URL for an all-day event
+    function buildGCalUrl(ev){
+      // dates: DTSTART/DTEND (DTEND exclusive)
+      const start = formatDateAsYYYYMMDD(ev.start);
+      const endDate = new Date(Date.UTC(ev.end.getUTCFullYear(), ev.end.getUTCMonth(), ev.end.getUTCDate()+1));
+      const end = formatDateAsYYYYMMDD(endDate);
+      const params = new URLSearchParams({
+        action: 'TEMPLATE',
+        text: ev.title,
+        dates: `${start}/${end}`,
+        details: ev.description || '',
+        location: ev.location || ''
+      });
+      return `https://calendar.google.com/calendar/render?${params.toString()}`;
+    }
+
+    // Create ICS content for events (all-day events)
+    function createICS(events){
+      const lines = [];
+      lines.push('BEGIN:VCALENDAR');
+      lines.push('VERSION:2.0');
+      lines.push('PRODID:-//Cadets Compass//EN');
+      lines.push('CALSCALE:GREGORIAN');
+
+      events.forEach(ev => {
+        const uid = ev.uid || `${Date.now()}-${Math.random().toString(36).slice(2,9)}@cadetcompass.local`;
+        lines.push('BEGIN:VEVENT');
+        lines.push(`UID:${uid}`);
+        // Use all-day DTSTART/DTEND (DTEND is exclusive per iCal spec)
+        const dtstart = formatDateAsYYYYMMDD(ev.start);
+        // DTEND = next day for all-day events
+        const dtendDate = new Date(Date.UTC(ev.end.getUTCFullYear(), ev.end.getUTCMonth(), ev.end.getUTCDate()+1));
+        const dtend = formatDateAsYYYYMMDD(dtendDate);
+        lines.push(`DTSTART;VALUE=DATE:${dtstart}`);
+        lines.push(`DTEND;VALUE=DATE:${dtend}`);
+        lines.push(`SUMMARY:${ev.title.replace(/\n/g,' ')}`);
+        if(ev.description) lines.push(`DESCRIPTION:${ev.description.replace(/\n/g,' ')}`);
+        if(ev.location) lines.push(`LOCATION:${ev.location}`);
+        // Add a default alarm 1 day before
+        lines.push('BEGIN:VALARM');
+        lines.push('TRIGGER:-P1D');
+        lines.push('ACTION:DISPLAY');
+        lines.push('DESCRIPTION:Reminder');
+        lines.push('END:VALARM');
+        lines.push('END:VEVENT');
+      });
+
+      lines.push('END:VCALENDAR');
+      return lines.join('\r\n');
+    }
+
+    // Parse the visible table and collect events
+    function collectVisibleEvents(){
+      const containers = ['nda2025','nda2026'];
+      let chosen = null;
+      for(const id of containers){
+        const el = document.getElementById(id);
+        if(el && el.style.display !== 'none'){
+          chosen = el; break;
+        }
+      }
+      if(!chosen) return [];
+
+      const rows = Array.from(chosen.querySelectorAll('table tr'));
+      const events = [];
+
+      // skip header row
+      for(let i=1;i<rows.length;i++){
+        const cols = rows[i].querySelectorAll('td');
+        if(cols.length < 2) continue;
+        const title = cols[0].textContent.trim();
+        const dateText = cols[1].textContent.trim();
+        const parsed = new Date(dateText);
+        if(isNaN(parsed)) continue;
+
+        // main event (all-day)
+        events.push({ title, start: new Date(Date.UTC(parsed.getFullYear(), parsed.getMonth(), parsed.getDate())), end: new Date(Date.UTC(parsed.getFullYear(), parsed.getMonth(), parsed.getDate())), description: title });
+
+        // If this row is an exam date (contains 'Exam' or 'Exam Date'), add planning tasks
+        if(/exam/i.test(title)){
+          // Start revision 8 weeks before
+          const startRev = new Date(Date.UTC(parsed.getFullYear(), parsed.getMonth(), parsed.getDate()));
+          startRev.setUTCDate(startRev.getUTCDate() - 56);
+          events.push({ title: `Start Revision: ${title}`, start: new Date(Date.UTC(startRev.getUTCFullYear(), startRev.getUTCMonth(), startRev.getUTCDate())), end: new Date(Date.UTC(startRev.getUTCFullYear(), startRev.getUTCMonth(), startRev.getUTCDate())), description: `Start focused revision for ${title}` });
+
+          // Final Revision 2 weeks before
+          const finalRev = new Date(Date.UTC(parsed.getFullYear(), parsed.getMonth(), parsed.getDate()));
+          finalRev.setUTCDate(finalRev.getUTCDate() - 14);
+          events.push({ title: `Final Revision: ${title}`, start: new Date(Date.UTC(finalRev.getUTCFullYear(), finalRev.getUTCMonth(), finalRev.getUTCDate())), end: new Date(Date.UTC(finalRev.getUTCFullYear(), finalRev.getUTCMonth(), finalRev.getUTCDate())), description: `Final revision and mock test for ${title}` });
+        }
+      }
+      return events;
+    }
+
+    function downloadICS(filename, content){
+      const blob = new Blob([content], {type: 'text/calendar;charset=utf-8'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+    // Export ICS
+    document.getElementById('exportIcs').addEventListener('click', ()=>{
+      const events = collectVisibleEvents();
+      if(!events.length){ alert('No visible events to export. Choose a year first.'); return; }
+      const ics = createICS(events);
+      const visibleId = document.getElementById('nda2025').style.display !== 'none' ? 'nda2025' : 'nda2026';
+      downloadICS(`${visibleId}-important-dates.ics`, ics);
+    });
+
+    // Google Calendar modal + actions
+    const gcalModal = document.getElementById('gcalModal');
+    const gcalList = document.getElementById('gcalList');
+    const openGCalBtn = document.getElementById('openGCal');
+    const gcalClose = document.getElementById('gcalClose');
+    const gcalAddAll = document.getElementById('gcalAddAll');
+
+    function populateGCalList(){
+      const events = collectVisibleEvents();
+      gcalList.innerHTML = '';
+      if(!events.length){
+        gcalList.innerHTML = '<div style="padding:12px;color:rgba(255,255,255,0.8)">No events available. Select a year to show events.</div>';
+        return;
+      }
+
+      events.forEach((ev, idx) => {
+        const item = document.createElement('div');
+        item.className = 'gcal-item';
+        const left = document.createElement('div');
+        left.innerHTML = `<strong>${ev.title}</strong><div style="font-size:12px;color:rgba(255,255,255,0.8)">${ev.start.toUTCString().slice(0,16)}</div>`;
+        const actions = document.createElement('div');
+        actions.className = 'gcal-actions';
+        const addBtn = document.createElement('button');
+        addBtn.className = 'btn-ghost';
+        addBtn.textContent = 'Add';
+        addBtn.addEventListener('click', ()=>{
+          const url = buildGCalUrl(ev);
+          window.open(url, '_blank');
+        });
+        actions.appendChild(addBtn);
+        item.appendChild(left);
+        item.appendChild(actions);
+        gcalList.appendChild(item);
+      });
+    }
+
+    openGCalBtn.addEventListener('click', ()=>{
+      populateGCalList();
+      gcalModal.style.display = 'flex';
+      gcalModal.setAttribute('aria-hidden','false');
+    });
+
+    gcalClose.addEventListener('click', ()=>{
+      gcalModal.style.display = 'none';
+      gcalModal.setAttribute('aria-hidden','true');
+    });
+
+    gcalAddAll.addEventListener('click', ()=>{
+      const events = collectVisibleEvents();
+      if(!events.length){ alert('No events to add.'); return; }
+      // open each event in new tab for user confirmation
+      events.forEach(ev => {
+        const url = buildGCalUrl(ev);
+        window.open(url, '_blank');
+      });
+    });
+
+    // initialize default selection
+    document.addEventListener('DOMContentLoaded', ()=>{
+      // choose first year by default
+      const first = document.querySelector('.year-btn');
+      if(first){ showDates(first.dataset.target || 'nda2025'); }
+    });
   </script>
+  <script src="../public/js/navbar.js"></script>
 </body>
 </html>
