@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cadet's Compass — SSB</title>
+
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    :root {
+      --accent: #7ea04d;
+      --accent-hover: #9cc76e;
+      --text: #f7f7f7;
+      --bg-dark: #2c2f33;
+      --card-bg: #4b4f55;
+      --card-hover: #5a5f66;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', system-ui, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background-color: var(--bg-dark);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #1e2023;
+      padding: 16px 40px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    header h1 {
+      font-size: 22px;
+      font-weight: 700;
+      text-align: center;
+      flex: 1;
+    }
+
+    header a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      background: var(--accent);
+      padding: 10px 16px;
+      border-radius: 8px;
+      transition: 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    header a:hover {
+      background: var(--accent-hover);
+      transform: translateY(-2px);
+    }
+
+    .content {
+      flex: 1;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 30px;
+      max-width: 1100px;
+      margin: 40px auto;
+      width: 90%;
+      padding: 20px;
+    }
+
+    .section-card {
+      background-color: var(--card-bg);
+      height: 250px;
+      border-radius: 14px;
+      text-align: center;
+      text-decoration: none;
+      color: var(--text);
+      padding: 80px 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      transition: 0.3s ease;
+    }
+
+    .section-card i {
+      font-size: 40px;
+      margin-bottom: 12px;
+      color: var(--accent);
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .section-card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .section-card:hover {
+      background-color: var(--card-hover);
+      transform: translateY(-4px);
+    }
+
+    .section-card:hover i {
+      color: var(--accent-hover);
+      transform: scale(1.1);
+    }
+
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+        padding: 16px 20px;
+      }
+      .content {
+        margin: 20px auto;
+        gap: 20px;
+        padding: 10px;
+      }
+      .section-card {
+        padding: 30px 15px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <a href="dashboard.html"><i class="fas fa-arrow-left"></i> Back</a>
+    <h1>SSB Preparation</h1>
+    <a href="login.html">Logout</a>
+  </header>
+
+  <main class="content">
+    <a href="#" class="section-card">
+      <i class="fas fa-map"></i>
+      <h3>Route Maps</h3>
+    </a>
+
+    <a href="#" class="section-card">
+      <i class="fas fa-book"></i>
+      <h3>Study Material</h3>
+    </a>
+
+    <a href="#" class="section-card">
+      <i class="fas fa-pencil-alt"></i>
+      <h3>Practice Questions</h3>
+    </a>
+
+    <a href="#" class="section-card">
+      <i class="fas fa-file-alt"></i>
+      <h3>Previous Year Papers</h3>
+    </a>
+  </main>
+
+  <script src="../public/js/navbar.js"></script>
+</body>
+</html>

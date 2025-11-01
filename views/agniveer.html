@@ -1,0 +1,832 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Agniveer — Cadet's Compass (Complete)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root{
+      --primary: #3d9bf6;
+      --secondary: #7d3aed;
+      --accent: #ffc107;
+      --text: #f8f9fa;
+      --dark: #0a1128;
+      --bg-overlay: rgba(10, 17, 40, 0.85);
+      --card-bg: rgba(255,255,255,0.12);
+      --card-border: rgba(255,255,255,0.18);
+      --muted: rgba(255,255,255,0.7);
+      --max-width:1400px;
+      --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    }
+    html{
+      scroll-behavior:smooth;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{
+      margin:0;
+      font-family:'Inter',system-ui,-apple-system,sans-serif;
+      min-height:100vh;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%),
+                  url('background.jpg') center/cover no-repeat fixed;
+      color:var(--text);
+      padding:0;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    .wrap{
+      max-width:var(--max-width);
+      margin:0 auto;
+      padding:32px 24px;
+    }
+    header{
+      background: linear-gradient(135deg, rgba(61,155,246,0.95), rgba(125,58,237,0.95));
+      backdrop-filter: blur(20px);
+      padding:28px 36px;
+      border-radius:20px;
+      margin-bottom:40px;
+      box-shadow: 0 12px 48px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.1) inset;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:20px;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    header h1{
+      margin:0;
+      font-size:28px;
+      font-weight:800;
+      color:white;
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    header h1::before{
+      content:'⚔';
+      font-size:32px;
+    }
+    .nav{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .btn{
+      background:rgba(255,255,255,0.2);
+      border:1px solid rgba(255,255,255,0.25);
+      padding:14px 24px;
+      border-radius:12px;
+      color:#fff;
+      font-weight:600;
+      cursor:pointer;
+      transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      font-size:15px;
+      backdrop-filter:blur(10px);
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      text-decoration:none;
+    }
+    .btn:hover{
+      background:rgba(255,255,255,0.3);
+      transform:translateY(-3px);
+      box-shadow:0 8px 20px rgba(0,0,0,0.3);
+      border-color:rgba(255,255,255,0.35);
+    }
+    .btn.active{
+      background:linear-gradient(135deg, var(--accent), #ff9800);
+      border-color:var(--accent);
+      color:var(--dark);
+      font-weight:700;
+      box-shadow:0 4px 16px rgba(255, 193, 7, 0.4);
+    }
+    .card{
+      background:var(--card-bg);
+      border:1px solid var(--card-border);
+      padding:36px;
+      border-radius:24px;
+      margin-bottom:32px;
+      backdrop-filter:blur(20px);
+      box-shadow:0 16px 48px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.05) inset;
+      transition:all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      animation:fadeIn 0.6s ease;
+    }
+    .card:hover{
+      transform:translateY(-8px) scale(1.02);
+      box-shadow:0 24px 64px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.1) inset;
+      border-color:rgba(255,255,255,0.25);
+      background:rgba(255,255,255,0.15);
+    }
+    @keyframes fadeIn{
+      from{opacity:0;transform:translateY(10px);}
+      to{opacity:1;transform:translateY(0);}
+    }
+    .card h2{
+      margin:0 0 24px 0;
+      font-size:28px;
+      font-weight:800;
+      color:white;
+      display:flex;
+      align-items:center;
+      gap:12px;
+      background:linear-gradient(135deg, #fff, var(--accent));
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      background-clip:text;
+    }
+    .card ul{
+      list-style:none;
+      padding:0;
+      margin:0;
+    }
+    .card li{
+      padding:16px 0;
+      border-bottom:1px solid rgba(255,255,255,0.15);
+      line-height:1.7;
+      display:flex;
+      align-items:center;
+      gap:14px;
+      transition:all 0.2s ease;
+    }
+    .card li:last-child{
+      border-bottom:none;
+    }
+    .card li:hover{
+      padding-left:8px;
+      color:#fff;
+    }
+    .card li::before{
+      content:'✓';
+      color:var(--accent);
+      font-weight:700;
+      font-size:20px;
+      text-shadow:0 0 10px rgba(255, 193, 7, 0.5);
+    }
+    .sub-buttons{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin:20px 0;
+    }
+    .sub-btn{
+      background:linear-gradient(135deg, rgba(125,58,237,0.8), rgba(61,155,246,0.8));
+      border:1px solid rgba(255,255,255,0.2);
+      border-radius:12px;
+      padding:14px 24px;
+      color:#fff;
+      cursor:pointer;
+      font-weight:600;
+      transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      font-size:15px;
+      backdrop-filter:blur(10px);
+    }
+    .sub-btn:hover{
+      background:linear-gradient(135deg, rgba(125,58,237,1), rgba(61,155,246,1));
+      transform:translateY(-3px);
+      box-shadow:0 8px 20px rgba(61,155,246,0.4);
+    }
+    .sub-btn.active{
+      background:linear-gradient(135deg, var(--accent), #ff9800);
+      border-color:var(--accent);
+      color:var(--dark);
+      box-shadow:0 4px 16px rgba(255, 193, 7, 0.4);
+    }
+    .hidden{display:none;}
+    .topic-body{
+      background:rgba(255,255,255,0.05);
+      padding:24px;
+      border-radius:12px;
+      margin-top:20px;
+      border:1px solid rgba(255,255,255,0.1);
+    }
+    .topic-body h3{
+      margin:0 0 20px 0;
+      font-size:20px;
+      font-weight:700;
+      color:white;
+    }
+    .month-box{
+      margin:20px 0;
+      padding:20px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,0.15);
+      background:rgba(255,255,255,0.06);
+      transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      backdrop-filter:blur(5px);
+    }
+    .month-box:hover{
+      background:rgba(255,255,255,0.1);
+      border-color:rgba(61,155,246,0.5);
+      transform:translateX(4px);
+      box-shadow:0 4px 16px rgba(0,0,0,0.2);
+    }
+    .month-header{
+      cursor:pointer;
+      font-weight:700;
+      margin-bottom:8px;
+      font-size:16px;
+      color:white;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:8px 0;
+    }
+    .month-header::after{
+      content:'▼';
+      font-size:12px;
+      transition:transform 0.3s ease;
+      color:var(--accent);
+    }
+    .month-box.active .month-header::after{
+      transform:rotate(180deg);
+    }
+    .week-container{
+      display:none;
+      margin-left:16px;
+      margin-top:12px;
+      padding-top:12px;
+      border-top:1px solid rgba(166, 211, 234, 0.1);
+    }
+    .week{
+      margin:8px 0;
+      padding:8px 12px;
+      background:rgba(255,255,255,0.03);
+      border-radius:8px;
+      color:var(--text);
+      line-height:1.6;
+    }
+    h2{
+      margin:0 0 16px 0;
+      font-size:22px;
+      font-weight:800;
+    }
+    .topic-buttons{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin:16px 0;
+    }
+    .topic-buttons button{
+      padding:12px 24px;
+      cursor:pointer;
+      background:linear-gradient(135deg, var(--secondary), var(--primary));
+      border:1px solid rgba(255,255,255,0.25);
+      border-radius:12px;
+      color:#fff;
+      font-weight:600;
+      transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      font-size:15px;
+      backdrop-filter:blur(10px);
+    }
+    .topic-buttons button:hover{
+      transform:translateY(-3px);
+      box-shadow:0 8px 20px rgba(61,155,246,0.4);
+      border-color:rgba(255,255,255,0.35);
+    }
+    .topic-content{
+      background:rgba(255,255,255,0.06);
+      padding:24px;
+      margin:20px 0;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,0.15);
+      backdrop-filter:blur(5px);
+      transition:all 0.3s ease;
+    }
+    .topic-content:hover{
+      background:rgba(255,255,255,0.08);
+      border-color:rgba(255,255,255,0.2);
+    }
+    .topic-content h3{
+      margin:0 0 12px 0;
+      font-size:18px;
+      font-weight:700;
+      color:white;
+    }
+    .topic-content ul{
+      list-style:none;
+      padding:0;
+      margin:12px 0;
+    }
+    .topic-content li{
+      padding:10px 0 10px 24px;
+      position:relative;
+    }
+    .topic-content li::before{
+      content:'•';
+      position:absolute;
+      left:8px;
+      color:var(--accent);
+      font-size:20px;
+      font-weight:700;
+    }
+    .formula, .example{
+      margin:16px 0;
+      padding:16px;
+      background:rgba(47,110,141,0.15);
+      border-left:3px solid var(--primary);
+      border-radius:8px;
+    }
+    .formula h4, .example h4{
+      margin:0 0 10px 0;
+      font-size:16px;
+      font-weight:700;
+      color:white;
+    }
+    .formula ul, .example ul{
+      margin:8px 0;
+    }
+    .formula li, .example li{
+      padding:6px 0;
+      font-family:'Courier New',monospace;
+      background:rgba(0,0,0,0.2);
+      padding:8px 12px;
+      border-radius:6px;
+      margin:6px 0;
+    }
+    #pattern ul{
+      list-style:none;
+      padding:0;
+      margin:16px 0;
+    }
+    #pattern ul li{
+      margin:12px 0;
+      padding:0;
+      border:none;
+    }
+    #pattern ul li::before{
+      display:none;
+    }
+    #pattern ul li a{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      margin:8px 0;
+      padding:12px 20px;
+      background:linear-gradient(135deg, #004aad, #0066cc);
+      color:#fff;
+      text-decoration:none;
+      border-radius:10px;
+      font-weight:600;
+      transition:all 0.3s ease;
+      border:1px solid rgba(255,255,255,0.2);
+      box-shadow:0 4px 12px rgba(0,74,173,0.3);
+    }
+    #pattern ul li a:hover{
+      background:linear-gradient(135deg, #0073ff, #0099ff);
+      transform:translateY(-2px);
+      box-shadow:0 6px 16px rgba(0,74,173,0.4);
+    }
+    #pattern ul li a::before{
+      content:'📄';
+      font-size:18px;
+    }
+    #cutoff ul li{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:16px;
+      background:rgba(255,255,255,0.05);
+      border-radius:10px;
+      margin:8px 0;
+    }
+    #cutoff ul li strong{
+      color:var(--accent);
+      font-weight:700;
+    }
+    #impdates p{
+      margin-top:16px;
+      padding:16px;
+      background:rgba(107,138,76,0.15);
+      border-radius:10px;
+      border-left:3px solid var(--secondary);
+      font-size:14px;
+      line-height:1.6;
+    }
+    #impdates p a{
+      color:var(--accent);
+      text-decoration:none;
+      font-weight:600;
+    }
+    #impdates p a:hover{
+      text-decoration:underline;
+    }
+    /* Image Gallery Styles */
+    .image-gallery{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+      gap:24px;
+      margin-top:24px;
+    }
+    .image-item{
+      background:rgba(255,255,255,0.08);
+      border:1px solid rgba(255,255,255,0.15);
+      border-radius:16px;
+      overflow:hidden;
+      transition:all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow:0 8px 24px rgba(0,0,0,0.3);
+      backdrop-filter:blur(5px);
+    }
+    .image-item:hover{
+      transform:translateY(-8px) scale(1.03);
+      box-shadow:0 16px 40px rgba(0,0,0,0.4);
+      border-color:rgba(61,155,246,0.5);
+    }
+    .image-item img{
+      width:100%;
+      height:240px;
+      object-fit:cover;
+      display:block;
+      transition:transform 0.3s ease;
+    }
+    .image-item:hover img{
+      transform:scale(1.05);
+    }
+    .image-caption{
+      padding:16px;
+      text-align:center;
+      color:white;
+      font-weight:600;
+      font-size:15px;
+      background:rgba(0,0,0,0.2);
+    }
+    @media (max-width:768px){
+      header{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+      .nav{
+        width:100%;
+      }
+      .btn{
+        flex:1;
+        justify-content:center;
+        min-width:120px;
+      }
+      .wrap{
+        padding:16px;
+      }
+      .card{
+        padding:20px;
+      }
+      header h1{
+        font-size:22px;
+      }
+      .image-gallery{
+        grid-template-columns:1fr;
+        gap:16px;
+      }
+      .image-item img{
+        height:200px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="navbar"></div>
+  <div class="wrap">
+    <header>
+      <h1>Cadet's Compass — AGINVEER (Complete)</h1>
+      <div class="nav">
+        <button class="btn" data-group="main" data-open="impdates">Important Dates</button>
+        <button class="btn" data-group="main" data-open="eligibility">Eligibility</button>
+        <button class="btn" data-group="main" data-open="routemaps">Route Maps</button>
+        <a href="syllabus.html" class="btn">Syllabus</a>
+        <button class="btn" data-group="main" data-open="pattern">Paper Pattern</button>
+        <button class="btn" data-group="main" data-open="cutoff">Cut Offs</button>
+        <button class="btn" data-group="main" data-open="images">Images</button>
+        <a href="nda-youtube.html" class="btn">YouTube Resources</a>
+      </div>
+    </header>
+
+    <!-- IMPORTANT DATES -->
+    <section id="impdates" class="card hidden">
+      <h2>📅 Important AGNIVEER Exam Dates</h2>
+      <ul>
+        <li><strong>AGNIVEER  2025</strong> — Notification: <em>12  MAR 2025</em></li>
+        <li><strong>Application Last Date (AGNIVEER )</strong> — <em>25 APR 2025</em></li>
+        <li><strong>AGNIVEER  2025 Exam Date</strong> — <em>30 JUN-10 JUL 2025</em></li>
+        <li><strong>AGNIVEER  2025 PHYSICAL TEST</strong> — <em>1 AUG  2025</em></li>
+      </ul>
+      <p style="margin-top:10px; font-size:14px; opacity:0.85;">
+        ✅ Always verify the latest dates at <a href="https://upsc.gov.in/examinations/active-exams" target="_blank" style="color:#6b8a4c;">UPSC Official Website(Active Examinations)</a>.
+      </p>
+    </section>
+
+    <!-- ELIGIBILITY -->
+    <section id="eligibility" class="card hidden">
+      <h2>Eligibility</h2>
+      <ul>
+        <li>Age: 2 Jan 2006 – 1 Jul 2009 (verify notification)</li>
+        <li>Marital Status: Unmarried</li>
+        <li>Education: 10+2 pass; Physics & Maths for Air Force/Navy</li>
+        <li>Nationality: Indian (see UPSC rules)</li>
+      </ul>
+    </section>
+
+    <!-- ROUTE MAPS -->
+<section id="routemaps" class="card hidden">
+  <h2>Route Maps — Week by Week Plan</h2>
+
+  <div class="sub-buttons">
+    <button class="sub-btn" onclick="showTopicContent('fastTrack'); this.classList.add('active');">Fast Track 🚀</button>
+    <button class="sub-btn" onclick="showTopicContent('normalTrack'); this.classList.add('active');">Normal Track ⏱</button>
+    <button class="sub-btn" onclick="showTopicContent('slowTrack'); this.classList.add('active');">Slow Track 🐢</button>
+  </div>
+
+  <!-- FAST TRACK -->
+  <div id="fastTrack" class="topic-body hidden">
+    <h3>Fast Track 🚀 (3 Months)</h3>
+    <div class="month-box">
+      <div class="month-header" onclick="toggleMonth('fastMonth1')">Month 1</div>
+      <div id="fastMonth1" class="week-container">
+        <div class="week">📐 <strong>Week 1:</strong> Algebra – Linear equations & Quadratics</div>
+        <div class="week">🔢 <strong>Week 2:</strong> Polynomials & Progressions</div>
+        <div class="week">📏 <strong>Week 3:</strong> Trigonometry – Ratios & Identities</div>
+        <div class="week">✍ <strong>Week 4:</strong> English Grammar – Tenses, Articles, Active-Passive Voice</div>
+      </div>
+    </div>
+    <div class="month-box">
+      <div class="month-header" onclick="toggleMonth('fastMonth2')">Month 2</div>
+      <div id="fastMonth2" class="week-container">
+        <div class="week">📐 <strong>Week 5:</strong> Geometry – Triangles, Circles, Quadrilaterals</div>
+        <div class="week">∫ <strong>Week 6:</strong> Calculus – Differentiation & Integration</div>
+        <div class="week">🎲 <strong>Week 7:</strong> Probability & Statistics</div>
+        <div class="week">📝 <strong>Week 8:</strong> Vocabulary – 20 words/day practice</div>
+      </div>
+    </div>
+    <div class="month-box">
+      <div class="month-header" onclick="toggleMonth('fastMonth3')">Month 3</div>
+      <div id="fastMonth3" class="week-container">
+        <div class="week">🧲 <strong>Week 9:</strong> Physics – Mechanics & Heat</div>
+        <div class="week">⚗ <strong>Week 10:</strong> Chemistry – Atomic Structure & Organic Basics</div>
+        <div class="week">🌿🏛 <strong>Week 11:</strong> Biology & History</div>
+        <div class="week">🌍📰 <strong>Week 12:</strong> Geography + Current Affairs</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NORMAL TRACK -->
+  <div id="normalTrack" class="topic-body hidden">
+    <h3>Normal Track ⏱ (6 Months)</h3>
+    <div class="month-box">
+      <div class="month-header" onclick="toggleMonth('normalMonth1')">Month 1</div>
+      <div id="normalMonth1" class="week-container">
+        <div class="week">📐 <strong>Week 1:</strong> Algebra</div>
+        <div class="week">🔢 <strong>Week 2:</strong> Quadratics & Polynomials</div>
+        <div class="week">📏 <strong>Week 3:</strong> Trigonometry basics</div>
+        <div class="week">✍ <strong>Week 4:</strong> English Grammar</div>
+      </div>
+    </div>
+    <div class="month-box">
+      <div class="month-header" onclick="toggleMonth('normalMonth2')">Month 2</div>
+      <div id="normalMonth2" class="week-container">
+        <div class="week">📐 <strong>Week 5:</strong> Geometry basics</div>
+        <div class="week">∫ <strong>Week 6:</strong> Calculus basics</div>
+        <div class="week">🎲 <strong>Week 7:</strong> Statistics + Probability</div>
+        <div class="week">📝 <strong>Week 8:</strong> Vocabulary</div>
+      </div>
+    </div>
+    <div class="month-box">
+      <div class="month-header" onclick="toggleMonth('normalMonth3')">Month 3</div>
+      <div id="normalMonth3" class="week-container">
+        <div class="week">🧲 <strong>Week 9:</strong> Physics</div>
+        <div class="week">⚗ <strong>Week 10:</strong> Chemistry</div>
+        <div class="week">🌿 <strong>Week 11:</strong> Biology</div>
+        <div class="week">🏛 <strong>Week 12:</strong> History</div>
+      </div>
+    </div>
+    <div class="month-box">
+      <div class="month-header" onclick="toggleMonth('normalMonth4')">Month 4</div>
+      <div id="normalMonth4" class="week-container">
+        <div class="week">🌍 <strong>Week 13:</strong> Geography – Physical</div>
+        <div class="week">🌍 <strong>Week 14:</strong> Geography – Human</div>
+        <div class="week">📰 <strong>Week 15:</strong> Current Affairs – National</div>
+        <div class="week">📰 <strong>Week 16:</strong> Current Affairs – International</div>
+      </div>
+    </div>
+    <div class="month-box">
+      <div class="month-header" onclick="toggleMonth('normalMonth5')">Month 5</div>
+      <div id="normalMonth5" class="week-container">
+        <div class="week">🧲 <strong>Week 17:</strong> Physics – Heat & Optics</div>
+        <div class="week">⚗ <strong>Week 18:</strong> Chemistry – Organic basics</div>
+        <div class="week">🔄 <strong>Week 19:</strong> Revision – Mathematics</div>
+        <div class="week">✍📝 <strong>Week 20:</strong> English Grammar & Vocabulary</div>
+      </div>
+    </div>
+    <div class="month-box">
+      <div class="month-header" onclick="toggleMonth('normalMonth6')">Month 6</div>
+      <div id="normalMonth6" class="week-container">
+        <div class="week">🌿 <strong>Week 21:</strong> Biology – Plant + Ecology</div>
+        <div class="week">🏛 <strong>Week 22:</strong> History – Modern India</div>
+        <div class="week">🔄 <strong>Week 23:</strong> Full Revision</div>
+        <div class="week">🎯 <strong>Week 24:</strong> Mock Tests</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLOW TRACK -->
+  <div id="slowTrack" class="topic-body hidden">
+    <h3>Slow Track 🐢 (9–10 Months)</h3>
+    <div class="month-box">
+      <div class="month-header" onclick="toggleMonth('slowMonth1')">Months 1–2</div>
+      <div id="slowMonth1" class="week-container">
+        <div class="week">📐 <strong>Week 1–2:</strong> Algebra</div>
+        <div class="week">🔢 <strong>Week 3–4:</strong> Quadratics & Polynomials</div>
+      </div>
+    </div>
+    <div class="month-box">
+      <div class="month-header" onclick="toggleMonth('slowMonth2')">Months 3–4</div>
+      <div id="slowMonth2" class="week-container">
+        <div class="week">📏 <strong>Week 5–6:</strong> Trigonometry basics</div>
+        <div class="week">📐 <strong>Week 7–8:</strong> Geometry & Mensuration</div>
+      </div>
+    </div>
+    <div class="month-box">
+      <div class="month-header" onclick="toggleMonth('slowMonth3')">Months 5–6</div>
+      <div id="slowMonth3" class="week-container">
+        <div class="week">∫🎲 <strong>Week 9–10:</strong> Calculus + Probability</div>
+        <div class="week">🎲✍ <strong>Week 11–12:</strong> Statistics + English Grammar</div>
+      </div>
+    </div>
+    <div class="month-box">
+      <div class="month-header" onclick="toggleMonth('slowMonth4')">Months 7–8</div>
+      <div id="slowMonth4" class="week-container">
+        <div class="week">🧲⚗ <strong>Week 13–14:</strong> Physics & Chemistry</div>
+        <div class="week">🌿🏛 <strong>Week 15–16:</strong> Biology + History</div>
+      </div>
+    </div>
+    <div class="month-box">
+      <div class="month-header" onclick="toggleMonth('slowMonth5')">Months 9–10</div>
+      <div id="slowMonth5" class="week-container">
+        <div class="week">🌍📰 <strong>Week 17–18:</strong> Geography + Current Affairs</div>
+        <div class="week">🔄🎯 <strong>Week 19–20:</strong> Full Revision + Mock Tests</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+    <!-- SYLLABUS, PAPER PATTERN, CUT OFFS, YOUTUBE -->
+    <section id="syllabus" class="card hidden">
+      <h2>Syllabus</h2>
+      <div class="topic-buttons">
+        <button onclick="toggleContent('maths')">Mathematics</button>
+        <button onclick="toggleContent('gat')">GAT</button>
+      </div>
+      <div id="maths" class="topic-content hidden">
+        <h3>Mathematics</h3>
+        <ul>
+          <li>Algebra: Linear equations, Quadratics</li>
+          <li>Trigonometry: Ratios, Identities</li>
+          <li>Geometry: Triangles, Circles, Quadrilaterals</li>
+          <li>Calculus, Probability, Statistics</li>
+        </ul>
+        <div class="formula">
+          <h4>Formulas</h4>
+          <ul>
+            <li>Quadratic Formula: x = [-b ± √(b²-4ac)] / 2a</li>
+            <li>Area of Triangle: ½ * base * height</li>
+          </ul>
+        </div>
+        <div class="example">
+          <h4>Example</h4>
+          <ul>
+            <li>Solve x² - 5x + 6 = 0 → x = 2,3</li>
+          </ul>
+        </div>
+      </div>
+      <div id="gat" class="topic-content hidden">
+        <h3>General Ability Test</h3>
+        <ul>
+          <li>English: Grammar, Vocabulary, Comprehension</li>
+          <li>Physics, Chemistry, Biology, History, Geography</li>
+        </ul>
+      </div>
+    </section>
+
+   <section id="pattern" class="card hidden">
+  <h2>📘 AGNIVEER Paper Pattern</h2>
+
+  <!-- Written Paper Pattern -->
+  <ul>
+    <li><b>Mathematics:</b> 120 Questions, 300 Marks, Duration: 2 hours</li>
+    <li><b>General Ability Test (GAT):</b> 150 Questions, 600 Marks, Duration: 2 hours 30 minutes</li>
+    <li><b>Total Marks:</b> 900 | <b>Exam Duration:</b> 4 hours 30 minutes</li>
+  </ul>
+
+  <!-- Link to Previous Year Question Papers -->
+  <h3>🔗 Previous Year Question Papers (PYQs):</h3>
+  <ul>
+    <li><a href="https://www.upsc.gov.in/sites/default/files/QP-NDA-NA-I-Exam-2024-Maths.pdf" target="_blank">📄 NDA 2024 Paper I (Maths)</a></li>
+    <li><a href="https://www.upsc.gov.in/sites/default/files/QP-NDA-NA-I-Exam-2024-GAT.pdf" target="_blank">📝 NDA 2024 Paper II (GAT)</a></li>
+    <li><a href="https://www.upsc.gov.in/examinations/previous-question-papers" target="_blank">🔎 Browse All PYQ Papers (UPSC Official)</a></li>
+  </ul>
+</section>
+
+
+    <section id="cutoff" class="card hidden">
+      <h2>Cut Offs</h2>
+      <ul>
+        <li>NDA 1 2023: Male – 342/900, Female – 315/900</li>
+        <li>NDA 2 2023: Male – 338/900, Female – 312/900</li>
+      </ul>
+    </section>
+
+    <!-- IMAGES GALLERY -->
+    <section id="images" class="card hidden">
+      <h2>📸 NDA Images Gallery</h2>
+      <p style="margin-bottom:24px;opacity:0.9;">Explore images related to NDA exam preparation, academy life, and more.</p>
+      
+      <div class="image-gallery">
+        <div class="image-item">
+          <img src="../public/images/nda_image.webp" alt="NDA Preparation" loading="lazy">
+          <div class="image-caption">NDA Preparation Guide</div>
+        </div>
+        <div class="image-item">
+          <img src="../public/images/nda ranks.webp" alt="Cadet Training Background" loading="lazy">
+          <div class="image-caption">Training & Preparation</div>
+        </div>
+        <div class="image-item">
+          <img src="../public/images/officer rep.webp" alt="Officer" loading="lazy">
+          <div class="image-caption">Vice Admiral Gurcharan Singh</div>
+        </div>
+        <!-- <div class="image-item">
+          <img src="../public/images/WhatsApp Image 2025-10-14 at 19.33.20_d4117013.jpg" alt="NDA Resource" loading="lazy">
+          <div class="image-caption">NDA Resource Material</div>
+        </div> -->
+      </div>
+      <p style="margin-top:20px;font-size:14px;opacity:0.7;text-align:center;">
+        💡 <strong>Tip:</strong> Click on any image to view it in full size (if image viewer is implemented)
+      </p>
+    </section>
+
+  </div>
+
+  <script>
+    // Main section toggle
+    document.querySelectorAll('.btn[data-open]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        // Remove active class from all buttons
+        document.querySelectorAll('.btn').forEach(b=>b.classList.remove('active'));
+        // Add active class to clicked button
+        btn.classList.add('active');
+        // Hide all cards
+        document.querySelectorAll('.card').forEach(c=>c.classList.add('hidden'));
+        // Show selected card
+        const targetId = btn.dataset.open;
+        const targetCard = document.getElementById(targetId);
+        if(targetCard){
+          targetCard.classList.remove('hidden');
+          // Smooth scroll to card
+          targetCard.scrollIntoView({behavior:'smooth',block:'start'});
+        }
+      });
+    });
+
+    // Sub-topic toggle for route maps
+    function showTopicContent(id){
+      // Remove active class from all sub-buttons
+      document.querySelectorAll('.sub-btn').forEach(btn=>btn.classList.remove('active'));
+      // Hide all topic bodies
+      document.querySelectorAll('.topic-body').forEach(t=>t.classList.add('hidden'));
+      // Show selected topic
+      const target = document.getElementById(id);
+      if(target){
+        target.classList.remove('hidden');
+      }
+    }
+
+    // Month toggle with animation
+    function toggleMonth(id){
+      const elem = document.getElementById(id);
+      const monthBox = elem.closest('.month-box');
+      const isVisible = elem.style.display === 'block';
+      
+      if(isVisible){
+        elem.style.display = 'none';
+        monthBox.classList.remove('active');
+      } else {
+        elem.style.display = 'block';
+        monthBox.classList.add('active');
+      }
+    }
+
+    // Syllabus topics toggle
+    function toggleContent(id){
+      const elem = document.getElementById(id);
+      elem.classList.toggle('hidden');
+      // Smooth scroll to content
+      if(!elem.classList.contains('hidden')){
+        setTimeout(()=>{
+          elem.scrollIntoView({behavior:'smooth',block:'nearest'});
+        },100);
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="../public/css/navbar.css">
+  <script src="../public/js/navbar.js"></script>
+</body>
+</html>
