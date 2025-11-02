@@ -1,0 +1,27 @@
+[
+  {
+    "q": "What is the capital of India?",
+    "options": ["New Delhi", "Mumbai", "Kolkata", "Chennai"],
+    "answer": "New Delhi"
+  },
+  {
+    "q": "Who was the first Prime Minister of India?",
+    "options": ["Mahatma Gandhi", "Jawaharlal Nehru", "Sardar Patel", "Indira Gandhi"],
+    "answer": "Jawaharlal Nehru"
+  },
+  {
+    "q": "Which planet is known as the Red Planet?",
+    "options": ["Earth", "Mars", "Venus", "Jupiter"],
+    "answer": "Mars"
+  },
+  {
+    "q": "What is the national currency of India?",
+    "options": ["Dollar", "Rupee", "Yen", "Euro"],
+    "answer": "Rupee"
+  },
+  {
+    "q": "Who is known as the Father of the Nation?",
+    "options": ["B. R. Ambedkar", "Subhash Chandra Bose", "Mahatma Gandhi", "Bhagat Singh"],
+    "answer": "Mahatma Gandhi"
+  }
+]

@@ -1,0 +1,27 @@
+[
+  {
+    "q": "In which year did India get independence?",
+    "options": ["1945", "1946", "1947", "1948"],
+    "answer": "1947"
+  },
+  {
+    "q": "Which branch of the Indian Armed Forces uses the rank 'Wing Commander'?",
+    "options": ["Army", "Navy", "Air Force", "Coast Guard"],
+    "answer": "Air Force"
+  },
+  {
+    "q": "Who appoints the Chief of Defence Staff (CDS) in India?",
+    "options": ["Prime Minister", "President", "Defence Minister", "Parliament"],
+    "answer": "President"
+  },
+  {
+    "q": "Which of the following is NOT a part of Officer Intelligence Rating (OIR) test?",
+    "options": ["Verbal reasoning", "Non-verbal reasoning", "Physical test", "Picture perception"],
+    "answer": "Physical test"
+  },
+  {
+    "q": "The motto of the Indian Army is:",
+    "options": ["Service Before Self", "Touch the Sky with Glory", "Jai Hind", "May the Lord of the Water be Auspicious unto Us"],
+    "answer": "Service Before Self"
+  }
+]

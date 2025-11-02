@@ -1,63 +1,292 @@
-<!doctype html>
+<!-- <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Mock Tests — Cadet's Compass</title>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../public/css/navbar.css">
-  <style>
-    :root{--card-bg: rgba(255,255,255,0.04);--muted:#bcbcbc;--accent:#6b8a4c}
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mock Tests — Cadet's Compass</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../public/css/navbar.css">
+  <style>
+    :root{
+      --card-bg: rgba(255,255,255,0.04);
+      --muted:#bcbcbc;
+      --accent:#64ffda;
+      --accent-dark:#4cd2bd;
+      --bg-dark: #0a192f;
+      --bg-card: #172a45;
+      --text-light: #e6f1ff;
+    }
     *{box-sizing:border-box}
-    body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;color:var(--text, #f6f3ee);background: linear-gradient(180deg, rgba(8,12,10,0.6), rgba(0,0,0,0.45)), url('background.jpg') center/cover no-repeat fixed;padding:0}
-    .wrap{max-width:1100px;margin:0 auto;padding:calc(var(--nav-height,64px) + 24px) 20px 60px}
-    h1{font-size:24px;margin:6px 0 18px;font-weight:800}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;
+      color:var(--text-light);
+      background: linear-gradient(180deg, var(--bg-dark), rgba(10, 25, 47, 0.9));
+      padding:0;
+    }
+    .wrap{
+      max-width:1100px;
+      margin:0 auto;
+      padding:calc(var(--nav-height,64px) + 24px) 20px 60px
+    }
+    h1{
+      font-size:28px;
+      margin:6px 0 24px;
+      font-weight:800;
+      text-align:center;
+      color:var(--accent);
+    }
 
-    .tabs{display:flex;gap:8px;margin-bottom:18px}
-    .tab{padding:10px 14px;border-radius:10px;background:var(--card-bg);cursor:pointer;border:1px solid rgba(255,255,255,0.04)}
-    .tab.active{background:var(--accent);color:white;border-color:transparent}
+    .tabs{
+      display:flex;
+      gap:12px;
+      margin-bottom:24px;
+      justify-content:center;
+    }
+    .tab{
+      padding:12px 18px;
+      border-radius:10px;
+      background:var(--card-bg);
+      cursor:pointer;
+      border:1px solid rgba(255,255,255,0.1);
+      transition:all 0.3s ease;
+    }
+    .tab:hover {
+      transform:translateY(-2px);
+      border-color:var(--accent);
+    }
+    .tab.active{
+      background:var(--accent);
+      color:var(--bg-dark);
+      border-color:transparent;
+      font-weight:600;
+    }
 
-    .panel{background:rgba(0,0,0,0.35);padding:18px;border-radius:12px}
-    .settings{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
-    .settings label{font-weight:600}
-    .btn{background:var(--accent);color:#fff;padding:10px 14px;border-radius:10px;border:0;cursor:pointer;font-weight:700}
-    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.08)}
+    .panel{
+      background:var(--bg-card);
+      padding:24px;
+      border-radius:12px;
+      box-shadow:0 10px 30px -15px rgba(2,12,27,0.7);
+    }
+    .settings{
+      display:flex;
+      gap:18px;
+      align-items:center;
+      flex-wrap:wrap;
+      margin-bottom:18px;
+    }
+    .settings label{
+      font-weight:600;
+      color:var(--text-light);
+    }
+    .btn{
+      background:var(--accent);
+      color:var(--bg-dark);
+      padding:12px 20px;
+      border-radius:8px;
+      border:0;
+      cursor:pointer;
+      font-weight:700;
+      transition:all 0.3s ease;
+    }
+    .btn:hover {
+      background:var(--accent-dark);
+      transform:translateY(-2px);
+      box-shadow:0 4px 8px rgba(0,0,0,0.2);
+    }
+    .btn.ghost{
+      background:transparent;
+      border:1px solid var(--accent);
+      color:var(--accent);
+    }
+    .btn.ghost:hover {
+      background:rgba(100, 255, 218, 0.1);
+    }
 
-    .test-area{margin-top:18px}
-    .question{margin-bottom:14px;padding:16px;background:rgba(255,255,255,0.03);border-radius:10px}
-    .choices{display:flex;flex-direction:column;gap:10px;margin-top:8px}
-    .choice{padding:12px;border-radius:8px;background:rgba(255,255,255,0.02);cursor:pointer;border:1px solid rgba(255,255,255,0.04)}
-    .choice.selected{outline:2px solid #ffd36b}
+    .test-area{
+      margin-top:24px;
+      background:var(--bg-card);
+      padding:24px;
+      border-radius:12px;
+      box-shadow:0 10px 30px -15px rgba(2,12,27,0.7);
+    }
+    .question{
+      margin-bottom:20px;
+      padding:20px;
+      background:rgba(255,255,255,0.05);
+      border-radius:10px;
+      box-shadow:0 4px 8px rgba(0,0,0,0.1);
+    }
+    .choices{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      margin-top:16px;
+    }
+    .choice{
+      padding:14px;
+      border-radius:8px;
+      background:rgba(255,255,255,0.05);
+      cursor:pointer;
+      border:1px solid rgba(255,255,255,0.1);
+      transition:all 0.2s ease;
+    }
+    .choice:hover {
+      background:rgba(255,255,255,0.1);
+      transform:translateX(5px);
+    }
+    .choice.selected{
+      background:var(--accent);
+      color:var(--bg-dark);
+      border-color:var(--accent);
+      font-weight:600;
+    }
 
-    .footer-bar{display:flex;justify-content:space-between;align-items:center;margin-top:18px}
-    .timer{font-weight:800}
+    .footer-bar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-top:24px;
+    }
+    .timer{
+      font-weight:800;
+      font-size:24px;
+      color:var(--accent);
+    }
 
-    .scorecard{background:rgba(0,0,0,0.5);padding:18px;border-radius:12px;margin-top:18px}
+    .scorecard{
+      background:var(--bg-card);
+      padding:24px;
+      border-radius:12px;
+      margin-top:24px;
+      box-shadow:0 10px 30px -15px rgba(2,12,27,0.7);
+    }
     .hidden{display:none}
 
     /* Modal */
-    .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;z-index:9999}
-    .modal{background:#fff;color:#111;padding:18px;border-radius:12px;width:920px;max-width:94%}
-    .modal h3{margin-top:0}
+    .modal-backdrop{
+      position:fixed;
+      inset:0;
+      background:rgba(10, 25, 47, 0.85);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      z-index:9999;
+    }
+    .modal{
+      background:var(--bg-card);
+      color:var(--text-light);
+      padding:28px;
+      border-radius:12px;
+      width:920px;
+      max-width:94%;
+      box-shadow:0 20px 40px -15px rgba(2,12,27,0.7);
+    }
+    .modal h3{
+      margin-top:0;
+      color:var(--accent);
+    }
 
-    @media (max-width:760px){.settings{flex-direction:column;align-items:flex-start}}
+    /* Test Cards */
+    .test-cards {
+      display:grid;
+      grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));
+      gap:24px;
+      margin-bottom:32px;
+    }
+    .test-card {
+      background:var(--bg-card);
+      border-radius:12px;
+      padding:24px;
+      text-align:center;
+      cursor:pointer;
+      transition:all 0.3s ease;
+      border:2px solid transparent;
+      box-shadow:0 10px 30px -15px rgba(2,12,27,0.7);
+    }
+    .test-card:hover {
+      transform:translateY(-8px);
+      box-shadow:0 20px 30px -15px rgba(2,12,27,0.7);
+    }
+    .test-card.active {
+      border-color:var(--accent);
+    }
+    .test-card img {
+      width:80px;
+      height:80px;
+      margin:0 auto 16px;
+      display:block;
+      border-radius:50%;
+      border:3px solid var(--accent);
+      object-fit:cover;
+    }
+    .test-card h3 {
+      margin:0 0 10px;
+      color:var(--accent);
+    }
+    .test-card p {
+      margin:0;
+      font-size:14px;
+      color:var(--muted);
+    }
+
+    select, input {
+      background:rgba(255,255,255,0.05);
+      border:1px solid rgba(255,255,255,0.1);
+      color:var(--text-light);
+      padding:10px 14px;
+      border-radius:6px;
+    }
+
+    @media (max-width:760px){
+      .settings{flex-direction:column;align-items:flex-start}
+      .test-cards {grid-template-columns:1fr}
+    }
   </style>
 </head>
 <body>
-  <div id="navbar"></div>
-  <div class="wrap">
-    <h1>Mock Tests — Professional Mode</h1>
+  <div id="navbar"></div>
+  <div class="wrap">
+    <h1>Mock Tests — Professional Mode</h1>
 
-    <div class="tabs" role="tablist" id="testTabs">
-      <div class="tab active" data-test="nda">NDA</div>
-      <div class="tab" data-test="cds">CDS</div>
-      <div class="tab" data-test="afcat">AFCAT</div>
-      <div class="tab" data-test="agniveer">Agniveer</div>
-      <div class="tab" data-test="ssb">SSB</div>
+    <div class="tabs" role="tablist" id="testTabs">
+      <div class="tab active" data-test="nda">NDA</div>
+      <div class="tab" data-test="cds">CDS</div>
+      <div class="tab" data-test="afcat">AFCAT</div>
+      <div class="tab" data-test="agniveer">Agniveer</div>
+      <div class="tab" data-test="ssb">SSB</div>
+    </div>
+
+        <div class="test-cards">
+      <div class="test-card" data-test="nda">
+        <img src="../public/images/nda_image.webp" alt="NDA">
+        <h3>NDA Mock Test</h3>
+        <p>National Defence Academy</p>
+      </div>
+      <div class="test-card" data-test="cds">
+        <img src="../public/images/officer-avatar.png" alt="CDS">
+        <h3>CDS Mock Test</h3>
+        <p>Combined Defence Services</p>
+      </div>
+      <div class="test-card" data-test="afcat">
+        <img src="../public/images/officer-avatar.png" alt="AFCAT">
+        <h3>AFCAT Mock Test</h3>
+        <p>Air Force Common Admission</p>
+      </div>
+      <div class="test-card" data-test="agniveer">
+        <img src="../public/images/officer-avatar.png" alt="Agniveer">
+        <h3>Agniveer Mock Test</h3>
+        <p>Short-term Defence Service</p>
+      </div>
+      <div class="test-card" data-test="ssb">
+        <img src="../public/images/officer-avatar.png" alt="SSB">
+        <h3>SSB Psychological Test</h3>
+        <p>Personality & Aptitude</p>
+      </div>
     </div>
 
-    <div class="panel">
+    <div class="panel hidden" id="testPanel">
       <div class="settings">
         <label>Questions:
           <select id="qCount"><option value="10">10</option><option value="20" selected>20</option><option value="30">30</option></select>
@@ -66,241 +295,682 @@
           <select id="duration"><option value="10">10</option><option value="20" selected>20</option><option value="30">30</option></select>
         </label>
         <button class="btn ghost" id="previewBtn">Preview 1 question</button>
-        <div style="margin-left:auto;display:flex;gap:8px">
+        <div style="margin-left:auto;display:flex;gap:12px">
           <button class="btn" id="startBtn">Start Test</button>
         </div>
-      </div>
+        
+      </div>
 
-      <div id="testArea" class="test-area hidden" aria-live="polite"></div>
+      <div id="testArea" class="test-area hidden" aria-live="polite"></div>
 
-      <div class="footer-bar">
-        <div class="timer" id="timer">00:00</div>
-        <div>
-          <button class="btn ghost" id="submitBtn">Submit</button>
-        </div>
-      </div>
+      <div class="footer-bar">
+        <div class="timer" id="timer">00:00</div>
+        <div>
+          <button class="btn ghost" id="submitBtn">Submit</button>
+        </div>
+      </div>
 
-      <div id="scoreCard" class="scorecard hidden"></div>
-    </div>
-  </div>
+      <div id="scoreCard" class="scorecard hidden"></div>
+    </div>
+  </div>
 
-  <!-- Terms & Privacy Modal (must accept) -->
-  <div id="termsModal" class="modal-backdrop hidden">
-    <div class="modal" role="dialog" aria-modal="true">
-      <h3>Terms & Conditions</h3>
-      <p>Please read and accept our Terms and Privacy policy before starting the mock test. Fullscreen is required for an official exam-like environment.</p>
-      <div style="max-height:260px;overflow:auto;background:#f7f7f7;padding:12px;border-radius:8px;margin:12px 0">
-        <h4>Privacy</h4>
-        <p>We collect minimal information for generating a scorecard stored locally. No answers are transmitted to servers in this mode.</p>
-        <h4>Rules</h4>
-        <ul>
-          <li>Do not navigate away from the test window. Exiting fullscreen will pause the timer.</li>
-          <li>Copying or taking screenshots is discouraged.</li>
-        </ul>
-      </div>
-      <label style="display:block;margin-bottom:8px"><input type="checkbox" id="acceptTerms"> I accept the Terms & Privacy Policy</label>
-      <div style="display:flex;justify-content:flex-end;gap:8px">
-        <button class="btn ghost" id="cancelTerms">Cancel</button>
-        <button class="btn" id="agreeTerms">Accept & Go Fullscreen</button>
-      </div>
-    </div>
-  </div>
+    <div id="termsModal" class="modal-backdrop hidden">
+    <div class="modal" role="dialog" aria-modal="true">
+      <h3>Terms & Conditions</h3>
+      <p>Please read and accept our Terms and Privacy policy before starting the mock test. Fullscreen is required for an official exam-like environment.</p>
+      <div style="max-height:260px;overflow:auto;background:#f7f7f7;padding:12px;border-radius:8px;margin:12px 0">
+        <h4>Privacy</h4>
+        <p>We collect minimal information for generating a scorecard stored locally. No answers are transmitted to servers in this mode.</p>
+        <h4>Rules</h4>
+        <ul>
+          <li>Do not navigate away from the test window. Exiting fullscreen will pause the timer.</li>
+          <li>Copying or taking screenshots is discouraged.</li>
+        </ul>
+      </div>
+      <label style="display:block;margin-bottom:8px"><input type="checkbox" id="acceptTerms"> I accept the Terms & Privacy Policy</label>
+      <div style="display:flex;justify-content:flex-end;gap:8px">
+        <button class="btn ghost" id="cancelTerms">Cancel</button>
+        <button class="btn" id="agreeTerms">Accept & Go Fullscreen</button>
+      </div>
+    </div>
+  </div>
 
-  <script>
-  (function(){
-    // Enhanced mock test flow: per-question navigation, progress, fullscreen enforcement, autosave, history
-    const API_URL = 'https://opentdb.com/api.php';
-    const tabs = document.querySelectorAll('.tab');
-    const testArea = document.getElementById('testArea');
-    const qCountSel = document.getElementById('qCount');
-    const durationSel = document.getElementById('duration');
-    const startBtn = document.getElementById('startBtn');
-    const previewBtn = document.getElementById('previewBtn');
-    const timerEl = document.getElementById('timer');
-    const submitBtn = document.getElementById('submitBtn');
-    const scoreCard = document.getElementById('scoreCard');
-    const termsModal = document.getElementById('termsModal');
-    const acceptTerms = document.getElementById('acceptTerms');
-    const agreeTerms = document.getElementById('agreeTerms');
-    const cancelTerms = document.getElementById('cancelTerms');
+  <script>
+  (function(){
+    // Enhanced mock test flow: per-question navigation, progress, fullscreen enforcement, autosave, history
+    const API_URL = 'https://opentdb.com/api.php';
+    const tabs = document.querySelectorAll('.tab');
+    const testCards = document.querySelectorAll('.test-card');
+    const testPanel = document.getElementById('testPanel');
+    const testArea = document.getElementById('testArea');
+    const qCountSel = document.getElementById('qCount');
+    const durationSel = document.getElementById('duration');
+    const startBtn = document.getElementById('startBtn');
+    const previewBtn = document.getElementById('previewBtn');
+    const timerEl = document.getElementById('timer');
+    const submitBtn = document.getElementById('submitBtn');
+    const scoreCard = document.getElementById('scoreCard');
+    const termsModal = document.getElementById('termsModal');
+    const acceptTerms = document.getElementById('acceptTerms');
+    const agreeTerms = document.getElementById('agreeTerms');
+    const cancelTerms = document.getElementById('cancelTerms');
 
-    // UI additions
+    // UI additions
     let progressBar = document.getElementById('progressBar');
-    if(!progressBar){ progressBar = document.createElement('div'); progressBar.id='progressBar'; progressBar.style.height='10px'; progressBar.style.background='rgba(255,255,255,0.06)'; progressBar.style.borderRadius='6px'; progressBar.style.marginTop='12px'; progressBar.innerHTML='<div id="progressFill" style="height:100%;width:0%;background:linear-gradient(90deg,#6b8a4c,#88b067);border-radius:6px"></div>'; document.querySelector('.panel').insertBefore(progressBar, document.getElementById('testArea')) }
+    if(!progressBar){ 
+      progressBar = document.createElement('div'); 
+      progressBar.id='progressBar'; 
+      progressBar.style.height='12px'; 
+      progressBar.style.background='rgba(255,255,255,0.08)'; 
+      progressBar.style.borderRadius='6px'; 
+      progressBar.style.marginTop='16px';
+      progressBar.style.marginBottom='8px';
+      progressBar.innerHTML='<div id="progressFill" style="height:100%;width:0%;background:linear-gradient(90deg,var(--accent-dark),var(--accent));border-radius:6px;transition:width 0.3s ease"></div>'; 
+      document.querySelector('.panel').insertBefore(progressBar, document.getElementById('testArea')) 
+    }
 
-    let state = { testId: 'nda', questions: [], answers: {}, currentIndex: 0, timer: null, timeLeft: 0, started:false, uid: null };
+    let state = { testId: 'nda', questions: [], answers: {}, currentIndex: 0, timer: null, timeLeft: 0, started:false, uid: null };
 
-    const localFallback = {
-      nda: [ {question:'What is the full form of NDA?', correct:'National Defence Academy', choices:['National Defence Academy','National Department of Affairs','National Development Agency','Naval Defence Association'], category:'General', difficulty:'easy'} ],
-      cds: [ {question:'CDS stands for?', correct:'Combined Defence Services', choices:['Combined Defence Services','Central Defence School','Combined Department of Service','Corps Defence Service'], category:'General', difficulty:'easy'} ],
-      afcat: [ {question:'Which force conducts AFCAT?', correct:'Indian Air Force', choices:['Indian Army','Indian Navy','Indian Air Force','Indian Coast Guard'], category:'General', difficulty:'easy'} ],
-      agniveer: [ {question:'Agniveer is a scheme for which service?', correct:'Indian Armed Forces', choices:['Police','Indian Armed Forces','Paramilitary','Civil Services'], category:'General', difficulty:'easy'} ],
-      ssb: [ {question:'SSB primarily evaluates?', correct:'Personality & Aptitude', choices:['Physical fitness','Personality & Aptitude','Technical skills','General knowledge'], category:'Psych', difficulty:'easy'} ]
-    };
+    const localFallback = {
+      nda: [ {question:'What is the full form of NDA?', correct:'National Defence Academy', choices:['National Defence Academy','National Department of Affairs','National Development Agency','Naval Defence Association'], category:'General', difficulty:'easy'} ],
+      cds: [ {question:'CDS stands for?', correct:'Combined Defence Services', choices:['Combined Defence Services','Central Defence School','Combined Department of Service','Corps Defence Service'], category:'General', difficulty:'easy'} ],
+      afcat: [ {question:'Which force conducts AFCAT?', correct:'Indian Air Force', choices:['Indian Army','Indian Navy','Indian Air Force','Indian Coast Guard'], category:'General', difficulty:'easy'} ],
+      agniveer: [ {question:'Agniveer is a scheme for which service?', correct:'Indian Armed Forces', choices:['Police','Indian Armed Forces','Paramilitary','Civil Services'], category:'General', difficulty:'easy'} ],
+      ssb: [ {question:'SSB primarily evaluates?', correct:'Personality & Aptitude', choices:['Physical fitness','Personality & Aptitude','Technical skills','General knowledge'], category:'Psych', difficulty:'easy'} ]
+    };
 
-    function shuffle(arr){ for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];} return arr }
+    function shuffle(arr){ for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];} return arr }
 
-    // Tab switching
-    tabs.forEach(t=>t.addEventListener('click', ()=>{ tabs.forEach(x=>x.classList.remove('active')); t.classList.add('active'); state.testId = t.dataset.test; resetUI(); }))
-
-    function resetUI(){ stopTimer(); testArea.classList.add('hidden'); scoreCard.classList.add('hidden'); state.questions=[]; state.answers={}; state.currentIndex=0; state.started=false; state.uid=null; updateProgress(); }
-
-    function updateProgress(){ const total = state.questions.length || 1; const idx = state.currentIndex || 0; const p = Math.round((idx/total)*100); document.getElementById('progressFill').style.width = p+'%'; }
-
-    // Create per-question UI but only show currentIndex
-    function renderQuestions(){ testArea.innerHTML=''; const container=document.createElement('div'); container.id='qContainer';
-      state.questions.forEach((q,idx)=>{
-        const qWrap = document.createElement('div'); qWrap.className='question'; qWrap.dataset.index=idx; qWrap.style.display = idx===state.currentIndex ? 'block' : 'none';
-        const qText = document.createElement('div'); qText.innerHTML = `<strong>Q${idx+1}.</strong> ${q.question}`;
-        qWrap.appendChild(qText);
-        const choices = document.createElement('div'); choices.className='choices';
-        q._shuffledChoices.forEach((c,choiceIdx) => {
-          const btn = document.createElement('button'); btn.className='choice'; btn.type='button'; btn.textContent = c; btn.dataset.choiceIndex = choiceIdx;
-          btn.addEventListener('click', ()=>{
-            state.answers[idx] = c; // only store chosen text in memory
-            Array.from(choices.children).forEach(ch=>ch.classList.remove('selected'));
-            btn.classList.add('selected');
-            autosave();
-          });
-          choices.appendChild(btn);
-        });
-        qWrap.appendChild(choices);
-        // navigation
-        const nav = document.createElement('div'); nav.style.display='flex'; nav.style.justifyContent='space-between'; nav.style.marginTop='12px';
-        const prev = document.createElement('button'); prev.className='btn ghost'; prev.textContent='Previous'; prev.addEventListener('click', ()=>{ showQuestion(Math.max(0, state.currentIndex-1)) });
-        const next = document.createElement('button'); next.className='btn'; next.textContent = idx===state.questions.length-1 ? 'Finish' : 'Next'; next.addEventListener('click', ()=>{ if(idx===state.questions.length-1){ if(confirm('Submit your test?')) submitTest(); } else showQuestion(state.currentIndex+1) });
-        nav.appendChild(prev); nav.appendChild(next); qWrap.appendChild(nav);
-        container.appendChild(qWrap);
+    // Test card selection
+    testCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const testType = card.dataset.test;
+        state.testId = testType;
+        
+        // Update active test card
+        testCards.forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+        
+        // Update active tab to match selected test
+        tabs.forEach(t => t.classList.remove('active'));
+        document.querySelector(`.tab[data-test="${testType}"]`).classList.add('active');
+        
+        // Show the test panel
+        testPanel.classList.remove('hidden');
+        
+        // Scroll to the test panel
+        testPanel.scrollIntoView({behavior: 'smooth'});
       });
-      testArea.appendChild(container); testArea.classList.remove('hidden'); updateProgress(); restoreSelections();
-    }
+    });
 
-    function showQuestion(i){ const v = document.querySelectorAll('#qContainer .question'); if(!v[i]) return; v.forEach((el,idx)=>el.style.display = idx===i ? 'block' : 'none'); state.currentIndex=i; updateProgress(); autosave(); window.scrollTo({top:0,behavior:'smooth'}); }
+    // Tab switching
+    tabs.forEach(t=>t.addEventListener('click', ()=>{ 
+      const testType = t.dataset.test;
+      
+      // Update active tab
+      tabs.forEach(x=>x.classList.remove('active')); 
+      t.classList.add('active');
+      
+      // Update active test card
+      testCards.forEach(c => c.classList.remove('active'));
+      document.querySelector(`.test-card[data-test="${testType}"]`).classList.add('active');
+      
+      state.testId = testType; 
+      resetUI(); 
+    }))
 
-    function restoreSelections(){ Object.keys(state.answers).forEach(k=>{ const idx=parseInt(k,10); const qEl = document.querySelector(`#qContainer .question[data-index='${idx}']`); if(qEl){ Array.from(qEl.querySelectorAll('.choice')).forEach(ch=>{ if(ch.textContent === state.answers[idx]) ch.classList.add('selected'); else ch.classList.remove('selected'); }) } }); }
+    function resetUI(){ stopTimer(); testArea.classList.add('hidden'); scoreCard.classList.add('hidden'); state.questions=[]; state.answers={}; state.currentIndex=0; state.started=false; state.uid=null; updateProgress(); }
 
-    // Timer
-    function startTimer(minutes){ state.timeLeft = minutes*60; timerEl.textContent = formatTime(state.timeLeft); state.timer = setInterval(()=>{ state.timeLeft--; if(state.timeLeft<=0){ clearInterval(state.timer); timerEl.textContent='00:00'; autoSubmit(); } else timerEl.textContent=formatTime(state.timeLeft); },1000); }
-    function stopTimer(){ if(state.timer) clearInterval(state.timer); state.timer=null }
-    function formatTime(sec){ const m=Math.floor(sec/60).toString().padStart(2,'0'); const s=(sec%60).toString().padStart(2,'0'); return `${m}:${s}` }
+    function updateProgress(){ const total = state.questions.length || 1; const idx = state.currentIndex || 0; const p = Math.round((idx/total)*100); document.getElementById('progressFill').style.width = p+'%'; }
 
-    async function fetchQuestions(testId, amount){ const params = new URLSearchParams({ amount: amount.toString(), type:'multiple' });
-      try{ const res = await fetch(API_URL+'?'+params.toString()); const json = await res.json(); if(json && json.response_code===0){ return json.results.map(r=>({ question: decodeHtml(r.question), correct: decodeHtml(r.correct_answer), choices: shuffle([ ...r.incorrect_answers.map(decodeHtml), decodeHtml(r.correct_answer) ]), category: r.category, difficulty: r.difficulty })); } }catch(e){ console.warn('API fetch failed', e) }
-      return (localFallback[testId]||[]).map(x=>({ question:x.question, correct:x.correct, choices:x.choices, category:x.category })) }
+    // Create per-question UI but only show currentIndex
+    function renderQuestions(){ 
+      // Clear test area and ensure it's visible
+      testArea.innerHTML=''; 
+      testArea.classList.remove('hidden');
+      
+      const container=document.createElement('div'); 
+      container.id='qContainer';
+      
+      state.questions.forEach((q,idx)=>{
+        const qWrap = document.createElement('div'); 
+        qWrap.className='question'; 
+        qWrap.dataset.index=idx; 
+        qWrap.style.display = idx===state.currentIndex ? 'block' : 'none';
+        
+        const qText = document.createElement('div'); 
+        qText.innerHTML = `<strong>Q${idx+1}.</strong> ${q.question}`;
+        qWrap.appendChild(qText);
+        
+        const choices = document.createElement('div'); 
+        choices.className='choices';
+        
+        q._shuffledChoices.forEach((c,choiceIdx) => {
+          const btn = document.createElement('button'); 
+          btn.className='choice'; 
+          btn.type='button'; 
+          btn.textContent = c; 
+          btn.dataset.choiceIndex = choiceIdx;
+          
+          btn.addEventListener('click', ()=>{
+            state.answers[idx] = c; // only store chosen text in memory
+            Array.from(choices.children).forEach(ch=>ch.classList.remove('selected'));
+            btn.classList.add('selected');
+            autosave();
+          });
+          
+          choices.appendChild(btn);
+        });
+        
+        qWrap.appendChild(choices);
+        
+        // navigation
+        const nav = document.createElement('div'); 
+        nav.style.display='flex'; 
+        nav.style.justifyContent='space-between'; 
+        nav.style.marginTop='12px';
+        
+        const prev = document.createElement('button'); 
+        prev.className='btn ghost'; 
+        prev.textContent='Previous'; 
+        prev.addEventListener('click', ()=>{ 
+          showQuestion(Math.max(0, state.currentIndex-1)) 
+        });
+        
+        const next = document.createElement('button'); 
+        next.className='btn'; 
+        next.textContent = idx===state.questions.length-1 ? 'Finish' : 'Next'; 
+        next.addEventListener('click', ()=>{ 
+          if(idx===state.questions.length-1){ 
+            if(confirm('Submit your test?')) submitTest(); 
+          } else {
+            showQuestion(state.currentIndex+1);
+          }
+        });
+        
+        nav.appendChild(prev); 
+        nav.appendChild(next); 
+        qWrap.appendChild(nav);
+        container.appendChild(qWrap);
+      });
+      
+      testArea.appendChild(container);
+      updateProgress(); 
+      restoreSelections();
+    }
 
-    function decodeHtml(s){ const txt = document.createElement('textarea'); txt.innerHTML = s; return txt.value }
+    function showQuestion(i){ const v = document.querySelectorAll('#qContainer .question'); if(!v[i]) return; v.forEach((el,idx)=>el.style.display = idx===i ? 'block' : 'none'); state.currentIndex=i; updateProgress(); autosave(); window.scrollTo({top:0,behavior:'smooth'}); }
 
-    function securePrepare(questions){ return questions.map(q=>{ const shuffled = shuffle([...q.choices]); return {...q, _shuffledChoices:shuffled}; }); }
+    function restoreSelections(){ Object.keys(state.answers).forEach(k=>{ const idx=parseInt(k,10); const qEl = document.querySelector(`#qContainer .question[data-index='${idx}']`); if(qEl){ Array.from(qEl.querySelectorAll('.choice')).forEach(ch=>{ if(ch.textContent === state.answers[idx]) ch.classList.add('selected'); else ch.classList.remove('selected'); }) } }); }
 
-    // Autosave to localStorage per session
-    function autosave(){ try{ const saveKey = `mc_save_${state.uid||'temp'}`; const payload = { testId: state.testId, answers: state.answers, currentIndex: state.currentIndex, timeLeft: state.timeLeft, questionsCount: state.questions.length }; localStorage.setItem(saveKey, JSON.stringify(payload)); }catch(e){ console.warn('Autosave failed', e) } }
+    // Timer
+    function startTimer(minutes){ state.timeLeft = minutes*60; timerEl.textContent = formatTime(state.timeLeft); state.timer = setInterval(()=>{ state.timeLeft--; if(state.timeLeft<=0){ clearInterval(state.timer); timerEl.textContent='00:00'; autoSubmit(); } else timerEl.textContent=formatTime(state.timeLeft); },1000); }
+    function stopTimer(){ if(state.timer) clearInterval(state.timer); state.timer=null }
+    function formatTime(sec){ const m=Math.floor(sec/60).toString().padStart(2,'0'); const s=(sec%60).toString().padStart(2,'0'); return `${m}:${s}` }
 
-    function loadSave(){ try{ const saveKey = `mc_save_${state.uid||'temp'}`; const raw = localStorage.getItem(saveKey); if(raw){ const p = JSON.parse(raw); state.answers = p.answers||{}; state.currentIndex = p.currentIndex||0; state.timeLeft = p.timeLeft||state.timeLeft; } }catch(e){} }
+    async function fetchQuestions(testId, amount){ const params = new URLSearchParams({ amount: amount.toString(), type:'multiple' });
+      try{ const res = await fetch(API_URL+'?'+params.toString()); const json = await res.json(); if(json && json.response_code===0){ return json.results.map(r=>({ question: decodeHtml(r.question), correct: decodeHtml(r.correct_answer), choices: shuffle([ ...r.incorrect_answers.map(decodeHtml), decodeHtml(r.correct_answer) ]), category: r.category, difficulty: r.difficulty })); } }catch(e){ console.warn('API fetch failed', e) }
+      return (localFallback[testId]||[]).map(x=>({ question:x.question, correct:x.correct, choices:x.choices, category:x.category })) }
 
-    // Submission
-    function submitTest(){ stopTimer(); state.started=false; const total = state.questions.length; let correct=0; const missed=[];
-      state.questions.forEach((q,idx)=>{ const given = state.answers[idx]; if(given && given===q.correct) correct++; else missed.push({index:idx+1, question:q.question, correct:q.correct, given:given||null, category:q.category}); });
-      const perf = Math.round((correct/total)*100)/10; const uid = state.uid || generateUID(); state.uid = uid;
+    function decodeHtml(s){ const txt = document.createElement('textarea'); txt.innerHTML = s; return txt.value }
 
-      const improveMap = {}; missed.forEach(m=>{ const c=m.category||'General'; improveMap[c]=(improveMap[c]||0)+1 });
-      const suggestions = Object.entries(improveMap).sort((a,b)=>b[1]-a[1]).slice(0,3).map(x=>`Focus on ${x[0]} (${x[1]} incorrect)`);
+    function securePrepare(questions){ return questions.map(q=>{ const shuffled = shuffle([...q.choices]); return {...q, _shuffledChoices:shuffled}; }); }
 
-      scoreCard.innerHTML = `<h3>Score Card</h3>
-        <div><strong>Unique Tag:</strong> ${uid}</div>
-        <div><strong>Score:</strong> ${correct} / ${total}</div>
-        <div><strong>Performance (out of 10):</strong> ${perf.toFixed(1)}</div>
-        <div><strong>Suggestions:</strong><ul>${(suggestions.length?suggestions:['Good job!']).map(s=>`<li>${s}</li>`).join('')}</ul></div>
-        <div style="margin-top:12px"><button class='btn' id='downloadScore'>Download Scorecard</button> <button class='btn ghost' id='retryBtn'>Retry</button></div>
-        <details style="margin-top:12px"><summary style="cursor:pointer">Review Incorrect Questions (${missed.length})</summary>
-          <div style="margin-top:8px">${missed.map(m=>`<div style="padding:8px;border-bottom:1px solid rgba(0,0,0,0.06)"><strong>Q${m.index}:</strong> ${m.question}<br><em>Correct:</em> ${m.correct}<br><em>Your answer:</em> ${m.given||'<em>Not answered</em>'}</div>`).join('')}</div>
-        </details>`;
-      scoreCard.classList.remove('hidden');
+    // Autosave to localStorage per session
+    function autosave(){ try{ const saveKey = `mc_save_${state.uid||'temp'}`; const payload = { testId: state.testId, answers: state.answers, currentIndex: state.currentIndex, timeLeft: state.timeLeft, questionsCount: state.questions.length }; localStorage.setItem(saveKey, JSON.stringify(payload)); }catch(e){ console.warn('Autosave failed', e) } }
 
-      document.getElementById('downloadScore').addEventListener('click', ()=>{ const payload = { uid, score: `${correct}/${total}`, perf, suggestions, missed, date: new Date().toISOString() }; const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'}); const url = URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=`score_${uid}.json`; a.click(); URL.revokeObjectURL(url); saveHistory(payload); });
-      document.getElementById('retryBtn').addEventListener('click', ()=>{ resetUI(); });
-      try{ localStorage.removeItem(`mc_save_${state.uid||'temp'}`); }catch(e){}
-    }
+    function loadSave(){ try{ const saveKey = `mc_save_${state.uid||'temp'}`; const raw = localStorage.getItem(saveKey); if(raw){ const p = JSON.parse(raw); state.answers = p.answers||{}; state.currentIndex = p.currentIndex||0; state.timeLeft = p.timeLeft||state.timeLeft; } }catch(e){} }
 
-    function saveHistory(payload){ try{ const key='mc_history'; const raw = localStorage.getItem(key); const arr = raw?JSON.parse(raw):[]; arr.unshift(payload); localStorage.setItem(key, JSON.stringify(arr.slice(0,30))); }catch(e){} }
+    // Submission
+    function submitTest(){ stopTimer(); state.started=false; const total = state.questions.length; let correct=0; const missed=[];
+      state.questions.forEach((q,idx)=>{ const given = state.answers[idx]; if(given && given===q.correct) correct++; else missed.push({index:idx+1, question:q.question, correct:q.correct, given:given||null, category:q.category}); });
+      const perf = Math.round((correct/total)*100)/10; const uid = state.uid || generateUID(); state.uid = uid;
 
-    function autoSubmit(){ if(state.started){ alert('Time is up — submitting your test'); submitTest(); }}
+      const improveMap = {}; missed.forEach(m=>{ const c=m.category||'General'; improveMap[c]=(improveMap[c]||0)+1 });
+      const suggestions = Object.entries(improveMap).sort((a,b)=>b[1]-a[1]).slice(0,3).map(x=>`Focus on ${x[0]} (${x[1]} incorrect)`);
 
-    function generateUID(){ return 'MC-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8).toUpperCase(); }
+      scoreCard.innerHTML = `<h3>Score Card</h3>
+        <div><strong>Unique Tag:</strong> ${uid}</div>
+        <div><strong>Score:</strong> ${correct} / ${total}</div>
+        <div><strong>Performance (out of 10):</strong> ${perf.toFixed(1)}</div>
+        <div><strong>Suggestions:</strong><ul>${(suggestions.length?suggestions:['Good job!']).map(s=>`<li>${s}</li>`).join('')}</ul></div>
+        <div style="margin-top:12px"><button class='btn' id='downloadScore'>Download Scorecard</button> <button class='btn ghost' id='retryBtn'>Retry</button></div>
+        <details style="margin-top:12px"><summary style="cursor:pointer">Review Incorrect Questions (${missed.length})</summary>
+          <div style="margin-top:8px">${missed.map(m=>`<div style="padding:8px;border-bottom:1px solid rgba(0,0,0,0.06)"><strong>Q${m.index}:</strong> ${m.question}<br><em>Correct:</em> ${m.correct}<br><em>Your answer:</em> ${m.given||'<em>Not answered</em>'}</div>`).join('')}</div>
+        </details>`;
+      scoreCard.classList.remove('hidden');
 
-    // Preview
-    previewBtn.addEventListener('click', async ()=>{ const qid = state.testId || 'nda'; const q = await fetchQuestions(qid,1); if(q.length){ state.questions = securePrepare(q); state.currentIndex=0; renderQuestions(); } });
+      document.getElementById('downloadScore').addEventListener('click', ()=>{ const payload = { uid, score: `${correct}/${total}`, perf, suggestions, missed, date: new Date().toISOString() }; const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'}); const url = URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=`score_${uid}.json`; a.click(); URL.revokeObjectURL(url); saveHistory(payload); });
+      document.getElementById('retryBtn').addEventListener('click', ()=>{ resetUI(); });
+      try{ localStorage.removeItem(`mc_save_${state.uid||'temp'}`); }catch(e){}
+    }
 
-    // Full start flow and fullscreen enforcement
-    startBtn.addEventListener('click', ()=>{ acceptTerms.checked=false; termsModal.classList.remove('hidden'); });
+    function saveHistory(payload){ try{ const key='mc_history'; const raw = localStorage.getItem(key); const arr = raw?JSON.parse(raw):[]; arr.unshift(payload); localStorage.setItem(key, JSON.stringify(arr.slice(0,30))); }catch(e){} }
+
+    function autoSubmit(){ if(state.started){ alert('Time is up — submitting your test'); submitTest(); }}
+
+    function generateUID(){ return 'MC-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,8).toUpperCase(); }
+
+    // Preview
+    previewBtn.addEventListener('click', async ()=>{ const qid = state.testId || 'nda'; const q = await fetchQuestions(qid,1); if(q.length){ state.questions = securePrepare(q); state.currentIndex=0; renderQuestions(); } });
+
+    // Full start flow and fullscreen enforcement
+    startBtn.addEventListener('click', ()=>{ 
+      // Show terms modal only when user clicks Start Test
+      acceptTerms.checked=false; 
+      termsModal.classList.remove('hidden'); 
+    });
     cancelTerms.addEventListener('click', ()=>{ termsModal.classList.add('hidden'); });
     agreeTerms.addEventListener('click', ()=>{
       if(!acceptTerms.checked){ alert('You must accept Terms & Privacy to proceed'); return; }
 
-      // helper to start the test after modal is dismissed / fullscreen accepted
-      const startFlow = async () => {
-        const count = parseInt(qCountSel.value,10);
-        const minutes = parseInt(durationSel.value,10);
-        state.questions = securePrepare(await fetchQuestions(state.testId, count));
-        if(state.questions.length===0){ alert('No questions available for this test. Try preview or choose another test.'); return; }
-        termsModal.classList.add('hidden');
-        state.started=true; state.uid = generateUID(); renderQuestions(); startTimer(minutes); scoreCard.classList.add('hidden'); autosave();
-        document.addEventListener('visibilitychange', onVisibilityChange);
-        document.addEventListener('fullscreenchange', onFullscreenChange);
-      };
+      // Hide the terms modal immediately
+      termsModal.classList.add('hidden');
+      
+      // Request fullscreen and start the test
+      document.documentElement.requestFullscreen().then(() => {
+        // Ensure we wait a moment for fullscreen to complete before starting the test
+        setTimeout(() => {
+          startTest();
+        }, 500);
+      }).catch(err => {
+        console.error('Fullscreen error:', err);
+        // If fullscreen fails, still start the test
+        startTest();
+      });
+    });
+    
+    // Function to start the test after terms acceptance and fullscreen
+     async function startTest() {
+         const count = parseInt(qCountSel.value,10);
+         const minutes = parseInt(durationSel.value,10);
+         
+         // Make sure test panel is visible immediately
+         testPanel.classList.remove('hidden');
+         
+         // Show the test area and hide any previous results
+         testArea.classList.remove('hidden');
+         scoreCard.classList.add('hidden');
+         
+         // Clear any previous content
+         testArea.innerHTML = '';
+         
+         // Add a loading indicator
+         testArea.innerHTML = '<div class="text-center p-4"><p>Loading questions...</p></div>';
+         
+         // Fetch and prepare questions
+         state.questions = securePrepare(await fetchQuestions(state.testId, count));
+         if(state.questions.length===0){ 
+           alert('No questions available for this test. Try preview or choose another test.'); 
+           // The modal is already hidden, but we should stop here.
+           return; 
+         }
+         
+         // Start the test
+         state.started = true; 
+         state.uid = generateUID();
+         state.currentIndex = 0;
+         
+         // Clear loading indicator
+         testArea.innerHTML = '';
+         
+         // Render questions and start timer
+         renderQuestions();
+         startTimer(minutes);
+         autosave();
+         
+         // Add event listeners for visibility and fullscreen changes
+         document.addEventListener('visibilitychange', onVisibilityChange);
+         document.addEventListener('fullscreenchange', onFullscreenChange);
+         
+         // Load any saved state
+         loadSave();
+     }
 
-      // Try to enter fullscreen and wait for it. If it succeeds, start immediately and hide modal.
-      // If it fails (or user denies), ask whether to continue without fullscreen.
-      const docEl = document.documentElement;
-      if (docEl.requestFullscreen) {
-        docEl.requestFullscreen()
-          .then(() => {
-            // fullscreen entered — hide modal and start
-            startFlow();
-          })
-          .catch(async (err) => {
-            console.warn('Fullscreen request failed', err);
-            const cont = confirm('Could not enter fullscreen. Continue the test without fullscreen?');
-            if (cont) await startFlow();
-            // otherwise leave the modal open so the user can retry
-          });
+    // Pause / flag if visibility lost
+    let violationCount=0;
+    function onVisibilityChange(){ if(document.hidden && state.started){ violationCount++; stopTimer(); alert('You left the tab/window. The test is paused. Continued violations may be recorded.'); } else if(!document.hidden && state.started){ if(state.timeLeft>0) startTimer(Math.ceil(state.timeLeft/60)); } }
+    function onFullscreenChange(){ if(state.started && !document.fullscreenElement){ stopTimer(); alert('Fullscreen exited. Test paused. Return to fullscreen to resume.'); } else if(document.fullscreenElement && state.started){ if(state.timeLeft>0) startTimer(Math.ceil(state.timeLeft/60)); } }
+
+    // Submit button
+    submitBtn.addEventListener('click', ()=>{ if(!state.started){ alert('Start a test first'); return; } if(!confirm('Submit your test now?')) return; submitTest(); });
+
+    // Keyboard shortcuts: 1-4 for choices, left/right for nav
+    document.addEventListener('keydown',(e)=>{
+      if(!state.started) return;
+      if(e.key>='1' && e.key<='4'){ const idx = state.currentIndex; const qEl = document.querySelector(`#qContainer .question[data-index='${idx}']`); if(qEl){ const ch = qEl.querySelectorAll('.choice')[parseInt(e.key,10)-1]; if(ch) ch.click(); } }
+      if(e.key==='ArrowRight') showQuestion(Math.min(state.questions.length-1, state.currentIndex+1));
+      if(e.key==='ArrowLeft') showQuestion(Math.max(0, state.currentIndex-1));
+    });
+
+    // Autosave before unload
+    window.addEventListener('beforeunload', (e)=>{ if(state.started){ e.preventDefault(); e.returnValue='Test in progress. Are you sure?'; } });
+
+    // Security/UX protections
+    document.addEventListener('contextmenu', e=>{ if(state.started) e.preventDefault(); });
+    document.addEventListener('keydown', e=>{ if(state.started && (e.ctrlKey||e.metaKey) && (['u','s','p'].includes(e.key.toLowerCase()))){ e.preventDefault(); } });
+
+    // initial
+    resetUI();
+    // expose minimal debug
+    window.__mc_debug = ()=>({started:state.started,uid:state.uid,qCount:state.questions.length});
+
+    // Note: Open Trivia DB used as free source. For production replace with server microservice delivering short-lived tokens.
+  })();
+  </script>
+
+  <script src="../public/js/navbar.js"></script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mock Test | Cadet’s Compass</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    h1 {
+      text-align: center;
+      color: #0d47a1;
+      margin-bottom: 10px;
+    }
+
+    .mock-container {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      width: 90%;
+      max-width: 700px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+
+    .mock-cards {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin: 30px 0;
+    }
+
+    .card {
+      background: #f1f5ff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      width: 180px;
+      transition: 0.3s;
+      font-weight: 500;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      background: #d7e3ff;
+    }
+
+    .selected {
+      border: 3px solid #1565c0;
+      background: #c5d9ff;
+    }
+
+    #quiz-container {
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .question-box {
+      background: #f9fbff;
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      margin-top: 15px;
+    }
+
+    .question {
+      font-size: 1.3rem;
+      color: #0d47a1;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .options button {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 12px;
+      border: 2px solid #e3f2fd;
+      border-radius: 10px;
+      background: white;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    .options button:hover {
+      background: #e3f2fd;
+      transform: scale(1.02);
+    }
+
+    .correct {
+      background-color: #a5d6a7 !important;
+      border-color: #66bb6a !important;
+      color: #1b5e20;
+    }
+
+    .wrong {
+      background-color: #ef9a9a !important;
+      border-color: #e57373 !important;
+      color: #b71c1c;
+    }
+
+    .progress {
+      height: 8px;
+      background: #cfd8dc;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 8px;
+      background: #1565c0;
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    .controls {
+      margin-top: 25px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .controls button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background-color: #1565c0;
+      color: white;
+      font-weight: 500;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .controls button:hover {
+      background-color: #0d47a1;
+    }
+
+    #result {
+      display: none;
+      font-size: 1.6rem;
+      margin-top: 25px;
+      color: #1b5e20;
+      font-weight: 600;
+    }
+
+    .timer {
+      text-align: right;
+      color: #37474f;
+      font-size: 1rem;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="mock-container">
+    <h1>🎯 Cadet’s Compass Mock Test</h1>
+    <div id="intro">
+      <p>Select a mock test to begin:</p>
+      <div class="mock-cards">
+        <div class="card" data-test="nda_mock">NDA Mock Test</div>
+        <div class="card" data-test="ssb_mock">SSB Mock Test</div>
+        <div class="card" data-test="ta_mock">TA Mock Test</div>
+      </div>
+      <button id="proceedBtn">Proceed</button>
+    </div>
+
+    <div id="quiz-container">
+      <div class="timer" id="timer">⏱ 00:00</div>
+      <div class="progress"><div class="progress-bar" id="progress-bar"></div></div>
+      <div id="question-container" class="question-box"></div>
+      <div class="controls">
+        <button id="prevBtn">⬅ Previous</button>
+        <button id="nextBtn">Next ➡</button>
+        <button id="finishBtn">Finish Test</button>
+      </div>
+    </div>
+
+    <div id="result"></div>
+  </div>
+
+  <script>
+    let selectedTest = null;
+    let questions = [];
+    let currentQuestion = 0;
+    let score = 0;
+    let answered = [];
+    let timerInterval;
+    let seconds = 0;
+
+    // Select mock test
+    document.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('click', () => {
+        document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+        selectedTest = card.getAttribute('data-test');
+      });
+    });
+
+    // Proceed
+    document.getElementById('proceedBtn').addEventListener('click', () => {
+      if (!selectedTest) {
+        alert('Please select a mock test first!');
+        return;
+      }
+      if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen();
+      }
+      document.getElementById('intro').style.display = 'none';
+      startTest();
+    });
+
+    async function startTest() {
+      const res = await fetch(`../questions/${selectedTest}.json`);
+      questions = await res.json();
+      answered = new Array(questions.length).fill(false);
+      document.getElementById('quiz-container').style.display = 'block';
+      showQuestion();
+      startTimer();
+    }
+
+    function showQuestion() {
+      const q = questions[currentQuestion];
+      const container = document.getElementById('question-container');
+      container.innerHTML = `
+        <div class="question">${currentQuestion + 1}. ${q.q}</div>
+        <div class="options">
+          ${q.options.map(opt => `<button onclick="selectOption(this, '${opt}')">${opt}</button>`).join('')}
+        </div>
+      `;
+      document.getElementById('prevBtn').disabled = currentQuestion === 0;
+      document.getElementById('nextBtn').disabled = currentQuestion === questions.length - 1;
+      updateProgress();
+    }
+
+    function selectOption(button, selected) {
+      if (answered[currentQuestion]) return;
+      answered[currentQuestion] = true;
+      const correctAnswer = questions[currentQuestion].answer;
+      const buttons = button.parentNode.querySelectorAll('button');
+      buttons.forEach(btn => btn.disabled = true);
+
+      if (selected === correctAnswer) {
+        button.classList.add('correct');
+        score++;
       } else {
-        // No fullscreen API — proceed after confirmation
-        if(confirm('Your browser does not support fullscreen API. Continue?')) startFlow();
+        button.classList.add('wrong');
+        buttons.forEach(btn => {
+          if (btn.textContent === correctAnswer) btn.classList.add('correct');
+        });
+      }
+    }
+
+    document.getElementById('nextBtn').addEventListener('click', () => {
+      if (currentQuestion < questions.length - 1) {
+        currentQuestion++;
+        showQuestion();
       }
     });
 
-    // Pause / flag if visibility lost
-    let violationCount=0;
-    function onVisibilityChange(){ if(document.hidden && state.started){ violationCount++; stopTimer(); alert('You left the tab/window. The test is paused. Continued violations may be recorded.'); } else if(!document.hidden && state.started){ if(state.timeLeft>0) startTimer(Math.ceil(state.timeLeft/60)); } }
-    function onFullscreenChange(){ if(state.started && !document.fullscreenElement){ stopTimer(); alert('Fullscreen exited. Test paused. Return to fullscreen to resume.'); } else if(document.fullscreenElement && state.started){ if(state.timeLeft>0) startTimer(Math.ceil(state.timeLeft/60)); } }
-
-    // Submit button
-    submitBtn.addEventListener('click', ()=>{ if(!state.started){ alert('Start a test first'); return; } if(!confirm('Submit your test now?')) return; submitTest(); });
-
-    // Keyboard shortcuts: 1-4 for choices, left/right for nav
-    document.addEventListener('keydown',(e)=>{
-      if(!state.started) return;
-      if(e.key>='1' && e.key<='4'){ const idx = state.currentIndex; const qEl = document.querySelector(`#qContainer .question[data-index='${idx}']`); if(qEl){ const ch = qEl.querySelectorAll('.choice')[parseInt(e.key,10)-1]; if(ch) ch.click(); } }
-      if(e.key==='ArrowRight') showQuestion(Math.min(state.questions.length-1, state.currentIndex+1));
-      if(e.key==='ArrowLeft') showQuestion(Math.max(0, state.currentIndex-1));
+    document.getElementById('prevBtn').addEventListener('click', () => {
+      if (currentQuestion > 0) {
+        currentQuestion--;
+        showQuestion();
+      }
     });
 
-    // Autosave before unload
-    window.addEventListener('beforeunload', (e)=>{ if(state.started){ e.preventDefault(); e.returnValue='Test in progress. Are you sure?'; } });
+    document.getElementById('finishBtn').addEventListener('click', finishTest);
 
-    // Security/UX protections
-    document.addEventListener('contextmenu', e=>{ if(state.started) e.preventDefault(); });
-    document.addEventListener('keydown', e=>{ if(state.started && (e.ctrlKey||e.metaKey) && (['u','s','p'].includes(e.key.toLowerCase()))){ e.preventDefault(); } });
+    function finishTest() {
+      clearInterval(timerInterval);
+      document.getElementById('quiz-container').style.display = 'none';
+      document.getElementById('result').style.display = 'block';
+      document.getElementById('result').innerHTML = `🎉 Your final score: <b>${score}/${questions.length}</b>`;
+      if (document.exitFullscreen) document.exitFullscreen();
+    }
 
-    // initial
-    resetUI();
-    // expose minimal debug
-    window.__mc_debug = ()=>({started:state.started,uid:state.uid,qCount:state.questions.length});
+    function updateProgress() {
+      const progress = ((currentQuestion + 1) / questions.length) * 100;
+      document.getElementById('progress-bar').style.width = `${progress}%`;
+    }
 
-    // Note: Open Trivia DB used as free source. For production replace with server microservice delivering short-lived tokens.
-  })();
+    function startTimer() {
+      timerInterval = setInterval(() => {
+        seconds++;
+        let mins = Math.floor(seconds / 60);
+        let secs = seconds % 60;
+        document.getElementById('timer').textContent = `⏱ ${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+      }, 1000);
+    }
   </script>
-
-  <script src="../public/js/navbar.js"></script>
 </body>
 </html>

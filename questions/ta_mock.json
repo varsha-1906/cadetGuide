@@ -1,0 +1,27 @@
+    [
+  {
+    "q": "The Territorial Army was established in which year?",
+    "options": ["1948", "1950", "1962", "1971"],
+    "answer": "1948"
+  },
+  {
+    "q": "Territorial Army is composed mainly of:",
+    "options": ["Regular soldiers", "Volunteers", "Police officers", "Students"],
+    "answer": "Volunteers"
+  },
+  {
+    "q": "Who is the Supreme Commander of the Armed Forces in India?",
+    "options": ["Defence Minister", "President", "Prime Minister", "Chief of Defence Staff"],
+    "answer": "President"
+  },
+  {
+    "q": "The TA motto 'Savdhani Va Shoorta' means:",
+    "options": ["Alertness and Bravery", "Courage and Victory", "Unity and Discipline", "Faith and Courage"],
+    "answer": "Alertness and Bravery"
+  },
+  {
+    "q": "Which force assists the regular army during national emergencies?",
+    "options": ["BSF", "NCC", "Territorial Army", "CRPF"],
+    "answer": "Territorial Army"
+  }
+]
